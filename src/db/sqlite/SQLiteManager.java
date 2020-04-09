@@ -68,5 +68,9 @@ public class SQLiteManager implements DBManager {
 		}
 
 	}
+	
+	public ChocolateManager getChocolateManager(){
+		return chocolate;
+	}
 
 }

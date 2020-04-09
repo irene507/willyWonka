@@ -12,14 +12,14 @@ public class Chocolate implements Serializable {
 	//Date: siempre import java.sql
         private Integer id;
         private String name;
-        private String cocoa;
+        private int cocoa;
         private String type;
         private String flavors;
         private Float units;
         private String shape;
         
         
-        public Chocolate(Integer id, String name, String cocoa, String type, String flavors, Float units,
+        public Chocolate(Integer id, String name, int cocoa, String type, String flavors, Float units,
 				String shape) {
 			super();
 			this.id = id;
@@ -30,6 +30,23 @@ public class Chocolate implements Serializable {
 			this.units = units;
 			this.shape = shape;
 		}
+        
+        
+        
+        
+		public Chocolate(String name, int cocoa, String type, String flavors, Float units, String shape) {
+			super();
+			this.name = name;
+			this.cocoa = cocoa;
+			this.type = type;
+			this.flavors = flavors;
+			this.units = units;
+			this.shape = shape;
+		}
+
+
+
+
 		//CREACION DEL CONSTRUCTOR 
 		public Chocolate() {
 			super();
@@ -52,11 +69,11 @@ public class Chocolate implements Serializable {
 			this.name = name;
 		}
 
-		public String getCocoa() {
+		public int getCocoa() {
 			return cocoa;
 		}
 
-		public void setCocoa(String cocoa) {
+		public void setCocoa(int cocoa) {
 			this.cocoa = cocoa;
 		}
 
