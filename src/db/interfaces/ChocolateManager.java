@@ -11,5 +11,5 @@ public interface ChocolateManager {
    public void delete(Chocolate chocolate);
    public void update(Chocolate chocolate);
    public List<Chocolate> searchByName(String name);
-   public list<Chocolate> searchByType(String name);
+   public List<Chocolate> searchByType(String name);
 }
