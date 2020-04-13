@@ -50,10 +50,9 @@ public class Menu {
 			System.out.print("What do you wanna do?       ");
 			System.out.println("1. Create Chocolate       ");
 			System.out.println("2. Select Chocolate       ");
-			System.out.println("3. Change Characteristics ");
-			System.out.println("4. Delete Chocolate       ");
-			System.out.println("5. Update Chocolate       ");
-			System.out.println("6. Search By Name         ");
+			System.out.println("3. Delete Chocolate       ");
+			System.out.println("4. Update Chocolate       ");
+			System.out.println("5. Search By Name         ");
 			System.out.println("6. Search By Type         ");
 			int choice = Integer.parseInt(reader.readLine());
 			switch(choice){
@@ -63,9 +62,7 @@ public class Menu {
 			case 2: 
 				selectChocolate();
 				break;
-/* la quitamos    case 3:
-				changeCharacteristics();
-				break;*/
+
 			case 3:
 				deleteChocolate();
 				break;
@@ -85,52 +82,7 @@ public class Menu {
 			}
 			
 		}
-	private static void createChocolate() throws Exception {
-				System.out.println("ID");
-				int id = Integer.parseInt(reader.readLine());
-				System.out.println("Name");
-				String name = reader.readLine();
-				System.out.println("Cocoa");
-				///tipos o cantidad? 
-				Float cocoa = Float.parseFloat(reader.readLine());
-				System.out.println("Type");
-				String type = reader.readLine();
-				System.out.println("Flavors");
-				String flavors = reader.readLine();
-				System.out.println("Units");
-				Float units = Float.parseFloat(reader.readLine());
-				System.out.println("Shape");
-				String shape = reader.readLine();
-                Chocolate chocolate = new Chocolate(name, cocoa, type, flavors, units, shape);
-			   // to do insert the dog 
-				chocolateManager.create(chocolate);
-			}
 	
-	//la entiendo como buscar. Decirme si me equivoco porfi 
-    private static String selectChocolate() throws Exception{
-    	   ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
-    	        System.out.println("Type");
-    	        String type = reader.readLine();
-    	        
-    	        String resultado = ""; 
-    	        
-    	        if ((type == null) || (type.compareTo("") == 0)) {
-    	            resultado = "Ha habido un error";
-    	            return resultado;
-    	        }
-
-    	        for (int i = 0; i < chocolates.size(); i++) {
-
-    	            if (chocolates.get(i).getName().compareTo(type) == 0) { //como comparamos texto utilizamos la funcion toString
-    	                resultado = "El resultado de la busqueda es " + chocolates.get(i).toString(); //ahora consigo el elemnto con get(i)
-    	                break;
-    	            }
-    	         ///no tenemos ningun metodo tostring   
-
-    	        }
-    	        return resultado;
-    	
-    }
 	
     private static boolean deleteChocolate() throws Exception{
     	ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
@@ -194,10 +146,83 @@ public class Menu {
     	
     }
     
-    
-    
-    
+	}
 	
+
+	private static void OompaLoompaMenu()throws Exception {
+		// TODO Auto-generated method stub
+		System.out.print("What do you wanna do?       ");
+		System.out.println("1. Create Chocolate       ");
+		System.out.println("2. Select Chocolate       ");
+		System.out.println("3. Search By Name         ");
+		System.out.println("4. Search By Type         ");
+		int choice = Integer.parseInt(reader.readLine());
+		switch(choice){
+		case 1: 
+			createChocolate();
+			break;
+		case 2: 
+			selectChocolate();
+			break;
+		case 3: 
+			searchByName();
+			break;
+		case 4: 
+			searchByType();
+			break; 
+		default: 
+			break;
+			
+		
+		}
+		private static void createChocolate() throws Exception {
+			System.out.println("ID");
+			int id = Integer.parseInt(reader.readLine());
+			System.out.println("Name");
+			String name = reader.readLine();
+			System.out.println("Cocoa");
+			Float cocoa = Float.parseFloat(reader.readLine());
+			System.out.println("Type");
+			String type = reader.readLine();
+			System.out.println("Flavors");
+			String flavors = reader.readLine();
+			System.out.println("Units");
+			Float units = Float.parseFloat(reader.readLine());
+			System.out.println("Shape");
+			String shape = reader.readLine();
+            Chocolate chocolate = new Chocolate(name, cocoa, type, flavors, units, shape);
+		   // to do insert the dog 
+			chocolateManager.create(chocolate);
+		}
+
+//la entiendo como buscar. Decirme si me equivoco porfi 
+private static String selectChocolate() throws Exception{
+	   ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
+	        System.out.println("Type");
+	        String type = reader.readLine();
+	        
+	        String resultado = ""; 
+	        
+	        if ((type == null) || (type.compareTo("") == 0)) {
+	            resultado = "Ha habido un error";
+	            return resultado;
+	        }
+
+	        for (int i = 0; i < chocolates.size(); i++) {
+
+	            if (chocolates.get(i).getName().compareTo(type) == 0) { //como comparamos texto utilizamos la funcion toString
+	                resultado = "El resultado de la busqueda es " + chocolates.get(i).toString(); //ahora consigo el elemnto con get(i)
+	                break;
+	            }
+	         ///no tenemos ningun metodo tostring   
+
+	        }
+	        return resultado;
+	
+}
+
+
+
 	private static void searchByName() throws Exception{
 		      System.out.println("Name");
 		      String name = reader.readLine();
@@ -217,18 +242,8 @@ public class Menu {
 				
 			}
 	}
+		
 	
-	   
-	
-	
-	
-	
-	
-			
-	}
-
-	private static void willyWonkaMenu() {
-		// TODO Auto-generated method stub
 		
 	}
 		

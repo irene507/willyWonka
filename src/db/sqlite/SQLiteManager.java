@@ -10,6 +10,7 @@ import db.interfaces.DBManager;
 public class SQLiteManager implements DBManager {
     
 	private Connection c;
+	private ChocolateManager chocolate;
 	
 	public SQLiteManager(){
 	//with an empty constructor
@@ -23,6 +24,7 @@ public class SQLiteManager implements DBManager {
 		Class.forName("org.sqlite.JDBC");
 		this.c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
 		c.createStatement().execute("PRAGMA foreign_keys=ON");
+		chocolate = new SQLiteChocolateManager(c);
 		
 		}catch(Exception e){//excepcion general 
 			e.printStackTrace();
