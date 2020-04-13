@@ -138,7 +138,7 @@ public class Menu {
     		}
             
             if(indice>=0){
-            	Chocolate.class.add(indice,raton);
+            	Chocolate.class.add(indice, raton);
             	
             }else{
             	exito = false;
@@ -182,22 +182,23 @@ public class Menu {
 			int id = Integer.parseInt(reader.readLine());
 			System.out.println("Name");
 			String name = reader.readLine();
-			System.out.println("Cocoa");
-			Float cocoa = Float.parseFloat(reader.readLine());
 			System.out.println("Type");
 			String type = reader.readLine();
+			System.out.println("Cocoa");
+			Float cocoa = Float.parseFloat(reader.readLine());
 			System.out.println("Flavors");
 			String flavors = reader.readLine();
 			System.out.println("Units");
-			Float units = Float.parseFloat(reader.readLine());
+			Integer units = Integer.parseInt(reader.readLine());
 			System.out.println("Shape");
 			String shape = reader.readLine();
-            Chocolate chocolate = new Chocolate(name, cocoa, type, flavors, units, shape);
+            Chocolate chocolate =new Chocolate(name, type, cocoa, flavors, units, shape);
 		   // to do insert the dog 
 			chocolateManager.create(chocolate);
 		}
 
 //la entiendo como buscar. Decirme si me equivoco porfi 
+		
 private static String selectChocolate() throws Exception{
 	   ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
 	        System.out.println("Type");

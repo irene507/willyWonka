@@ -27,6 +27,19 @@ public class Chocolate {
 		this.unit = unit;
 		this.shape = shape;
 	}
+	
+	public Chocolate(String name, String type, Float cocoa_perc, String flavour, Integer unit,
+			String shape) {
+		super();
+		this.name = name;
+		this.type = type;
+		this.cocoa_perc = cocoa_perc;
+		this.flavour = flavour;
+		this.unit = unit;
+		this.shape = shape;
+	}
+	
+
 	//GETTERS Y SETTERS
 	public Integer getId() {
 		return id;
