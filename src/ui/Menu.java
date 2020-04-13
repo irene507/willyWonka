@@ -45,6 +45,7 @@ public class Menu {
 		default: 
 			break;
 		}
+		
 		}
 	
 		private static void willyWonkaMenu() throws Exception{
