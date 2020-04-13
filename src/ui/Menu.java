@@ -89,7 +89,8 @@ public class Menu {
     	ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
     	 boolean conexito = true;
          boolean encontrado = false;
-         int indice = 0;//lo inicializamos como un indice no valido
+         int indice = 0;
+         //lo inicializamos como un indice no valido
          //buscamos el indice que queremos eliminar
          
          System.out.println("Name");
@@ -117,7 +118,7 @@ public class Menu {
     }
     
     
-    private static boolean updateChocolate() throws Exception{
+    private static boolean updateChocolate() throws Exception {
     	ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
     	boolean exito = true;
     	int indice = -1; //es decir falso
@@ -147,8 +148,6 @@ public class Menu {
     	
     }
     
-	}
-	
 
 	private static void OompaLoompaMenu()throws Exception {
 		// TODO Auto-generated method stub
@@ -176,6 +175,7 @@ public class Menu {
 			
 		
 		}
+	}
 		private static void createChocolate() throws Exception {
 			System.out.println("ID");
 			int id = Integer.parseInt(reader.readLine());
@@ -248,5 +248,5 @@ private static String selectChocolate() throws Exception{
 		
 	}
 		
-	}
+
 
