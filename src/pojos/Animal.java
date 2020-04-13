@@ -59,14 +59,15 @@ public class Animal {
 		this.dob = dob;
 	}
 
-
+   
+	//tostring
 	@Override
 	public String toString() {
 		return "Animal [id=" + id + ", name=" + name + ", country=" + country + ", colour=" + colour + ", specie="
 				+ specie + ", dob=" + dob + "]";
 	}
 	
-	//tostring
+	
 	
 	
 

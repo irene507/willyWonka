@@ -25,6 +25,7 @@ public class SQLiteManager implements DBManager {
 		this.c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
 		c.createStatement().execute("PRAGMA foreign_keys=ON");
 		chocolate = new SQLiteChocolateManager(c);
+/// we have to initialize here other managers 		
 		
 		}catch(Exception e){//excepcion general 
 			e.printStackTrace();
@@ -33,9 +34,10 @@ public class SQLiteManager implements DBManager {
 
 	}
 	
-	protected Connection getConnection(){
+/*We don´t use it
+ 	protected Connection getConnection(){
 		return c;
-	}
+	}*/
 
 	@Override
 	public void disconnect() {

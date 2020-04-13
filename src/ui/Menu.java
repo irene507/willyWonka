@@ -136,7 +136,7 @@ public class Menu {
     		}
             
             if(indice>=0){
-            	Chocolate.class.add(indice,raton);
+            	Chocolate.class.add(indice,chocolate);
             	
             }else{
             	exito = false;
@@ -152,7 +152,7 @@ public class Menu {
 
 	private static void OompaLoompaMenu()throws Exception {
 		// TODO Auto-generated method stub
-		System.out.print("What do you wanna do?       ");
+		System.out.println("What do you wanna do?     ");
 		System.out.println("1. Create Chocolate       ");
 		System.out.println("2. Select Chocolate       ");
 		System.out.println("3. Search By Name         ");
@@ -173,9 +173,8 @@ public class Menu {
 			break; 
 		default: 
 			break;
-			
-		
-		}
+		}	
+	}
 		private static void createChocolate() throws Exception {
 			System.out.println("ID");
 			int id = Integer.parseInt(reader.readLine());
