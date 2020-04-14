@@ -1,5 +1,5 @@
 package db.interfaces;
-import java.awt.List;
+import java.util.List;
 
 import pojos.*;
 
