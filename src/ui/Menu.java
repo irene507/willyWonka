@@ -130,19 +130,17 @@ public class Menu {
     	
     	if(exito){
     		//fallo creo 
-            for(int i=0; i<Chocolate.size(); i++){
-    			if(Chocolate.class.get(i).getName().compareTo(Chocolate.class.getName()) == 0){
+            for(int i=0; i<chocolates.size(); i++){
+    			if(chocolates.get(i).getName().compareTo(chocolates.getName()) == 0){
     				indice = i; 
     				break; 
     			}
     		}
             
             if(indice>=0){
-<<<<<<< HEAD
-            	Chocolate.class.add(indice,chocolate);
-=======
-            	Chocolate.class.add(indice, raton);
->>>>>>> branch 'master' of https://github.com/irene507/willyWonka
+            	chocolates.add();
+
+
             	
             }else{
             	exito = false;
@@ -177,17 +175,14 @@ public class Menu {
 			break; 
 		default: 
 			break;
-<<<<<<< HEAD
+
 		}	
-=======
-			
+
 		
 		}
->>>>>>> branch 'master' of https://github.com/irene507/willyWonka
-	}
+
+	
 		private static void createChocolate() throws Exception {
-			System.out.println("ID");
-			int id = Integer.parseInt(reader.readLine());
 			System.out.println("Name");
 			String name = reader.readLine();
 			System.out.println("Type");
@@ -197,7 +192,7 @@ public class Menu {
 			System.out.println("Flavors");
 			String flavors = reader.readLine();
 			System.out.println("Units");
-			Integer units = Integer.parseInt(reader.readLine());
+			Float units = Float.parseFloat(reader.readLine());
 			System.out.println("Shape");
 			String shape = reader.readLine();
             Chocolate chocolate =new Chocolate(name, type, cocoa, flavors, units, shape);
