@@ -1,11 +1,16 @@
 package db.sqlite;
 
-import java.beans.Statement;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
+import db.interfaces.ChocolateManager;
 import db.interfaces.DBManager;
+import db.interfaces.AnimalManager;
+
 
 public class SQLiteManager implements DBManager {
     
@@ -24,7 +29,9 @@ public class SQLiteManager implements DBManager {
 		Class.forName("org.sqlite.JDBC");
 		this.c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
 		c.createStatement().execute("PRAGMA foreign_keys=ON");
+		//Create ChocolateManager
 		chocolate = new SQLiteChocolateManager(c);
+		//Create others like ClientManager... 
 /// we have to initialize here other managers 		
 		
 		}catch(Exception e){//excepcion general 
@@ -67,8 +74,12 @@ public class SQLiteManager implements DBManager {
 		   stmt1.executeUpdate(sql1);
 		   stmt1.close();
 		   
-		}catch(SQLException e){
-			e.printStackTrace();
+		}catch(SQLException e){ 
+			//if there are exception of type "SQLException" we are not doing nothing 
+			if(e.getMessage().contains("already exists")){ //we are not going to do anything, or we can type {} or ; (and its the same) 
+			}else{
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -76,5 +87,7 @@ public class SQLiteManager implements DBManager {
 	public ChocolateManager getChocolateManager(){
 		return chocolate;
 	}
+	
+	//falta una funcion getLastID() 
 
 }

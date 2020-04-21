@@ -2,6 +2,10 @@ package db.sqlite;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.ArrayList;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 
 import db.interfaces.ChocolateManager;
 import pojos.Chocolate;
@@ -16,7 +20,7 @@ public class SQLiteWillyWonka implements ChocolateManager {
 	}
     
 	@Override
-	public void admit (Chocolate chocolate){
+	public void admit(Chocolate chocolate){
 		
 		//por qué no ID?
 		

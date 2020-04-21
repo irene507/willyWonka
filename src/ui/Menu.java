@@ -8,7 +8,7 @@ import db.sqlite.*;
 import java.util.*;
 
 public class Menu {
-    
+
 	
 	//DB Managers
 	private static DBManager dbManager;
@@ -21,13 +21,21 @@ public class Menu {
 	public static void main(String[] args) throws Exception{
 	    //Connect with the database
 		dbManager = new SQLiteManager();
-		chocolateManager = dbManager.getChocolateManager();
 		dbManager.connect();
+		chocolateManager = dbManager.getChocolateManager();
+		
 		
 		//Initialize BufferedReader
 		reader = new BufferedReader(new InputStreamReader(System.in));
         //Welcome screen
 		System.out.print("-------------WELCOME!--------- ");
+		//offer the user to create tables 
+		System.out.println("Do you want to create the tables? (Y/N)");
+		String yn = reader.readLine();
+		if(yn.equalsIgnoreCase("y")){
+			dbManager.createTables();
+		}
+		//Ask the user his/her role 
 		System.out.println("WHO ARE YOU? ");
 		System.out.println("1.Willy Wonka");
 		System.out.println("2.Oompa Loompa CEO");
@@ -118,7 +126,7 @@ public class Menu {
     	
     }
     
-    
+  
     private static boolean updateChocolate() throws Exception {
     	ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
     	boolean exito = true;
