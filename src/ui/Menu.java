@@ -64,7 +64,12 @@ public class Menu {
 			System.out.println("4. Update Chocolate       ");
 			System.out.println("5. Search By Name         ");
 			System.out.println("6. Search By Type         ");
-			System.out.println()
+			//CLIENT
+			System.out.println("5. Add client             ");
+			System.out.println("7. Erase client           ");
+			System.out.println("8. Select client          ");
+			System.out.println("9. Search client by name  ");
+			System.out.println("10. Search client by name  ");
 			int choice = Integer.parseInt(reader.readLine());
 			switch(choice){
 			case 1: 
@@ -81,11 +86,26 @@ public class Menu {
 				updateChocolate();
 				break;
 			case 5: 
-				searchByName();
+				searchChocolateByName();
 				break;
 			case 6: 
-				searchByType();
+				searchChocolateByType();
 				break; 
+			case 6: 
+				addClient();
+				break;
+			case 7: 
+				deleteClient();
+				break;	
+			case 8: 
+				selectClient();
+				break;
+			case 9: 
+				searchClientByName();
+				break;	
+			case 10: 
+				updateClient();
+				break;		
 			default: 
 				break;
 				
@@ -171,11 +191,7 @@ public class Menu {
 		System.out.println("4. Search By Name         ");
 		System.out.println("5. Search By Type         ");
 		//CLIENT
-		System.out.println("5. Add client             ");
-		System.out.println("7. Erase client           ");
-		System.out.println("8. Select client          ");
-		System.out.println("9. Search client by name  ");
-		System.out.println("10. Search client by name  ");
+		
 	
 		int choice = Integer.parseInt(reader.readLine());
 		switch(choice){
@@ -194,21 +210,7 @@ public class Menu {
 		case 5: 
 			searchChocolateByType();
 			break; 
-		case 6: 
-			addClient();
-			break;
-		case 7: 
-			deleteClient();
-			break;	
-		case 8: 
-			selectClient();
-			break;
-		case 9: 
-			searchClientByName();
-			break;	
-		case 10: 
-			updateClient();
-			break;	
+		
 		default: 
 			break;
 
