@@ -64,6 +64,7 @@ public class Menu {
 			System.out.println("4. Update Chocolate       ");
 			System.out.println("5. Search By Name         ");
 			System.out.println("6. Search By Type         ");
+			System.out.println()
 			int choice = Integer.parseInt(reader.readLine());
 			switch(choice){
 			case 1: 
@@ -162,25 +163,52 @@ public class Menu {
 
 	private static void OompaLoompaMenu()throws Exception {
 		// TODO Auto-generated method stub
+		//CHOCOLATE
 		System.out.println("What do you wanna do?     ");
 		System.out.println("1. Create Chocolate       ");
-		System.out.println("2. Select Chocolate       ");
-		System.out.println("3. Search By Name         ");
-		System.out.println("4. Search By Type         ");
+		System.out.println("2. Delete Chocolate       ");
+		System.out.println("3. Select Chocolate       ");//lo necesitamos?????
+		System.out.println("4. Search By Name         ");
+		System.out.println("5. Search By Type         ");
+		//CLIENT
+		System.out.println("5. Add client             ");
+		System.out.println("7. Erase client           ");
+		System.out.println("8. Select client          ");
+		System.out.println("9. Search client by name  ");
+		System.out.println("10. Search client by name  ");
+	
 		int choice = Integer.parseInt(reader.readLine());
 		switch(choice){
 		case 1: 
 			createChocolate();
 			break;
 		case 2: 
+			deleteChocolate();
+			break;	
+		case 3: 
 			selectChocolate();
 			break;
-		case 3: 
-			searchByName();
-			break;
 		case 4: 
-			searchByType();
+			searchChocolateByName();
+			break;
+		case 5: 
+			searchChocolateByType();
 			break; 
+		case 6: 
+			addClient();
+			break;
+		case 7: 
+			deleteClient();
+			break;	
+		case 8: 
+			selectClient();
+			break;
+		case 9: 
+			searchClientByName();
+			break;	
+		case 10: 
+			updateClient();
+			break;	
 		default: 
 			break;
 
@@ -237,7 +265,7 @@ private static String selectChocolate() throws Exception{
 
 
 
-	private static void searchByName() throws Exception{
+	private static void searchChocolateByName() throws Exception{
 		      System.out.println("Name");
 		      String name = reader.readLine();
 		    //why does he ask for the type if he is searching by name ?
@@ -247,7 +275,7 @@ private static String selectChocolate() throws Exception{
 			}
 	}
 	
-	private static void searchByType() throws Exception{
+	private static void searchChocolateByType() throws Exception{
 		     System.out.println("Type");
 	         String type = reader.readLine();
 		     List<Chocolate> chocolates = chocolateManager.searchByType(type);
@@ -256,10 +284,34 @@ private static String selectChocolate() throws Exception{
 				
 			}
 	}
+	
+	private static void searchClientByName() throws Exception{
+	      System.out.println("Name");
+	      String name = reader.readLine();
+	    //why does he ask for the type if he is searching by name ?
+	      List<Client> clients = clientManager.searchByName(name);
+	      for (Client client : clients) {
+			System.out.println(client);
+		}
+}
+	private static void addClient() throws Exception {
+		System.out.println("Name");
+		String name = reader.readLine();
+		System.out.println("Cellphone");
+		Integer cellphone =Integer.parseInt( reader.readLine());
+		System.out.println("email");
+		String email = reader.readLine();
+		System.out.println("adress");
+		String adress = reader.readLine();
+		System.out.println("dob");
+		String dob = reader.readLine();//COMO SE HACE EL DATE??
+		
+        Chocolate chocolate =new Client(name, cellphone, email, adress, dob);
+	   // to do insert the dog 
+		chocolateManager.create(chocolate);
+	}
 		
 	
 		
 	}
-		
-
-
+	
