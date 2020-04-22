@@ -308,7 +308,7 @@ private static String selectChocolate() throws Exception{
 		System.out.println("dob");
 		String dob = reader.readLine();//COMO SE HACE EL DATE??
 		
-        Chocolate chocolate =new Client(name, cellphone, email, adress, dob);
+        Chocolate chocolate = new Client(name, cellphone, email, adress, dob);
 	   // to do insert the dog 
 		chocolateManager.create(chocolate);
 	}

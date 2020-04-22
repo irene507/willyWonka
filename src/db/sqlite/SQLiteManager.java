@@ -29,7 +29,7 @@ public class SQLiteManager implements DBManager {
 		Class.forName("org.sqlite.JDBC");
 		this.c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
 		c.createStatement().execute("PRAGMA foreign_keys=ON");
-		//Create ChocolateManager
+		//Create ChocolateManager 
 		chocolate = new SQLiteChocolateManager(c);
 		//Create others like ClientManager... 
 /// we have to initialize here other managers 		
