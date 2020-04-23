@@ -12,8 +12,8 @@ public class Chocolate implements Serializable {
 	//Date: siempre import java.sql
         private Integer id;
         private String name;
-        private Float cocoa;
         private String type;
+        private Float cocoa;
         private String flavors;
         private Float units;
         private String shape;

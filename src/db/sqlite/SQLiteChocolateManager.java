@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -71,20 +72,99 @@ public class SQLiteChocolateManager implements ChocolateManager {
 
 	@Override
 	public void update(Chocolate chocolate) {
-		// TODO Auto-generated method stub
+		try{
+		//Update every aspect of a particular chocolate
+		String sq1 = "UPDATE dogs SET name=?, type=?, cocoa=?, flavors=?, units=?, shape=? WHERE id=? ";
+		PreparedStatement s = c.prepareStatement(sq1);
+		s.setString(1, chocolate.getName());
+		s.setString(2, chocolate.getType());
+		s.setFloat(3, chocolate.getCocoa());
+		s.setString(4, chocolate.getFlavors());
+		s.setFloat(5, chocolate.getUnits());
+		s.setString(6, chocolate.getShape());
+		s.setInt(7, chocolate.getId());
+		s.execute();
+		s.close();
 		
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public List<Chocolate> searchByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		//Create an empty list of chocolates 
+		List<Chocolate> chocolatesList = new ArrayList<Chocolate>();
+		//Search for all chocolates that "fit" the name
+		try{
+			String sq1 = "SELECT * FROM chocolates WHERE name LIKE ? ";
+			PreparedStatement prep= c.prepareStatement(sq1);
+			//ANY CHARACTERS +name + ANY CHARACTERS
+			prep.setString(1, "%" + name + "%");
+			ResultSet rs = prep.executeQuery();
+			//For each result 
+			while(rs.next()){
+				int id= rs.getInt("id");
+				String chocoName = rs.getString("name");
+				String type = rs.getString("type");
+				float cocoa = rs.getFloat("cocoa");
+				String flavors = rs.getString("flavors");
+				float units = rs.getFloat("units");
+				String shape = rs.getString("shape");
+				
+			//Create a new chocolate 
+				Chocolate newChocolate = new Chocolate(id, chocoName, type, cocoa, flavors, units, shape);
+			//Add it to the list
+				chocolatesList.add(newChocolate);
+				
+			}
+			
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		return chocolatesList;
 	}
 
 	@Override
 	public List<Chocolate> searchByType(String type) {
-		// TODO Auto-generated method stub
-		return null;
+		//Create an empty list of chocolates 
+				List<Chocolate> chocolatesList = new ArrayList<Chocolate>();
+		//Search for all chocolates that "fit" the name
+		 try{
+			String sq1 = "SELECT * FROM chocolates WHERE type LIKE ? ";
+			PreparedStatement prep= c.prepareStatement(sq1);
+			//ANY CHARACTERS +name + ANY CHARACTERS
+			prep.setString(1, "%" + type + "%");
+			ResultSet rs = prep.executeQuery();
+			//For each result 
+    		while(rs.next()){
+	     		int id= rs.getInt("id");
+			    String chocoName = rs.getString("name");
+				String chocoType = rs.getString("type");
+				float cocoa = rs.getFloat("cocoa");
+				String flavors = rs.getString("flavors");
+				float units = rs.getFloat("units");
+				String shape = rs.getString("shape");
+						
+			//Create a new chocolate 
+			Chocolate newChocolate = new Chocolate(id, chocoName, chocoType, cocoa, flavors, units, shape);
+			//Add it to the list
+			chocolatesList.add(newChocolate);
+						
+		}
+				
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+				
+				
+			return chocolatesList;
+		
 	}
 
 }

@@ -138,7 +138,7 @@ public class Menu {
          
          for (int i = 0; i < chocolates.size(); i++) {
              if (chocolates.get(i).getName().equals(name)) {
-                 indice = i; //guardamos el indice donde se encuentra el raton
+                 indice = i; //guardamos el indice donde se encuentra el chocolate
                  encontrado = true;
                  break;
              }
@@ -192,7 +192,7 @@ public class Menu {
     
 
 	private static void OompaLoompaMenu()throws Exception {
-		// TODO Auto-generated method stub
+		
 		//CHOCOLATE
 		System.out.println("What do you wanna do?     ");
 		System.out.println("1. Create Chocolate       ");
@@ -216,6 +216,10 @@ public class Menu {
 			break;
 		case 4: 
 			searchChocolateByName();
+			System.out.println("Write the selected dog´s id");
+			int chocoId = Integer.parseInt(reader.readLine());
+			OLSubMenu();
+
 			break;
 		case 5: 
 			searchChocolateByType();
@@ -227,8 +231,50 @@ public class Menu {
 		}	
 
 		
-		}
+	}//OompaLoompaMenu
 
+	private static void OLSubMenu() throws Exception{
+		//CHOCOLATE
+				System.out.println("What do you wanna do Oompa Loompa?     ");
+				System.out.println("1. Create Chocolate       ");
+				System.out.println("2. Delete Chocolate       ");
+				System.out.println("3. Select Chocolate       ");//lo necesitamos?????
+				System.out.println("4. Search By Name         ");
+				System.out.println("5. Search By Type         ");
+				//CLIENT
+				
+			
+				int choice = Integer.parseInt(reader.readLine());
+				switch(choice){
+				case 1: 
+					createChocolate();
+					break;
+				case 2: 
+					deleteChocolate();
+					break;	
+				case 3: 
+					selectChocolate();
+					break;
+				case 4: 
+					searchChocolateByName();
+					System.out.println("Write the selected dog´s id");
+					int chocoId = Integer.parseInt(reader.readLine());
+					OLSubMenu();
+
+					break;
+				case 5: 
+					searchChocolateByType();
+					break; 
+				
+				default: 
+					break;
+
+				}
+	}
+		
+	}
+	
+	
 	
 		private static void createChocolate() throws Exception {
 			System.out.println("Name");
@@ -339,7 +385,7 @@ private static String selectChocolate() throws Exception{
          
          for (int i = 0; i < clients.size(); i++) {
              if (clients.get(i).getName().equals(name)) {
-                 indice = i; //guardamos el indice donde se encuentra el raton
+                 indice = i; //guardamos el indice donde se encuentra el cliente
                  encontrado = true;
                  break;
              }
