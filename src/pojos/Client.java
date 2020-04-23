@@ -31,6 +31,18 @@ public class Client {
 	}
 
 
+
+
+	public Client(String name, Integer cellphone, String email, String adress, Date dob) {
+		super();
+		this.name = name;
+		this.cellphone = cellphone;
+		this.email = email;
+		this.adress = adress;
+		this.dob = dob;
+	}
+
+
 	//getters y setters
 	public Integer getId() {
 		return id;

@@ -7,5 +7,6 @@ public interface DBManager {
         public void createTables();
         
         public ChocolateManager getChocolateManager();
+		public ClientManager getClientManager();
         
 }

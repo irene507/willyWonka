@@ -2,6 +2,10 @@ package ui;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import pojos.*;
 import db.interfaces.*;
 import db.sqlite.*;
@@ -13,6 +17,10 @@ public class Menu {
 	//DB Managers
 	private static DBManager dbManager;
 	private static ChocolateManager chocolateManager;
+	private static ClientManager clientManager;
+	
+	//Used for parsing dates
+		private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	//Let me read, for my whole code
 	private static BufferedReader reader; 
@@ -23,6 +31,7 @@ public class Menu {
 		dbManager = new SQLiteManager();
 		dbManager.connect();
 		chocolateManager = dbManager.getChocolateManager();
+		clientManager = dbManager.getClientManager();
 		
 		
 		//Initialize BufferedReader
@@ -65,11 +74,12 @@ public class Menu {
 			System.out.println("5. Search By Name         ");
 			System.out.println("6. Search By Type         ");
 			//CLIENT
-			System.out.println("5. Add client             ");
-			System.out.println("7. Erase client           ");
-			System.out.println("8. Select client          ");
-			System.out.println("9. Search client by name  ");
+			System.out.println("7. Add client             ");
+			System.out.println("8. Erase client           ");
+			System.out.println("9. Select client          ");
 			System.out.println("10. Search client by name  ");
+			System.out.println("11. Update client  ");
+			
 			int choice = Integer.parseInt(reader.readLine());
 			switch(choice){
 			case 1: 
@@ -91,19 +101,19 @@ public class Menu {
 			case 6: 
 				searchChocolateByType();
 				break; 
-			case 6: 
+			case 7: 
 				addClient();
 				break;
-			case 7: 
+			case 8: 
 				deleteClient();
 				break;	
-			case 8: 
+			case 9: 
 				selectClient();
 				break;
-			case 9: 
+			case 10: 
 				searchClientByName();
 				break;	
-			case 10: 
+			case 11: 
 				updateClient();
 				break;		
 			default: 
@@ -287,15 +297,12 @@ private static String selectChocolate() throws Exception{
 			}
 	}
 	
-	private static void searchClientByName() throws Exception{
-	      System.out.println("Name");
-	      String name = reader.readLine();
-	    //why does he ask for the type if he is searching by name ?
-	      List<Client> clients = clientManager.searchByName(name);
-	      for (Client client : clients) {
-			System.out.println(client);
-		}
-}
+
+//--------------------------------------------------------------------------------------------------------------------------------
+	
+	                                                   //ADD CLIENT
+	
+//--------------------------------------------------------------------------------------------------------------------------------	
 	private static void addClient() throws Exception {
 		System.out.println("Name");
 		String name = reader.readLine();
@@ -306,14 +313,132 @@ private static String selectChocolate() throws Exception{
 		System.out.println("adress");
 		String adress = reader.readLine();
 		System.out.println("dob");
-		String dob = reader.readLine();//COMO SE HACE EL DATE??
+		Date dob = Date.valueOf(dob,formatter);// como se pone el DATE???
 		
-        Chocolate chocolate = new Client(name, cellphone, email, adress, dob);
+		
+        Client client = new Client(name, cellphone, email, adress, dob);
 	   // to do insert the dog 
-		chocolateManager.create(chocolate);
-	}
-		
+		clientManager.addClient(client);
+	}	
 	
-		
+//--------------------------------------------------------------------------------------------------------------------------------
+
+                                                       //DELETE CLIENT
+
+//--------------------------------------------------------------------------------------------------------------------------------
+	private static boolean deleteClient() throws Exception{
+    	ArrayList<Client> clients = new ArrayList<Client>();
+    	 boolean conexito = true;
+         boolean encontrado = false;
+         int indice = 0;
+         //lo inicializamos como un indice no valido
+         //buscamos el indice que queremos eliminar
+         
+         System.out.println("Name");
+		 String name = reader.readLine();
+         
+         for (int i = 0; i < clients.size(); i++) {
+             if (clients.get(i).getName().equals(name)) {
+                 indice = i; //guardamos el indice donde se encuentra el raton
+                 encontrado = true;
+                 break;
+             }
+         }
+
+         if (encontrado) {
+             clients.remove(indice); //el indice encontrado lo eliminamos
+
+         } else {
+             conexito = false;
+         }
+    	
+    	
+    	return conexito;
+    		
+    }
+	
+//--------------------------------------------------------------------------------------------------------------------------------
+
+                                                 //SELECT CLIENT
+
+//--------------------------------------------------------------------------------------------------------------------------------	
+	
+	
+	
+	private static String selectClient() throws Exception{// select client by name
+		   ArrayList<Client> clients = new ArrayList<Client>();
+		        System.out.println("Name");
+		        String name = reader.readLine();
+		        
+		        String resultado = ""; 
+		        
+		        if ((name == null) || (name.compareTo("") == 0)) {
+		            resultado = "Ha habido un error";
+		            return resultado;
+		        }
+
+		        for (int i = 0; i < clients.size(); i++) {
+
+		            if (clients.get(i).getName().compareTo(name) == 0) { 
+		                resultado = "El resultado de la busqueda es " + clients.get(i).toString(); 
+		                break;
+		            }
+		         ///no tenemos ningun metodo tostring   
+
+		        }
+		        return resultado;
 	}
+	
+//--------------------------------------------------------------------------------------------------------------------------------
+
+                                                 //SEARCH CLIENT BY NAME
+
+//--------------------------------------------------------------------------------------------------------------------------------	
+	private static void searchClientByName() throws Exception{
+	      System.out.println("Name");
+	      String name = reader.readLine();
+	    //why does he ask for the type if he is searching by name ?
+	      List<Client> clients = clientManager.searchByName(name);
+	      for (Client client : clients) {
+			System.out.println(client);
+		}
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------
+
+                                                 //UPDATE CLIENT
+
+//--------------------------------------------------------------------------------------------------------------------------------
+	private static boolean updateClient() throws Exception {
+    	ArrayList<Client> clients = new ArrayList<Client>();
+    	boolean exito = true;
+    	int indice = -1; //es decir falso
+    	
+    	if((Client.class.getName() == null) || (Client.class.getName().compareTo("") == 0)){
+    		exito = false;
+    	}
+    	
+    	if(exito){
+    		//fallo creo 
+            for(int i=0; i<clients.size(); i++){
+    			if(clients.get(i).getName().compareTo(clients.getName()) == 0){
+    				indice = i; 
+    				break; 
+    			}
+    		}
+            
+            if(indice>=0){
+            	clients.add();
+
+
+            	
+            }else{
+            	exito = false;
+            }
+    	}
+    	
+    	return exito; 
+    	
+    }
+
 	
