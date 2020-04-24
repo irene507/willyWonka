@@ -42,7 +42,7 @@ public class Menu {
 		System.out.println("Do you want to create the tables? (Y/N)");
 		String yn = reader.readLine();
 		if(yn.equalsIgnoreCase("y")){
-			dbManager.createTables();
+			dbManager.createTables();// aqui hay q hacer algo para cambiralo pero el q?
 		}
 		//Ask the user his/her role 
 		System.out.println("WHO ARE YOU? ");
@@ -66,6 +66,7 @@ public class Menu {
 		}
 	
 		private static void willyWonkaMenu() throws Exception{
+			while(true) {
 			System.out.print("What do you wanna do?       ");
 			System.out.println("1. Create Chocolate       ");
 			System.out.println("2. Select Chocolate       ");
@@ -122,7 +123,7 @@ public class Menu {
 			
 			}
 			
-		}
+		}}
 	
 	
     private static boolean deleteChocolate() throws Exception{
@@ -350,6 +351,7 @@ private static String selectChocolate() throws Exception{
 	
 //--------------------------------------------------------------------------------------------------------------------------------	
 	private static void addClient() throws Exception {
+		System.out.println("Type!");
 		System.out.println("Name");
 		String name = reader.readLine();
 		System.out.println("Cellphone");
@@ -358,12 +360,13 @@ private static String selectChocolate() throws Exception{
 		String email = reader.readLine();
 		System.out.println("adress");
 		String adress = reader.readLine();
-		System.out.println("dob");
-		Date dob = Date.valueOf(dob,formatter);// como se pone el DATE???
+		System.out.println("date of birth (yyyy-MM-dd");
+		String dob= reader.readLine();
+		LocalDate dateOfBirth = LocalDate.parse(dob,formatter);
 		
 		
-        Client client = new Client(name, cellphone, email, adress, dob);
-	   // to do insert the dog 
+        Client client = new Client(name, cellphone, email, adress, Date.valueOf(dateOfBirth));
+	   // creo q este add esta bien pero no estoy segura
 		clientManager.addClient(client);
 	}	
 	
@@ -441,9 +444,9 @@ private static String selectChocolate() throws Exception{
 
 //--------------------------------------------------------------------------------------------------------------------------------	
 	private static void searchClientByName() throws Exception{
+		  System.out.println("Type!");
 	      System.out.println("Name");
 	      String name = reader.readLine();
-	    //why does he ask for the type if he is searching by name ?
 	      List<Client> clients = clientManager.searchByName(name);
 	      for (Client client : clients) {
 			System.out.println(client);

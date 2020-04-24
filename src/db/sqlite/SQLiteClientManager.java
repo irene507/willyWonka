@@ -4,7 +4,8 @@ package db.sqlite;
 	import java.sql.Date;
 	import java.sql.PreparedStatement;
 	import java.sql.ResultSet;
-	import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 	import db.interfaces.ClientManager;
 	import pojos.Client;
@@ -19,8 +20,14 @@ package db.sqlite;
 			
 		}
 
+		public SQLiteClientManager(Connection c2) {
+			// TODO Auto-generated constructor stub
+		}
+		
+
+
 		@Override
-		public void add(Client client)  {
+		public void addClient(Client client)  {
 			
 			try {
 				String sql = "INSERT INTO clients (id, name , cellphone , email, adress, dob) "
@@ -52,13 +59,32 @@ package db.sqlite;
 		}
 
 		@Override
-		public void select(Client client) {
-			// TODO Auto-generated method stub
+		public void update(Client client) {
+			try {
+			//update every aspect of a particular client
+			String sql = "UPDATE clients SET name=?, cellphone=?, email=?, adress=?, dob=? WHERE id=?";
+			PreparedStatement s= c.prepareStatement(sql);
+			s.setString(1, client.getName());
+			s.setInt(2, client.getCellphone());
+			s.setString(3, client.getEmail());
+			s.setString(4, client.getAdress());
+			s.setDate(5, client.getDob());
+			s.setInt(6, client.getId());
+			s.executeUpdate();
+			s.close();
+			
+			}
+			
+			catch( Exception e){
+				e.printStackTrace();
+				
+			}
+			
 
 		}
 
 		@Override
-		public void update(Client client) {
+		public void select(Client client) {
 			// TODO Auto-generated method stub
 
 		}
@@ -66,8 +92,8 @@ package db.sqlite;
 		@Override
 		public List<Client> searchByName(String name) {
 			//create an empty list of clients
-			List<Client> clientsList =newArrayList<Client>();// NO ENTIENDO ESTE EERRROR
-			// search for all clients that fit the name
+			List<Client> clientsList =new ArrayList<Client>();
+			// seacrh for clients that fit the name
 			
 		try {
 		
@@ -83,6 +109,7 @@ package db.sqlite;
 				String email = rs.getString("email");
 				String address = rs.getString("address");
 				Date dob = rs.getDate("dob");
+				//create a new client
 				Client newClient =new Client(id,clientName,cellphone,email,address,dob);//crrate a new client
 				//add it to the list
 				clientsList.add(newClient);
