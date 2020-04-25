@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.BufferedReader;
+import java.io.IOException; 
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -80,6 +81,9 @@ public class Menu {
 			System.out.println("9. Select client          ");
 			System.out.println("10. Search client by name  ");
 			System.out.println("11. Update client  ");
+			System.out.println("12. Add an animal");
+			System.out.println("13. See an animal info");
+			System.out.println("14. Update an animal information");
 			
 			int choice = Integer.parseInt(reader.readLine());
 			switch(choice){
@@ -116,7 +120,15 @@ public class Menu {
 				break;	
 			case 11: 
 				updateClient();
-				break;		
+				break;
+			case 12:
+				 addAnimal();
+				break;
+			case 13:
+				 SearchAnimal();
+				break;
+			case 14:
+				break;
 			default: 
 				break;
 				
@@ -124,6 +136,27 @@ public class Menu {
 			}
 			
 		}}
+		
+		
+	//----------------------------------------------------------------------------------------------
+		
+		
+		//Animals part
+		
+	//----------------------------------------------------------------
+		
+		
+		
+	private static void AddAnimal() throws Exception{
+		}	
+	
+		
+		
+		
+
+		
+		
+		//--------------------------------------------------------------------------
 	
 	
     private static boolean deleteChocolate() throws Exception{
@@ -197,9 +230,10 @@ public class Menu {
 		
 		//CHOCOLATE
 		System.out.println("What do you wanna do?     ");
-		System.out.println("1. Create Chocolate       ");
-		System.out.println("4. Search By Name         ");
-		System.out.println("5. Search By Type         ");
+		System.out.println("1. Create chocolate       ");
+		System.out.println("2. Search chocolate by name         ");
+		System.out.println("3. Search chocolate by type         ");
+		System.out.println("4. See an animal information");
 		//CLIENT
 		//olceo no tiene acceso a los clientes, solo willy wonka
 		
@@ -219,7 +253,10 @@ public class Menu {
 			break;
 		case 3: 
 			searchChocolateByType();
-			break; 
+			break;
+			
+		case 4:
+			break;
 		
 		default: 
 			break;

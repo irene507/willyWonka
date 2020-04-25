@@ -20,6 +20,20 @@ public class Animal {
 	}
 	
 	
+	//Constructor used in SearchByName
+	
+	public Animal(Integer id, String name, String country, String colour, String specie, Date dob) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.country = country;
+		this.colour = colour;
+		this.specie = specie;
+		this.dob = dob;
+	}
+
+
+
 	//Getters y setters
 	public Integer getId() {
 		return id;
