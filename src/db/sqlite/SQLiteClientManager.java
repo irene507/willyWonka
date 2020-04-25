@@ -122,14 +122,48 @@ import java.util.List;
 		return clientsList;
 				
 		}
+		
+//--------------------------------------------------------------------------------------------------------------------------------
+
+                          //SEARCH CLIENT BY EMAIL
+
+//--------------------------------------------------------------------------------------------------------------------------------
 
 		@Override
-		public List<Client> searchBydob(Date dob) {
-			// TODO Auto-generated method stub
-			return null;
+		public List<Client> searchByEmail(String email) {
+			//create an empty list of clients
+			List<Client> clientsList =new ArrayList<Client>();
+			// search for clients that fit the name
+			
+		try {
+		
+			String sql = "SELECT * FROM clients WHERE email LIKE ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString(1, "%"+email+ "%");
+			ResultSet rs = prep.executeQuery();//PORQUE SELECT ES UNA QUERY
+			//for each result...
+			while (rs.next()) {//VAMOS AVANZANDO REGISTRO A REGISTRO
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				int cellphone= rs.getInt("cellphone");
+				String clientEmail = rs.getString("email");
+				String address = rs.getString("address");
+				Date dob = rs.getDate("dob");
+				//create a new client
+				Client newClient =new Client(id,name,cellphone,clientEmail,address,dob);//crrate a new client
+				//add it to the list
+				clientsList.add(newClient);
+				
+			}
+		}catch( Exception e) {
+			e.printStackTrace();
+			
 		}
-
-	}
+		return clientsList;
+				
+		}
+		}
+	
 
 
 

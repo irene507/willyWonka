@@ -193,15 +193,15 @@ public class Menu {
     
 
 	private static void OompaLoompaMenu()throws Exception {
+		while (true) {
 		
 		//CHOCOLATE
 		System.out.println("What do you wanna do?     ");
 		System.out.println("1. Create Chocolate       ");
-		System.out.println("2. Delete Chocolate       ");
-		System.out.println("3. Select Chocolate       ");//lo necesitamos?????
 		System.out.println("4. Search By Name         ");
 		System.out.println("5. Search By Type         ");
 		//CLIENT
+		//olceo no tiene acceso a los clientes, solo willy wonka
 		
 	
 		int choice = Integer.parseInt(reader.readLine());
@@ -209,39 +209,32 @@ public class Menu {
 		case 1: 
 			createChocolate();
 			break;
+		
 		case 2: 
-			deleteChocolate();
-			break;	
-		case 3: 
-			selectChocolate();
-			break;
-		case 4: 
 			searchChocolateByName();
 			System.out.println("Write the selected dog´s id");
 			int chocoId = Integer.parseInt(reader.readLine());
 			OLSubMenu();
 
 			break;
-		case 5: 
+		case 3: 
 			searchChocolateByType();
 			break; 
 		
 		default: 
 			break;
 
-		}	
+		}	}
 
 		
 	}//OompaLoompaMenu
 
 	private static void OLSubMenu() throws Exception{
-		//CHOCOLATE
+		while(true) {//CHOCOLATE
 				System.out.println("What do you wanna do Oompa Loompa?     ");
 				System.out.println("1. Create Chocolate       ");
-				System.out.println("2. Delete Chocolate       ");
-				System.out.println("3. Select Chocolate       ");//lo necesitamos?????
-				System.out.println("4. Search By Name         ");
-				System.out.println("5. Search By Type         ");
+				System.out.println("2. Search By Name         ");
+				System.out.println("3. Search By Type         ");
 				//CLIENT
 				
 			
@@ -250,20 +243,15 @@ public class Menu {
 				case 1: 
 					createChocolate();
 					break;
+				
 				case 2: 
-					deleteChocolate();
-					break;	
-				case 3: 
-					selectChocolate();
-					break;
-				case 4: 
 					searchChocolateByName();
 					System.out.println("Write the selected dog´s id");
 					int chocoId = Integer.parseInt(reader.readLine());
-					OLSubMenu();
+					OLSubMenu(chocoId);
 
 					break;
-				case 5: 
+				case 3: 
 					searchChocolateByType();
 					break; 
 				

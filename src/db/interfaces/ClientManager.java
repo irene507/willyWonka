@@ -10,7 +10,7 @@ public interface ClientManager{
 	public void select(Client client);
 	public void update(Client client);
 	public List<Client> searchByName(String name);
-	public List<Client> searchBydob(Date dob);
+	public List<Client> searchByEmail(String email);
 	
 	
 	
