@@ -2,6 +2,7 @@ package db.sqlite;
 
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ public class SQLiteManager implements DBManager {
 	private Connection c;
 	private ChocolateManager chocolate;
 	private ClientManager client;
+	private AnimalManager animal;
 	
 	public SQLiteManager(){
 	//with an empty constructor
@@ -34,11 +36,16 @@ public class SQLiteManager implements DBManager {
 		c.createStatement().execute("PRAGMA foreign_keys=ON");
 		//Create ChocolateManager 
 		chocolate = new SQLiteChocolateManager(c);
+		
 		//Create others like ClientManager... 
 		client = new SQLiteClientManager(c);
-/// we have to initialize here other managers 		
 		
-		}catch(Exception e){//excepcion general 
+		//Create AnimalManager
+		animal= new SQLiteAnimalManager(c);
+		
+   // we could initialize other managers here		
+		
+		}catch(Exception e){  //general exception 
 			e.printStackTrace();
 		}
 	
@@ -86,11 +93,16 @@ public class SQLiteManager implements DBManager {
 			}
 
 		}
+	
+	@Override
 	public ClientManager getClientManager() {
 		return client;
 	}
-				
-		
+	
+	@Override
+	public AnimalManager getAnimalManager() {
+		return animal;
+	}
 	
 
 	@Override
@@ -120,6 +132,7 @@ public class SQLiteManager implements DBManager {
 
 	}
 	
+	@Override
 	public ChocolateManager getChocolateManager(){
 		return chocolate;
 	}

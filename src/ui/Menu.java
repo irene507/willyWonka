@@ -19,27 +19,35 @@ public class Menu {
 	private static DBManager dbManager;
 	private static ChocolateManager chocolateManager;
 	private static ClientManager clientManager;
+	private static AnimalManager animalManager;
+
+	// Used for parsing dates
+	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
-	//Used for parsing dates
-		private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	
-	//Let me read, for my whole code
+	//Buffered reader for my whole code
 	private static BufferedReader reader; 
 	
 	//Menu
 	public static void main(String[] args) throws Exception{
-	    //Connect with the database
+		
+	    //Connects with the database
 		dbManager = new SQLiteManager();
 		dbManager.connect();
+		
+		
 		chocolateManager = dbManager.getChocolateManager();
 		clientManager = dbManager.getClientManager();
+		animalManager= dbManager.getAnimalManager();
+		
+		
 		
 		
 		//Initialize BufferedReader
 		reader = new BufferedReader(new InputStreamReader(System.in));
         //Welcome screen
 		System.out.print("-------------WELCOME!--------- ");
-		//offer the user to create tables 
+		
+		//we offer the user to create tables 
 		System.out.println("Do you want to create the tables? (Y/N)");
 		String yn = reader.readLine();
 		if(yn.equalsIgnoreCase("y")){
@@ -122,10 +130,10 @@ public class Menu {
 				updateClient();
 				break;
 			case 12:
-				 addAnimal();
+				 AddAnimal();
 				break;
 			case 13:
-				 SearchAnimal();
+				 SearchAnimalByName();
 				break;
 			case 14:
 				break;
@@ -136,27 +144,198 @@ public class Menu {
 			}
 			
 		}}
-		
-		
-	//----------------------------------------------------------------------------------------------
-		
-		
-		//Animals part
-		
-	//----------------------------------------------------------------
-		
-		
-		
-	private static void AddAnimal() throws Exception{
-		}	
 	
 		
 		
 		
+		
+	    
+//---------------------------------------------------------------------	
+			
+		  		//OMOMPALOOMPA MENU
+		  	
+//-----------------------------------------------------------------------------	
+
+		    
+
+			private static void OompaLoompaMenu()throws Exception {
+				while (true) {
+				
+				//CHOCOLATE
+				System.out.println("What do you wanna do?     ");
+				System.out.println("1. Create chocolate       ");
+				System.out.println("2. Search chocolate by name         ");
+				System.out.println("3. Search chocolate by type         ");
+				System.out.println("4. See an animal information");
+				//CLIENT
+				//olceo no tiene acceso a los clientes, solo willy wonka
+				
+			
+				int choice = Integer.parseInt(reader.readLine());
+				switch(choice){
+				case 1: 
+					createChocolate();
+					break;
+				
+				case 2: 
+					searchChocolateByName();
+					System.out.println("Write the selected dog큦 id");
+					int chocoId = Integer.parseInt(reader.readLine());
+					OLSubMenu();
+
+					break;
+				case 3: 
+					searchChocolateByType();
+					break;
+					
+				case 4:
+					SearchAnimalByName();
+					break;
+				
+				default: 
+					break;
+
+				}	}
+
+				
+			}//OompaLoompaMenu
+			
+			
+//---------------------------------------------------------------------	
+			
+					//SUBMENU OL 
+				
+//-----------------------------------------------------------------------------	
+
+
+			private static void OLSubMenu() throws Exception{
+				while(true) {//CHOCOLATE
+					
+				}
+						System.out.println("What do you wanna do Oompa Loompa?     ");
+						System.out.println("1. Create Chocolate       ");
+						System.out.println("2. Search By Name         ");
+						System.out.println("3. Search By Type         ");
+						//CLIENT
+						
+					
+						int choice = Integer.parseInt(reader.readLine());
+						switch(choice){
+						case 1: 
+							createChocolate();
+							break;
+						
+						case 2: 
+							searchChocolateByName();
+							System.out.println("Write the selected dog큦 id");
+							int chocoId = Integer.parseInt(reader.readLine());
+							OLSubMenu(chocoId);
+
+							break;
+						case 3: 
+							searchChocolateByType();
+							break; 
+						
+						default: 
+							break;
+
+						}
+	}
+				
+
+
+
+
 
 		
+//----------------------------------------------------------------------------------------------
 		
-		//--------------------------------------------------------------------------
+		
+		//ANIMALS PART
+		
+		
+//----------------------------------------------------------------
+		
+				//ADD ANIMAL
+	
+//--------------------------------------------------
+		
+		
+	private static void AddAnimal() throws Exception{
+		
+		System.out.print("Please, introduce the new animal");
+		System.out.print("1. Name of the animal: ");
+		String name;
+		name= reader.readLine();
+		System.out.print("2. Country of the animal:");
+		String country;
+		country= reader.readLine();
+		System.out.print("3. Colour/s of the animal: ");
+		String colour;
+		colour= reader.readLine();
+		System.out.print("4. Specie of the animal: ");
+		String specie;
+		specie= reader.readLine();
+		System.out.print("5. Date of birth of the animal in this format (year-month-day)      ");
+		String date= reader.readLine();
+		LocalDate dob = LocalDate.parse(date, formatter); 
+		Animal animal= new Animal (name, country, colour, specie, Date.valueOf(dob));
+		animalManager.add(animal);
+		//TODO insert the poor animal
+		
+		}
+	
+	
+	
+	
+	
+//----------------------------------------------------
+	
+		//SEARCH ANIMAL
+	
+//--------------------------------------------------
+	
+	
+
+	
+	
+	private static void SearchAnimalByName() throws Exception{
+		System.out.print("Please, introduce the name of the animal you want to look for");
+		String name= reader.readLine();
+		List <Animal> animals= animalManager.searchByNameAnimal(name);
+		for (Animal animal : animals) {
+			System.out.println(animal);
+		}
+	}
+	
+		
+		
+		
+//--------------------------------------------------------------
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//------------------------------------------------------------------------------------------	
+	
+	
+	//CHOCOLATE PART
+	
+	
+	
+//---------------------------------------------------------------------	
+	
+			//DELETE CHOCOLATE 
+		
+//-----------------------------------------------------------------------------	
+
 	
 	
     private static boolean deleteChocolate() throws Exception{
@@ -191,6 +370,12 @@ public class Menu {
     	
     }
     
+ //---------------------------------------------------------------------	
+	
+  		//UPDATE CHOCOLATE 
+  	
+ //-----------------------------------------------------------------------------	
+
   
     private static boolean updateChocolate() throws Exception {
     	ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
@@ -223,84 +408,14 @@ public class Menu {
     	return exito; 
     	
     }
-    
 
-	private static void OompaLoompaMenu()throws Exception {
-		while (true) {
-		
-		//CHOCOLATE
-		System.out.println("What do you wanna do?     ");
-		System.out.println("1. Create chocolate       ");
-		System.out.println("2. Search chocolate by name         ");
-		System.out.println("3. Search chocolate by type         ");
-		System.out.println("4. See an animal information");
-		//CLIENT
-		//olceo no tiene acceso a los clientes, solo willy wonka
-		
 	
-		int choice = Integer.parseInt(reader.readLine());
-		switch(choice){
-		case 1: 
-			createChocolate();
-			break;
-		
-		case 2: 
-			searchChocolateByName();
-			System.out.println("Write the selected dog큦 id");
-			int chocoId = Integer.parseInt(reader.readLine());
-			OLSubMenu();
+//---------------------------------------------------------------------	
 
-			break;
-		case 3: 
-			searchChocolateByType();
-			break;
-			
-		case 4:
-			break;
-		
-		default: 
-			break;
-
-		}	}
-
-		
-	}//OompaLoompaMenu
-
-	private static void OLSubMenu() throws Exception{
-		while(true) {//CHOCOLATE
-				System.out.println("What do you wanna do Oompa Loompa?     ");
-				System.out.println("1. Create Chocolate       ");
-				System.out.println("2. Search By Name         ");
-				System.out.println("3. Search By Type         ");
-				//CLIENT
-				
-			
-				int choice = Integer.parseInt(reader.readLine());
-				switch(choice){
-				case 1: 
-					createChocolate();
-					break;
-				
-				case 2: 
-					searchChocolateByName();
-					System.out.println("Write the selected dog큦 id");
-					int chocoId = Integer.parseInt(reader.readLine());
-					OLSubMenu(chocoId);
-
-					break;
-				case 3: 
-					searchChocolateByType();
-					break; 
-				
-				default: 
-					break;
-
-				}
-	}
-		
-	}
+		//CREATE CHOCOLATE
 	
-	
+//-----------------------------------------------------------------------------	
+
 	
 		private static void createChocolate() throws Exception {
 			System.out.println("Name");
@@ -319,6 +434,18 @@ public class Menu {
 		   // to do insert the dog 
 			chocolateManager.create(chocolate);
 		}
+		
+		
+		
+		
+		
+		
+//---------------------------------------------------------------------	
+		
+			//SELECT CHOCOLATE
+		
+//-----------------------------------------------------------------------------	
+
 
 //la entiendo como buscar. Decirme si me equivoco porfi 
 		
@@ -347,6 +474,11 @@ private static String selectChocolate() throws Exception{
 	
 }
 
+//---------------------------------------------------------------------	
+
+		//SEARCH CHOCOLATE BY NAME
+	
+//-----------------------------------------------------------------------------	
 
 
 	private static void searchChocolateByName() throws Exception{
@@ -359,6 +491,12 @@ private static String selectChocolate() throws Exception{
 			}
 	}
 	
+//---------------------------------------------------------------------	
+	
+		//SEARCH CHOCOLATE BY TYPE
+	
+//-----------------------------------------------------------------------------	
+
 	private static void searchChocolateByType() throws Exception{
 		     System.out.println("Type");
 	         String type = reader.readLine();
@@ -368,6 +506,16 @@ private static String selectChocolate() throws Exception{
 				
 			}
 	}
+	
+	
+	
+	
+	
+//--------------------------------------------------------------------------------------------------------------
+	
+	
+	
+		//CLIENT PART
 	
 
 //--------------------------------------------------------------------------------------------------------------------------------

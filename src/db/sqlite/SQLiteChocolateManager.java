@@ -17,9 +17,12 @@ public class SQLiteChocolateManager implements ChocolateManager {
     private Chocolate chocolate;
     
     //en todas las clases que usen a connection
-	public void SQLiteChocolateManager(Connection c){
-	    this.c = c; 	
+    
+	public SQLiteChocolateManager(Connection c) {
+		// TODO Auto-generated constructor stub
+		this.c=c;
 	}
+
     
 	@Override
 	public void admit(Chocolate chocolate){
