@@ -97,6 +97,36 @@ public class SQLiteChocolateManager implements ChocolateManager {
 	}
 
 	@Override
+	public Chocolate getChocolate(int chocoId){
+		Chocolate newChoco = null;
+		try{
+			String sq1 = "SELECT * FROM chocolates WHERE ID= ? "; 
+			PreparedStatement p = c.prepareStatement(sq1);
+			//Because we are going to do it just once
+			ResultSet rs = p.executeQuery();
+		    rs.next();
+				int id= rs.getInt("id");
+				String chocoName = rs.getString("name");
+				String type = rs.getString("type");
+				float cocoa = rs.getFloat("cocoa");
+				String flavors = rs.getString("flavors");
+				float units = rs.getFloat("units");
+				String shape = rs.getString("shape");
+				
+			//Create a new chocolate 
+				Chocolate newChocolate = new Chocolate(id, chocoName, type, cocoa, flavors, units, shape);
+			//Add it to the list
+				chocolatesList.add(newChocolate);
+				
+			
+			  
+		  }catch(SQLException e){
+			  e.printStackTrace();
+		  }
+		return chocolate; 
+		}//funcion 
+	
+	@Override
 	public List<Chocolate> searchByName(String name) {
 		//Create an empty list of chocolates 
 		List<Chocolate> chocolatesList = new ArrayList<Chocolate>();

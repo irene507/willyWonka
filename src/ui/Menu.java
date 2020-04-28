@@ -73,7 +73,8 @@ public class Menu {
 		}
 		
 		}
-	
+//// aqui le mete un search dogs by.... y en el doctorsubmennu le mete el dogid 
+///ID para qué? 
 		private static void willyWonkaMenu() throws Exception{
 			while(true) {
 			System.out.print("What do you wanna do?       ");
@@ -106,7 +107,7 @@ public class Menu {
 				deleteChocolate();
 				break;
 			case 4:
-				updateChocolate();
+				updateChocolate(chocoId);
 				break;
 			case 5: 
 				searchChocolateByName();
@@ -208,7 +209,7 @@ public class Menu {
 //-----------------------------------------------------------------------------	
 
 
-			private static void OLSubMenu() throws Exception{
+			private static void OLSubMenu(chocoId) throws Exception{
 				while(true) {//CHOCOLATE
 					
 				}
@@ -376,8 +377,70 @@ public class Menu {
   	
  //-----------------------------------------------------------------------------	
 
-  
-    private static boolean updateChocolate() throws Exception {
+  ///boolean creo que ya no va a ser 
+    private static boolean updateChocolate(int chocoId) throws Exception {
+    	
+        //I get the chocolate
+    	Chocolate toBeModified = chocolateManager.getChocolate(chocoId);
+    	System.out.println("Actual name: " +toBeModified.getName());
+    	//If the user doesn´t type anything, the name is not changed 
+    	System.out.println("Type the new name or press enter to leave it as is: ");
+    	String newName = reader.readLine();
+    	if(newName.equals("")){
+    		newName = toBeModified.getName();
+    	}
+   ////lo hace para el breed tambien , yo tambien ? 
+    	
+    	//If the user doesn´t type anything, the name is not changed 
+    	System.out.println("Type the new type or press enter to leave it as is: ");
+    	String newType = reader.readLine();
+    	if(newType.equals("")){
+    		newType = toBeModified.getType();
+    	}
+        
+    	//If the user doesn´t type anything, the name is not changed 
+    	System.out.println("Type the new cocoa or press enter to leave it as is: ");
+    	String newCocoa = reader.readLine();
+    	Float floatNewCocoa;
+    	if(newCocoa.equals("")){
+    		floatNewCocoa = toBeModified.getCocoa();
+    	}else{
+    		floatNewCocoa = Float.parseFloat(newCocoa);
+    	}
+    	
+    	//If the user doesn´t type anything, the name is not changed 
+    	System.out.println("Type the new flavors or press enter to leave it as is: ");
+    	String newFlavors = reader.readLine();
+    	if(newFlavors.equals("")){
+    		newFlavors = toBeModified.getFlavors();
+    	}
+    	
+    	//If the user doesn´t type anything, the name is not changed 
+    	System.out.println("Type the new units or press enter to leave it as is: ");
+    	String newUnits = reader.readLine();
+    	Float floatNewUnits;
+    	if(newUnits.equals("")){
+    		floatNewUnits = toBeModified.getUnits();
+    	}else{
+    		floatNewUnits = Float.parseFloat(newUnits);
+    	}
+    	
+    	//If the user doesn´t type anything, the name is not changed 
+    	System.out.println("Type the new shape or press enter to leave it as is: ");
+    	String newShape = reader.readLine();
+    	if(newShape.equals("")){
+    		newShape = toBeModified.getShape();
+    	}
+    	
+    	Chocolate updatedChocolate = new Chocolate(chocoId, newName,newType, floatNewCocoa, newFlavors, floatNewUnits, newShape );
+       //At the very end... 
+    	chocolateManager.update(updatedChocolate);
+
+    	
+    	
+    	
+  /// esto va aqui? 
+    	
     	ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
     	boolean exito = true;
     	int indice = -1; //es decir falso

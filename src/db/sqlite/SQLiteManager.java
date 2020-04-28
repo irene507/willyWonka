@@ -69,30 +69,9 @@ public class SQLiteManager implements DBManager {
 	}
 	
 	@Override
-	public void createClientTables() {
-		Statement stmt2;
-		try{
-			   stmt2 = c.createStatement();
-			   String sql1 = "CREATE TABLE client"
-					+ "(id       INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "name      TEXT    NOT NULL,  "
-					+ "cellphone    NUMERIC   NOT NULL UNIQUE,"
-					+ "email     TEXT    NOT NULL  UNIQUE,"
-					+ "adress   TEXT    NOT NULL,"
-					+ "dob     DATE    NOT NULL)";
-			   stmt2.executeUpdate(sql1);
-			   stmt2.close();
-			   
-			   
-			}catch(SQLException e){ 
-				//if there are exception of type "SQLException" we are not doing nothing 
-				if(e.getMessage().contains("already exists")){  
-				}else{
-					e.printStackTrace();
-				}
-			}
-
-		}
+	public ChocolateManager getChocolateManager(){
+		return chocolate;
+	}
 	
 	@Override
 	public ClientManager getClientManager() {
@@ -106,10 +85,12 @@ public class SQLiteManager implements DBManager {
 	
 
 	@Override
-	public void createChocolateTables() {
+	public void createTables() {
 		Statement stmt1;
+		Statement stmt2;
 
 		try{
+		   //CHOCO TABLE 
 		   stmt1 = c.createStatement();
 		   String sql1 = "CREATE TABLE chocolate"
 				+ "(id       INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -120,6 +101,20 @@ public class SQLiteManager implements DBManager {
 				+ "units     FLOAT   NOT NULL,"
 				+ "shape     TEXT    NOT NULL)";
 		   stmt1.executeUpdate(sql1);
+		   
+		   //CLIENT TABLE 
+		   stmt2 = c.createStatement();
+		   String sql2 = "CREATE TABLE client"
+				+ "(id       INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "name      TEXT    NOT NULL,  "
+				+ "cellphone    NUMERIC   NOT NULL UNIQUE,"
+				+ "email     TEXT    NOT NULL  UNIQUE,"
+				+ "adress   TEXT    NOT NULL,"
+				+ "dob     DATE    NOT NULL)";
+		   stmt2.executeUpdate(sql2);
+		   
+///COMO DEBO INSERTAR ESTO? PARA QUE SE UNAN? 
+		   stmt2.close();
 		   stmt1.close();
 		   
 		}catch(SQLException e){ 
@@ -132,11 +127,7 @@ public class SQLiteManager implements DBManager {
 
 	}
 	
-	@Override
-	public ChocolateManager getChocolateManager(){
-		return chocolate;
-	}
 	
-	//falta una funcion getLastID() 
+	//??falta una funcion getLastID() 
 
 }
