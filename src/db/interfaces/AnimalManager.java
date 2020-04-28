@@ -8,7 +8,7 @@ public interface AnimalManager {
 	 public void add (Animal animal);
 	 public void delete (Animal animal);
 	 public List<Animal> searchByNameAnimal(String name_a);
-	 public List<Animal> serachBySpecieAnimal(String specie_a);
+	 public List<Animal> searchBySpecieAnimal(String specie_a);
 	 public void update (Animal animal);
 	 public Animal getAnimal();
 }

@@ -8,6 +8,7 @@ public interface DBManager {
         
         public void createChocolateTables();
         public void createClientTables();
+        public void createAnimalTables();
         
         public ChocolateManager getChocolateManager();
 		public ClientManager getClientManager();

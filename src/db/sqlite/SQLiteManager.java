@@ -104,6 +104,30 @@ public class SQLiteManager implements DBManager {
 		return animal;
 	}
 	
+	public void createAnimalTables() {
+		Statement stmt3;
+
+		try{
+		   stmt3 = c.createStatement();
+		   String sql1 = "CREATE TABLE chocolate"
+				+ "(id       INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "name      TEXT    NOT NULL,  "
+				+ "country     TEXT    NOT NULL,"
+				+ "colour     TEXT    NOT NULL,"
+				+ "specie   TEXT    NOT NULL,"
+				+ "dob     DATE   NOT NULL)";
+		   stmt3.executeUpdate(sql1);
+		   stmt3.close();
+		   
+		}catch(SQLException e){ 
+			//if there are exception of type "SQLException" we are not doing nothing 
+			if(e.getMessage().contains("already exists")){ //we are not going to do anything, or we can type {} or ; (and its the same) 
+			}else{
+				e.printStackTrace();
+			}
+		}
+
+	}
 
 	@Override
 	public void createChocolateTables() {
@@ -135,6 +159,11 @@ public class SQLiteManager implements DBManager {
 	@Override
 	public ChocolateManager getChocolateManager(){
 		return chocolate;
+	}
+	@Override
+	public void createTables() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	//falta una funcion getLastID() 
