@@ -73,8 +73,14 @@ public class Menu {
 		}
 		
 		}
-//// aqui le mete un search dogs by.... y en el doctorsubmennu le mete el dogid 
-///ID para qué? 
+
+	
+//-----------------------------------------------------------------------------------
+	
+	//WILLY WONKA MENU
+	
+//--------------------------------------------------------------------------
+	
 		private static void willyWonkaMenu() throws Exception{
 			while(true) {
 			System.out.print("What do you wanna do?       ");
@@ -135,8 +141,13 @@ public class Menu {
 				break;
 			case 13:
 				 SearchAnimalByName();
+					System.out.println("introduce the id of the selected animal");
+					int id=Integer.parseInt(reader.readLine());
 				break;
 			case 14:
+					SearchAnimalBySpecie();
+					System.out.println("introduce the id of the selected animal");
+					int id2=Integer.parseInt(reader.readLine());
 				break;
 			default: 
 				break;
@@ -162,6 +173,7 @@ public class Menu {
 			private static void OompaLoompaMenu()throws Exception {
 				while (true) {
 				
+				int num;
 				//CHOCOLATE
 				System.out.println("What do you wanna do?     ");
 				System.out.println("1. Create chocolate       ");
@@ -190,7 +202,18 @@ public class Menu {
 					break;
 					
 				case 4:
-					SearchAnimalByName();
+					System.out.println("Search animal by....");
+					System.out.println("1. Name");
+					System.out.println("2. Specie");
+					num= Integer.parseInt(reader.readLine());
+					if(num== 1) {
+						SearchAnimalByName();
+
+					}
+					else {
+						SearchAnimalBySpecie();
+					}
+					
 					break;
 				
 				default: 
@@ -315,9 +338,20 @@ public class Menu {
 //--------------------------------------------------------------
 		
 	
+	//SEARCH ANIMAL BY SPECIE
 	
 	
+//--------------------------------------------------------------
 	
+	
+	private static void SearchAnimalBySpecie() throws Exception{
+		System.out.print("Please, introduce the specie of the animal you want to look for");
+		String specie= reader.readLine();
+		List <Animal> animals= animalManager.searchBySpecieAnimal(specie);
+		for (Animal animal : animals) {
+			System.out.println(animal);
+		}
+	}
 	
 	
 	

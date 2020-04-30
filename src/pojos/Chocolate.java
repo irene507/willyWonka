@@ -31,10 +31,7 @@ public class Chocolate implements Serializable {
 			this.shape = shape;
 		}
         
-        
-        
-        
-		public Chocolate(String name, String type, Float cocoa, String flavors, Float units, String shape) {
+        public Chocolate(String name, String type, Float cocoa, String flavors, Float units, String shape) {
 			super();
 			this.name = name;
 			this.type = type;

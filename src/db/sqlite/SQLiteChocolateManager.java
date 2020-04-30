@@ -10,7 +10,6 @@ import pojos.Chocolate;
 
 
 import db.interfaces.ChocolateManager;
-import pojos.Chocolate;
 
 public class SQLiteChocolateManager implements ChocolateManager {
     private Connection c;
@@ -30,8 +29,9 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		//por qué no ID?
 		
 		try {
-			String sql = "INSERT INTO chocolate(name, cocoa, type, flavors, units, shape)"
+			String sql = "INSERT INTO chocolate(name, cocoa, type, flavors, units, shape, hash)"
 				    + "VALUES (?,?,?,?,?,?,?);";
+			
 			PreparedStatement prep = c.prepareStatement(sql);
 		    prep.setString(1,chocolate.getName());
 		    prep.setFloat(2,chocolate.getCocoa());
@@ -39,6 +39,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 			prep.setString(4,chocolate.getFlavors());
 			prep.setFloat(5,chocolate.getUnits());
 			prep.setString(6,chocolate.getShape());
+			prep.setInt(7, chocolate.hashCode());
 		    
 		    prep.executeUpdate();
 			prep.close();
@@ -75,10 +76,11 @@ public class SQLiteChocolateManager implements ChocolateManager {
 	}
 
 	@Override
-	public void update(Chocolate chocolate) {
+	public boolean update(Chocolate chocolate) {
+		boolean error =false;
 		try{
 		//Update every aspect of a particular chocolate
-		String sq1 = "UPDATE dogs SET name=?, type=?, cocoa=?, flavors=?, units=?, shape=? WHERE id=? ";
+		String sq1 = "UPDATE chocolate SET name=?, type=?, cocoa=?, flavors=?, units=?, shape=? WHERE id=? ";
 		PreparedStatement s = c.prepareStatement(sq1);
 		s.setString(1, chocolate.getName());
 		s.setString(2, chocolate.getType());
@@ -93,7 +95,10 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		
 		}catch(Exception e){
 			e.printStackTrace();
+			error = true;
 		}
+		
+		return error;
 	}
 
 	@Override
@@ -102,8 +107,10 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		try{
 			String sq1 = "SELECT * FROM chocolates WHERE ID= ? "; 
 			PreparedStatement p = c.prepareStatement(sq1);
+			p.setInt(1,  chocoId);
 			//Because we are going to do it just once
 			ResultSet rs = p.executeQuery();
+			
 		    rs.next();
 				int id= rs.getInt("id");
 				String chocoName = rs.getString("name");
@@ -115,11 +122,6 @@ public class SQLiteChocolateManager implements ChocolateManager {
 				
 			//Create a new chocolate 
 				Chocolate newChocolate = new Chocolate(id, chocoName, type, cocoa, flavors, units, shape);
-			//Add it to the list
-				chocolatesList.add(newChocolate);
-				
-			
-			  
 		  }catch(SQLException e){
 			  e.printStackTrace();
 		  }
