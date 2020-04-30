@@ -57,10 +57,7 @@ public class SQLiteManager implements DBManager {
 
 	}
 	
-/*We don´t use it
- 	protected Connection getConnection(){
-		return c;
-	}*/
+
 
 	public Connection getConnection(){
 		return c;
@@ -167,8 +164,5 @@ public class SQLiteManager implements DBManager {
 	
 
 	
-
-	
-	//??falta una funcion getLastID() 
 
 }

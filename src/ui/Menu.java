@@ -35,9 +35,9 @@ public class Menu {
 		dbManager.connect();
 		
 		
-		chocolateManager = dbManager.getChocolateManager();
-		clientManager = dbManager.getClientManager();
-		animalManager= dbManager.getAnimalManager();
+		//chocolateManager = dbManager.getChocolateManager();
+		//clientManager = dbManager.getClientManager();
+		//animalManager= dbManager.getAnimalManager();
 		
 		
 		
@@ -51,7 +51,7 @@ public class Menu {
 		System.out.println("Do you want to create the tables? (Y/N)");
 		String yn = reader.readLine();
 		if(yn.equalsIgnoreCase("y")){
-			dbManager.createTables();// aqui hay q hacer algo para cambiralo pero el q?
+			dbManager.createTables();
 		}
 		//Ask the user his/her role 
 		System.out.println("WHO ARE YOU? ");
@@ -113,7 +113,7 @@ public class Menu {
 				deleteChocolate();
 				break;
 			case 4:
-				updateChocolate(chocoId);
+				updateChocolate();
 				break;
 			case 5: 
 				searchChocolateByName();
@@ -232,10 +232,10 @@ public class Menu {
 //-----------------------------------------------------------------------------	
 
 
-			private static void OLSubMenu(chocoId) throws Exception{
+			private static void OLSubMenu() throws Exception{
 				while(true) {//CHOCOLATE
 					
-				}
+				
 						System.out.println("What do you wanna do Oompa Loompa?     ");
 						System.out.println("1. Create Chocolate       ");
 						System.out.println("2. Search By Name         ");
@@ -253,7 +253,7 @@ public class Menu {
 							searchChocolateByName();
 							System.out.println("Write the selected dog´s id");
 							int chocoId = Integer.parseInt(reader.readLine());
-							OLSubMenu(chocoId);
+							OLSubMenu();
 
 							break;
 						case 3: 
@@ -264,6 +264,7 @@ public class Menu {
 							break;
 
 						}
+				}
 	}
 				
 
@@ -411,9 +412,14 @@ public class Menu {
   	
  //-----------------------------------------------------------------------------	
 
-  ///boolean creo que ya no va a ser 
-    private static boolean updateChocolate(int chocoId) throws Exception {
-    	
+ 
+    private static boolean updateChocolate() throws Exception {
+    	boolean exito= true; 
+        int chocoId= 0;
+    	try{
+    	System.out.println("Introduce the id of the chocolate ");
+        String id = reader.readLine();
+        chocoId = Integer.parseInt(id);
         //I get the chocolate
     	Chocolate toBeModified = chocolateManager.getChocolate(chocoId);
     	System.out.println("Actual name: " +toBeModified.getName());
@@ -423,7 +429,7 @@ public class Menu {
     	if(newName.equals("")){
     		newName = toBeModified.getName();
     	}
-   ////lo hace para el breed tambien , yo tambien ? 
+  
     	
     	//If the user doesn´t type anything, the name is not changed 
     	System.out.println("Type the new type or press enter to leave it as is: ");
@@ -466,43 +472,18 @@ public class Menu {
     		newShape = toBeModified.getShape();
     	}
     	
-    	Chocolate updatedChocolate = new Chocolate(chocoId, newName,newType, floatNewCocoa, newFlavors, floatNewUnits, newShape );
+    	Chocolate updatedChocolate = new Chocolate( newName,newType, floatNewCocoa, newFlavors, floatNewUnits, newShape );
        //At the very end... 
     	chocolateManager.update(updatedChocolate);
 
-    	
-    	
-    	
-  /// esto va aqui? 
-    	
-    	ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
-    	boolean exito = true;
-    	int indice = -1; //es decir falso
-    	
-    	if((Chocolate.class.getName() == null) || (Chocolate.class.getName().compareTo("") == 0)){
+    	}catch(Exception e){
+    		e.printStackTrace();
     		exito = false;
     	}
+    	 return exito; 
     	
-    	if(exito){
-    		//fallo creo 
-            for(int i=0; i<chocolates.size(); i++){
-    			if(chocolates.get(i).getName().compareTo(chocolates.getName()) == 0){
-    				indice = i; 
-    				break; 
-    			}
-    		}
-            
-            if(indice>=0){
-            	chocolates.add();
-
-
-            	
-            }else{
-            	exito = false;
-            }
-    	}
+  
     	
-    	return exito; 
     	
     }
 
@@ -729,35 +710,11 @@ private static String selectChocolate() throws Exception{
 
 //--------------------------------------------------------------------------------------------------------------------------------
 	private static boolean updateClient() throws Exception {
-    	ArrayList<Client> clients = new ArrayList<Client>();
-    	boolean exito = true;
-    	int indice = -1; //es decir falso
-    	
-    	if((Client.class.getName() == null) || (Client.class.getName().compareTo("") == 0)){
-    		exito = false;
-    	}
-    	
-    	if(exito){
-    		//fallo creo 
-            for(int i=0; i<clients.size(); i++){
-    			if(clients.get(i).getName().compareTo(clients.getName()) == 0){
-    				indice = i; 
-    				break; 
-    			}
-    		}
-            
-            if(indice>=0){
-            	clients.add();
-
-
-            	
-            }else{
-            	exito = false;
-            }
-    	}
+    	boolean exito= false;
     	
     	return exito; 
     	
     }
+}//main
 
 	
