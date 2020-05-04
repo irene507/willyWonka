@@ -8,13 +8,18 @@ public class OompaLoompa {
 	private String name;
 	private Integer cellphone;
 	private String email;
-	private String adress;
+	private String address;
 	private Date dob;
 	
 	
 	//Constructor usando id y name solo
 	
 	public OompaLoompa(Integer id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	public OompaLoompa(Integer id, String name, Integer cellphone, String email, String address, Date dob) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -46,11 +51,11 @@ public class OompaLoompa {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public Date getDob() {
 		return dob;
