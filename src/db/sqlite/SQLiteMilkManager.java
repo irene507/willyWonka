@@ -1,3 +1,4 @@
+
 package db.sqlite;
 
 import java.sql.Connection;
@@ -14,6 +15,7 @@ public class SQLiteMilkManager {
       
 	 private Connection c;
 	 private Milk milk;
+	 private Milk type;
 	 
 	  //in all classes that uses a connection
 	 public SQLiteMilkManager(Connection c) {
@@ -40,6 +42,7 @@ public class SQLiteMilkManager {
 			e.printStackTrace();
 			
 		}
+	    
 	
     }//function addMilk
      
@@ -98,13 +101,8 @@ public class SQLiteMilkManager {
  				
  			return milkList;
  		
- 	}//function searchByType
-
-     
-     
-     
-     
-     
-	   
+ 	}
 }
+ 	//function searchByType
 
+   
