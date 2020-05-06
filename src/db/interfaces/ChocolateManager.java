@@ -14,5 +14,6 @@ public interface ChocolateManager {
    public List<Chocolate> searchByType(String type);
    public void admit(Chocolate chocolate);
    public Chocolate getChocolate(int chocoId);
+   public List<Chocolate> showChocolates();
 }
 

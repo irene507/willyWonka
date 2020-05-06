@@ -40,8 +40,6 @@ public class Menu {
 		//animalManager= dbManager.getAnimalManager();
 		
 		
-		
-		
 		//Initialize BufferedReader
 		reader = new BufferedReader(new InputStreamReader(System.in));
         //Welcome screen
@@ -66,7 +64,7 @@ public class Menu {
 			break;
 		
 		case 2: 
-			OompaLoompaMenu();
+			OompaLoompaCeoMenu();
 			break;
 		default: 
 			break;
@@ -81,29 +79,125 @@ public class Menu {
 	
 //--------------------------------------------------------------------------
 	
-		private static void willyWonkaMenu() throws Exception{
-			while(true) {
-			System.out.print("What do you wanna do?       ");
+	private static void willyWonkaMenu() throws Exception{
+		while(true) {
+		System.out.println("Which are do you wanna manage?   ");
+		System.out.println("1. CHOCOLATE   ");
+		System.out.println("2. CLIENTS      ");
+		System.out.println("3. ANIMALS       ");
+		System.out.println("4. MILK       ");
+		System.out.println("5. WAREHOUSE        ");
+		System.out.println("5. WORKERS      ");
+		
+		int choice = Integer.parseInt(reader.readLine());
+		switch(choice){
+	
+		case 1: 
+			willyWonkaChocolate();
+		break;
+		 
+	    case 2: 
+	    	willyWonkaClients();
+		break;
+
+		case 3:
+			willyWonkaAnimals();
+		break;
+		
+	    case 4:
+	    	willyWonkaMilk();
+		break;
+		
+		case 5: 
+			willyWonkaWarehouse();
+			break;
+		case 6: 
+			willyWonkaWorkers();
+			break;
+					
+		
+		}
+}
+	
+	private static void willyWonkaChocolate() throws Exception{
+			int choice = Integer.parseInt(reader.readLine());
+			
+			
+			System.out.println("You are going to manage the chocolate. ");
+			System.out.println("What do you wanna do?     ");
 			System.out.println("1. Create Chocolate       ");
 			System.out.println("2. Select Chocolate       ");
 			System.out.println("3. Delete Chocolate       ");
 			System.out.println("4. Update Chocolate       ");
-			System.out.println("5. Search By Name         ");
-			System.out.println("6. Search By Type         ");
+			System.out.println("5. Search By...        "); 
+			System.out.println("6. Show info              ");
+			
+	    switch(choice){	
+		case 1: 
+			createChocolate();
+			break;
+		case 2: 
+			selectChocolate();
+			break;
+
+		case 3:
+			deleteChocolate();
+			break;
+		case 4:
+			updateChocolate();
+			break;
+		case 5: 
+			System.out.println("Search animal by....");
+			System.out.println("1. Name");
+			System.out.println("2. Specie");
+			num = Integer.parseInt(reader.readLine());
+			if(num == 1) {
+				SearchAnimalByName();
+				searchChocolateByName();
+				System.out.println("Write the selected chocolate큦 id");
+				int chocoId = Integer.parseInt(reader.readLine());
+
+			}
+			else {
+			  searchChocolateByType();
+			}
+			
+			break;
+			searchChocolateByName();
+			break;
+			
+		//case 6: 
+			//searchChocolateByType();
+			//7break; 
+			
+		case 7: 
+			showInformation();
+			break; 
+			
+			}
+}//function chocolate
+		
+		
+		
+	
+	
+		private static void willyWonkaClients() throws Exception{
+			while(true) {
+			
 			//CLIENT
-			System.out.println("7. Add client             ");
-			System.out.println("8. Erase client           ");
-			System.out.println("9. Select client          ");
-			System.out.println("10. Search client by name  ");
-			System.out.println("11. Update client  ");
-			System.out.println("12. Add an animal");
-			System.out.println("13. See an animal info");
-			System.out.println("14. Update an animal information");
+			System.out.println("1. Add client             ");
+			System.out.println("2. Erase client           ");
+			System.out.println("3. Select client          ");
+			System.out.println("4. Search client by name  ");
+			System.out.println("5. Update client          ");
+			System.out.println("6. Add an animal          ");
+			System.out.println("7. See an animal info     ");
+			System.out.println("8. Update an animal information");
 			
 			int choice = Integer.parseInt(reader.readLine());
 			switch(choice){
 			case 1: 
-				createChocolate();
+				AddClient();
 				break;
 			case 2: 
 				selectChocolate();
@@ -118,33 +212,13 @@ public class Menu {
 			case 5: 
 				searchChocolateByName();
 				break;
-			case 6: 
-				searchChocolateByType();
-				break; 
-			case 7: 
-				addClient();
-				break;
-			case 8: 
-				deleteClient();
-				break;	
-			case 9: 
-				selectClient();
-				break;
-			case 10: 
-				searchClientByName();
-				break;	
-			case 11: 
-				updateClient();
-				break;
-			case 12:
-				 AddAnimal();
-				break;
-			case 13:
+			
+			case 6:
 				 SearchAnimalByName();
 					System.out.println("introduce the id of the selected animal");
 					int id=Integer.parseInt(reader.readLine());
 				break;
-			case 14:
+			case 7:
 					SearchAnimalBySpecie();
 					System.out.println("introduce the id of the selected animal");
 					int id2=Integer.parseInt(reader.readLine());
@@ -170,7 +244,7 @@ public class Menu {
 
 		    
 
-			private static void OompaLoompaMenu()throws Exception {
+			private static void OompaLoompaCeoMenu()throws Exception {
 				while (true) {
 				
 				int num;
@@ -192,13 +266,15 @@ public class Menu {
 				
 				case 2: 
 					searchChocolateByName();
-					System.out.println("Write the selected dog큦 id");
+					System.out.println("Write the selected chocolate큦 id");
 					int chocoId = Integer.parseInt(reader.readLine());
 					OLSubMenu();
 
 					break;
 				case 3: 
 					searchChocolateByType();
+					System.out.println("Write the selected chocolate큦 id");
+					int chocoId = Integer.parseInt(reader.readLine());
 					break;
 					
 				case 4:
@@ -361,44 +437,36 @@ public class Menu {
 	
 //------------------------------------------------------------------------------------------	
 	
+//CHOCOLATE PART
 	
-	//CHOCOLATE PART
 	
+	public void changeCharacteristics(Chocolate chocolate){
+		
+		
+		
+	}
 	
 	
 //---------------------------------------------------------------------	
-	
-			//DELETE CHOCOLATE 
-		
+//DELETE CHOCOLATE 
 //-----------------------------------------------------------------------------	
 
 	
 	
     private static boolean deleteChocolate() throws Exception{
-    	ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
+    	
     	 boolean conexito = true;
-         boolean encontrado = false;
-         int indice = 0;
-         //lo inicializamos como un indice no valido
-         //buscamos el indice que queremos eliminar
+         int chocoId = 0;
          
-         System.out.println("Name");
-		 String name = reader.readLine();
+         try{
+         System.out.println("Introduce the ID of the chocolate you want to remove from the table");
+         String id = reader.readLine();
+         chocoId = Integer.parseInt(id);
+         }catch(Exception e){
+        	 e.printStackTrace();
+        	 conexito = false; 
+         }
          
-         for (int i = 0; i < chocolates.size(); i++) {
-             if (chocolates.get(i).getName().equals(name)) {
-                 indice = i; //guardamos el indice donde se encuentra el chocolate
-                 encontrado = true;
-                 break;
-             }
-         }
-
-         if (encontrado) {
-             chocolates.remove(indice); //el indice encontrado lo eliminamos
-
-         } else {
-             conexito = false;
-         }
     	
     	
     	return conexito;
@@ -496,6 +564,8 @@ public class Menu {
 
 	
 		private static void createChocolate() throws Exception {
+			
+			
 			System.out.println("Name");
 			String name = reader.readLine();
 			System.out.println("Type");
@@ -551,6 +621,14 @@ private static String selectChocolate() throws Exception{
 	        return resultado;
 	
 }
+
+     public List<Chocolate> showChocolates(){
+    	 
+    	 //no se si es necesario 
+    	 
+    	 return chocolate;
+     }
+
 
 //---------------------------------------------------------------------	
 
@@ -666,26 +744,8 @@ private static String selectChocolate() throws Exception{
 	
 	
 	private static String selectClient() throws Exception{// select client by name
-		   ArrayList<Client> clients = new ArrayList<Client>();
-		        System.out.println("Name");
-		        String name = reader.readLine();
-		        
-		        String resultado = ""; 
-		        
-		        if ((name == null) || (name.compareTo("") == 0)) {
-		            resultado = "Ha habido un error";
-		            return resultado;
-		        }
-
-		        for (int i = 0; i < clients.size(); i++) {
-
-		            if (clients.get(i).getName().compareTo(name) == 0) { 
-		                resultado = "El resultado de la busqueda es " + clients.get(i).toString(); 
-		                break;
-		            }
-		         ///no tenemos ningun metodo tostring   
-
-		        }
+		   
+		       String resultado = "hola";
 		        return resultado;
 	}
 	

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
 import pojos.Chocolate;
 
 
@@ -53,27 +55,86 @@ public class SQLiteChocolateManager implements ChocolateManager {
 
 	@Override
 	public void create(Chocolate chocolate) {
-		// TODO Auto-generated method stub
+		//en menu  no se si neecesito preguntarle tambien el id?
+		
+		try{
+			String sq1 = "INSERT INTO chocolates(name, type, cocoa, flavors, units, shape)"
+					+ "VALUES(?,?,?,?,?,?)";
+			PreparedStatement prep = c.prepareStatement(sq1);
+			
+			prep.setString(1, chocolate.getName());
+			prep.setString(2, chocolate.getType());
+			prep.setFloat(3, chocolate.getCocoa());
+			prep.setString(4, chocolate.getFlavors());
+			prep.setFloat(5, chocolate.getUnits());
+			prep.setString(6, chocolate.getShape());
+    //prep.setInt(7, chocolate.getId());
+	//por qué executeUpdate y no solo execute?		
+			prep.executeUpdate();
+			prep.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public void changeCharacteristics(Chocolate chocolate) {
 		// TODO Auto-generated method stub
+//creo que seria igual pero modificando todas las variables 
+//pero no sé como tendría que pasarle los datos, porque le pasamos un chocolate 
 
 	}
 
 	@Override
 	public void select(Chocolate chocolate) {
-		// TODO Auto-generated method stub
 		
-	}
+		
+		try{
+		Statement stmt = c.createStatement();
+		String sq1 = "SELECT * FROM chocolates";
+		ResultSet rs = stmt.executeQuery(sq1);
+		while(rs.next()){
+			int id = rs.getInt("id");
+			String chocoName = rs.getString("name");
+			String type = rs.getString("type");
+			float cocoa = rs.getFloat("cocoa");
+			String flavors = rs.getString("flavors");
+			float units = rs.getFloat("units");
+			String shape = rs.getString("shape");
+ //todo esto dentro del while? para qué sirve? 
+			
+			Chocolate newChocolate = new Chocolate(id, chocoName, type, cocoa, flavors, units, shape);
+			
+			rs.close();
+			stmt.close();
+			
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}//functionSELECT
 
 	@Override
 	public void delete(Chocolate chocolate) {
-		// TODO Auto-generated method stub
+		String sq1 = "DELETE * FROM chocolates WHERE ID= ? ";
+		PreparedStatement p = c.prepareStatement(sq1);
+		p.setInt(1,  chocoId);
+	//necesito un statement ???
+		ResultSet rs = p.executeQuery();
+		while(rs.next()){
+			// creo que no haria falta cambiar nada dentro de la tabla 
+			//o si que cambian porque la hacen ser nulos ? 
+		}
+	    
+		rs.close();
+//si necesiatra el statement cierro 
+		stmt1.close();
 		
-	}
+		
+	}//funcion 
 
 	@Override
 	public boolean update(Chocolate chocolate) {
@@ -103,6 +164,8 @@ public class SQLiteChocolateManager implements ChocolateManager {
 
 	@Override
 	public Chocolate getChocolate(int chocoId){
+		
+//no se si necesito unirlo ocn el resto de tablas?? 		
 		Chocolate newChoco = null;
 		try{
 			String sq1 = "SELECT * FROM chocolates WHERE ID= ? "; 
@@ -126,7 +189,42 @@ public class SQLiteChocolateManager implements ChocolateManager {
 			  e.printStackTrace();
 		  }
 		return chocolate; 
-		}//funcion 
+		}//function 
+	
+	
+	@Override
+	public List<Chocolate> showChocolates(){
+		//Create an empty list of chocolates 
+		List<Chocolate> chocolatesList = new ArrayList<Chocolate>();
+		//Get all the chocolates 
+		try{
+			String sq1 = "SELECT * FROM chocolates ";
+			PreparedStatement prep= c.prepareStatement(sq1);
+			ResultSet rs = prep.executeQuery();
+			//For each result 
+			while(rs.next()){
+				int id= rs.getInt("id");
+				String chocoName = rs.getString("name");
+				
+			//Create a new chocolate 
+				Chocolate newChocolate = new Chocolate(id, chocoName);
+			//Add it to the list
+				chocolatesList.add(newChocolate);
+				
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		return chocolatesList;
+
+		
+	}//showChocolates
+	
+	
+	
 	
 	@Override
 	public List<Chocolate> searchByName(String name) {
@@ -165,7 +263,9 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		
 		return chocolatesList;
 	}
-
+    
+	
+	
 	@Override
 	public List<Chocolate> searchByType(String type) {
 		//Create an empty list of chocolates 

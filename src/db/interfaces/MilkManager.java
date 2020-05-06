@@ -7,7 +7,6 @@ public interface MilkManager{
 	public void select(Milk milk);
 	public void delete(Milk milk);
 	public void update(Milk milk);
-	public List<Milk> searchByName(String name);
 	public List<Milk> searchByType(String type);
 	
 }

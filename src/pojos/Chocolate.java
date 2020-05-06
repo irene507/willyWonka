@@ -40,6 +40,14 @@ public class Chocolate implements Serializable {
 			this.units = units;
 			this.shape = shape;
 		}
+        
+        public Chocolate(Integer id, String name) {
+			super();
+			this.id = id;
+			this.name = name;
+		
+		}
+        
 
 
 

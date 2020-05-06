@@ -91,36 +91,12 @@ public class SQLiteManager implements DBManager {
 		return animal;
 	}
 	*/
-	public void createAnimalTables() {
-		Statement stmt3;
 
-		try{
-		   stmt3 = c.createStatement();
-		   String sql1 = "CREATE TABLE chocolate"
-				+ "(id       INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "name      TEXT    NOT NULL,  "
-				+ "country     TEXT    NOT NULL,"
-				+ "colour     TEXT    NOT NULL,"
-				+ "specie   TEXT    NOT NULL,"
-				+ "dob     DATE   NOT NULL)";
-		   stmt3.executeUpdate(sql1);
-		   stmt3.close();
-		   
-		}catch(SQLException e){ 
-			//if there are exception of type "SQLException" we are not doing nothing 
-			if(e.getMessage().contains("already exists")){ //we are not going to do anything, or we can type {} or ; (and its the same) 
-			}else{
-				e.printStackTrace();
-			}
-		}
-
-	}
 
 	@Override
 	public void createTables() {
-		Statement stmt1;
-		Statement stmt2;
-
+		Statement stmt1, stmt2, stmt3, stmt4;
+ 
 		try{
 		   //CHOCO TABLE 
 		   stmt1 = c.createStatement();
@@ -148,9 +124,30 @@ public class SQLiteManager implements DBManager {
 				+ "dob     DATE    NOT NULL)";
 		   stmt2.executeUpdate(sql2);
 		   
+		   //ANIMAL TABLE 
+		   stmt3 = c.createStatement();
+		   String sql3 = "CREATE TABLE chocolate"
+				+ "(id       INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "name      TEXT    NOT NULL,  "
+				+ "country     TEXT    NOT NULL,"
+				+ "colour     TEXT    NOT NULL,"
+				+ "specie   TEXT    NOT NULL,"
+				+ "dob     DATE   NOT NULL)";
+		   stmt3.executeUpdate(sql3);
+		   
+		   //MILK TABLE 
+		   stmt4 = c.createStatement();
+		   String sql4 = "CREATE TABLE milk"
+				   + "(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+				   + "name      TEXT    NOT NULL,  "
+				   + "type      TEXT    NOT NULL)  ";
+		   stmt4.executeUpdate(sql4);
+		   
 ///COMO DEBO INSERTAR ESTO? PARA QUE SE UNAN? 
-		   stmt2.close();
 		   stmt1.close();
+		   stmt2.close();
+		   stmt3.close();
+		   stmt4.close();
 		   
 		}catch(SQLException e){ 
 			//if there are exception of type "SQLException" we are not doing nothing 
