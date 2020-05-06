@@ -40,6 +40,7 @@ public class SQLiteMilkManager {
 			e.printStackTrace();
 			
 		}
+	    
 	
     }//function addMilk
      
