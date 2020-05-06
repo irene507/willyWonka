@@ -115,6 +115,7 @@ public class Menu {
 			System.out.println("2. Select Chocolate       ");
 			System.out.println("3. Delete Chocolate       ");
 			System.out.println("4. Update Chocolate       ");
+			System.out.println("5.Change characteristics ");
 			System.out.println("5. Search By...        "); 
 			System.out.println("6. Show info              ");
 			
@@ -258,36 +259,16 @@ public class Menu {
 				int choice = Integer.parseInt(reader.readLine());
 				switch(choice){
 				case 1: 
-					createChocolate();
+					willyWonkaMilk();
 					break;
 				
 				case 2: 
-					searchChocolateByName();
-					System.out.println("Write the selected chocolate´s id");
-					chocoId = Integer.parseInt(reader.readLine());
-					OLSubMenu();
-
+					willyWonkaWarehouse();
 					break;
 				case 3: 
-					searchChocolateByType();
-					System.out.println("Write the selected chocolate´s id");
-					int chocoId = Integer.parseInt(reader.readLine());
+					willyWonkaWorkers();
 					break;
-					
-				case 4:
-					System.out.println("Search animal by....");
-					System.out.println("1. Name");
-					System.out.println("2. Specie");
-					num= Integer.parseInt(reader.readLine());
-					if(num== 1) {
-						SearchAnimalByName();
-
-					}
-					else {
-						SearchAnimalBySpecie();
-					}
-					
-					break;
+	
 				
 				default: 
 					break;
@@ -305,59 +286,15 @@ public class Menu {
 //-----------------------------------------------------------------------------	
 
 
-			private static void OLSubMenu() throws Exception{
-				while(true) {//CHOCOLATE
-					
-				
-						System.out.println("What do you wanna do Oompa Loompa?     ");
-						System.out.println("1. Create Chocolate       ");
-						System.out.println("2. Search By Name         ");
-						System.out.println("3. Search By Type         ");
-						//CLIENT
-						
-					
-						int choice = Integer.parseInt(reader.readLine());
-						switch(choice){
-						case 1:
-					    	willyWonkaMilk();
-						break;
-					
-						case 2: 
-							willyWonkaWarehouse();
-							break;
-						case 3: 
-							willyWonkaWorkers();
-							break;
-									
-						
-						case 2: 
-							searchChocolateByName();
-							System.out.println("Write the selected dog´s id");
-							int chocoId = Integer.parseInt(reader.readLine());
-							OLSubMenu();
-
-							break;
-						 
-						
-						default: 
-							break;
-
-						}
-				}
-	}
-				
-
-
+			
 
 
 
 		
 //----------------------------------------------------------------------------------------------
 		
-		
-		//ANIMALS PART
-		
-		
+			 //ANIMALS PART
+				
 //----------------------------------------------------------------
 		
 				//ADD ANIMAL
