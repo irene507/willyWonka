@@ -191,9 +191,8 @@ public class Menu {
 			System.out.println("3. Select client          ");
 			System.out.println("4. Search client by name  ");
 			System.out.println("5. Update client          ");
-			System.out.println("6. Add an animal          ");
-			System.out.println("7. See an animal info     ");
-			System.out.println("8. Update an animal information");
+		
+
 			
 			int choice = Integer.parseInt(reader.readLine());
 			switch(choice){
@@ -205,25 +204,16 @@ public class Menu {
 				break;
 
 			case 3:
-				
+				selectClient();
 				break;
 			case 4:
-				updateChocolate();
+				searchClientByName();
 				break;
 			case 5: 
-				searchChocolateByName();
+				updateClient();
 				break;
 			
-			case 6:
-				 SearchAnimalByName();
-					System.out.println("Introduce the id of the selected animal");
-					int id=Integer.parseInt(reader.readLine());
-				break;
-			case 7:
-					SearchAnimalBySpecie();
-					System.out.println("Introduce the id of the selected animal");
-					int id2=Integer.parseInt(reader.readLine());
-				break;
+
 			default: 
 				break;
 				
@@ -383,7 +373,6 @@ public class Menu {
 				
 			}
 	
-			
 			
 			
 			
