@@ -103,7 +103,8 @@ public class Menu {
 		
 		
 		}
-}
+     }
+	}
 	
 	private static void willyWonkaChocolate() throws Exception{
 			int choice = Integer.parseInt(reader.readLine());
@@ -115,9 +116,11 @@ public class Menu {
 			System.out.println("2. Select Chocolate       ");
 			System.out.println("3. Delete Chocolate       ");
 			System.out.println("4. Update Chocolate       ");
-			System.out.println("5.Change characteristics ");
-			System.out.println("5. Search By...        "); 
-			System.out.println("6. Show info              ");
+			System.out.println("5. Change characteristics ");
+			System.out.println("5. Search By...           "); 
+			System.out.println("6.Admit chocolate ");
+			System.out.println("7.get chocolate ");
+			System.out.println("6. Show chocolate         ");
 			
 	    switch(choice){	
 		case 1: 
@@ -137,7 +140,7 @@ public class Menu {
 			System.out.println("Search animal by....");
 			System.out.println("1. Name");
 			System.out.println("2. Specie");
-			num = Integer.parseInt(reader.readLine());
+			int num = Integer.parseInt(reader.readLine());
 			if(num == 1) {
 				SearchAnimalByName();
 				searchChocolateByName();
@@ -163,6 +166,218 @@ public class Menu {
 			
 			}
 }//function chocolate
+		
+	//------------------------------------------------------------------------------------------	
+	
+	//CHOCOLATE PART
+		
+		
+		public void changeCharacteristics(Chocolate chocolate){
+			
+			
+			
+		}
+		
+		
+	//---------------------------------------------------------------------	
+	//DELETE CHOCOLATE 
+	//-----------------------------------------------------------------------------	
+
+		
+		
+	    private static boolean deleteChocolate() throws Exception{
+	    	
+	    	 boolean conexito = true;
+	         int chocoId = 0;
+	         
+	         try{
+	         System.out.println("Introduce the ID of the chocolate you want to remove from the table");
+	         String id = reader.readLine();
+	         chocoId = Integer.parseInt(id);
+	         }catch(Exception e){
+	        	 e.printStackTrace();
+	        	 conexito = false; 
+	         }
+	         
+	    	
+	    	
+	    	return conexito;
+	    	
+	    	
+	    }
+	    
+	 //---------------------------------------------------------------------	
+		
+	  		//UPDATE CHOCOLATE 
+	  	
+	 //-----------------------------------------------------------------------------	
+
+	 
+	    private static boolean updateChocolate() throws Exception {
+	    	boolean exito= true; 
+	        int chocoId= 0;
+	    	try{
+	    	System.out.println("Introduce the id of the chocolate ");
+	        String id = reader.readLine();
+	        chocoId = Integer.parseInt(id);
+	        //I get the chocolate
+	    	Chocolate toBeModified = chocolateManager.getChocolate(chocoId);
+	    	System.out.println("Actual name: " +toBeModified.getName());
+	    	//If the user doesn´t type anything, the name is not changed 
+	    	System.out.println("Type the new name or press enter to leave it as is: ");
+	    	String newName = reader.readLine();
+	    	if(newName.equals("")){
+	    		newName = toBeModified.getName();
+	    	}
+	  
+	    	
+	    	//If the user doesn´t type anything, the name is not changed 
+	    	System.out.println("Type the new type or press enter to leave it as is: ");
+	    	String newType = reader.readLine();
+	    	if(newType.equals("")){
+	    		newType = toBeModified.getType();
+	    	}
+	        
+	    	//If the user doesn´t type anything, the name is not changed 
+	    	System.out.println("Type the new cocoa or press enter to leave it as is: ");
+	    	String newCocoa = reader.readLine();
+	    	Float floatNewCocoa;
+	    	if(newCocoa.equals("")){
+	    		floatNewCocoa = toBeModified.getCocoa();
+	    	}else{
+	    		floatNewCocoa = Float.parseFloat(newCocoa);
+	    	}
+	    	
+	    	//If the user doesn´t type anything, the name is not changed 
+	    	System.out.println("Type the new flavors or press enter to leave it as is: ");
+	    	String newFlavors = reader.readLine();
+	    	if(newFlavors.equals("")){
+	    		newFlavors = toBeModified.getFlavors();
+	    	}
+	    	
+	    	//If the user doesn´t type anything, the name is not changed 
+	    	System.out.println("Type the new units or press enter to leave it as is: ");
+	    	String newUnits = reader.readLine();
+	    	Float floatNewUnits;
+	    	if(newUnits.equals("")){
+	    		floatNewUnits = toBeModified.getUnits();
+	    	}else{
+	    		floatNewUnits = Float.parseFloat(newUnits);
+	    	}
+	    	
+	    	//If the user doesn´t type anything, the name is not changed 
+	    	System.out.println("Type the new shape or press enter to leave it as is: ");
+	    	String newShape = reader.readLine();
+	    	if(newShape.equals("")){
+	    		newShape = toBeModified.getShape();
+	    	}
+	    	
+	    	Chocolate updatedChocolate = new Chocolate( newName,newType, floatNewCocoa, newFlavors, floatNewUnits, newShape );
+	       //At the very end... 
+	    	chocolateManager.update(updatedChocolate);
+
+	    	}catch(Exception e){
+	    		e.printStackTrace();
+	    		exito = false;
+	    	}
+	    	 return exito; 
+	    	
+	  
+	    	
+	    	
+	    }
+
+		
+	//---------------------------------------------------------------------	
+
+			//CREATE CHOCOLATE
+		
+	//-----------------------------------------------------------------------------	
+
+		
+			private static void createChocolate() throws Exception {
+				
+				
+				System.out.println("Name");
+				String name = reader.readLine();
+				System.out.println("Type");
+				String type = reader.readLine();
+				System.out.println("Cocoa");
+				Float cocoa = Float.parseFloat(reader.readLine());
+				System.out.println("Flavors");
+				String flavors = reader.readLine();
+				System.out.println("Units");
+				Float units = Float.parseFloat(reader.readLine());
+				System.out.println("Shape");
+				String shape = reader.readLine();
+	            Chocolate chocolate =new Chocolate(name, type, cocoa, flavors, units, shape);
+			   // to do insert the dog 
+				chocolateManager.create(chocolate);
+			}
+			
+			
+			
+			
+			
+			
+	//---------------------------------------------------------------------	
+			
+				//SELECT CHOCOLATE
+			
+	//-----------------------------------------------------------------------------	
+
+
+	//la entiendo como buscar. Decirme si me equivoco porfi 
+			
+	private static String selectChocolate() throws Exception{
+		   ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
+		      String resultado = "";
+		      return resultado;
+		
+	}
+
+	     public List<Chocolate> showChocolates(){
+	    	 
+	    	 //no se si es necesario 
+	    	 
+	    	 return chocolate;
+	     }
+
+
+	//---------------------------------------------------------------------	
+
+			//SEARCH CHOCOLATE BY NAME
+		
+	//-----------------------------------------------------------------------------	
+
+
+		private static void searchChocolateByName() throws Exception{
+			      System.out.println("Name");
+			      String name = reader.readLine();
+			    //why does he ask for the type if he is searching by name ?
+			      List<Chocolate> chocolates = chocolateManager.searchByName(name);
+			      for (Chocolate chocolate : chocolates) {
+					System.out.println(chocolate);
+				}
+		}
+		
+	//---------------------------------------------------------------------	
+		
+			//SEARCH CHOCOLATE BY TYPE
+		
+	//-----------------------------------------------------------------------------	
+
+		private static void searchChocolateByType() throws Exception{
+			     System.out.println("Type");
+		         String type = reader.readLine();
+			     List<Chocolate> chocolates = chocolateManager.searchByType(type);
+			     for (Chocolate chocolate : chocolates) {
+			    	 System.out.println(chocolate);
+					
+				}
+		}
+		
+		
 		
 		
 		
@@ -194,7 +409,7 @@ public class Menu {
 				
 				break;
 			case 4:
-				updateChocolate();
+				
 				break;
 			case 5: 
 				searchChocolateByName();
@@ -375,237 +590,7 @@ public class Menu {
 	
 	
 	
-//------------------------------------------------------------------------------------------	
-	
-//CHOCOLATE PART
-	
-	
-	public void changeCharacteristics(Chocolate chocolate){
-		
-		
-		
-	}
-	
-	
-//---------------------------------------------------------------------	
-//DELETE CHOCOLATE 
-//-----------------------------------------------------------------------------	
 
-	
-	
-    private static boolean deleteChocolate() throws Exception{
-    	
-    	 boolean conexito = true;
-         int chocoId = 0;
-         
-         try{
-         System.out.println("Introduce the ID of the chocolate you want to remove from the table");
-         String id = reader.readLine();
-         chocoId = Integer.parseInt(id);
-         }catch(Exception e){
-        	 e.printStackTrace();
-        	 conexito = false; 
-         }
-         
-    	
-    	
-    	return conexito;
-    	
-    	
-    }
-    
- //---------------------------------------------------------------------	
-	
-  		//UPDATE CHOCOLATE 
-  	
- //-----------------------------------------------------------------------------	
-
- 
-    private static boolean updateChocolate() throws Exception {
-    	boolean exito= true; 
-        int chocoId= 0;
-    	try{
-    	System.out.println("Introduce the id of the chocolate ");
-        String id = reader.readLine();
-        chocoId = Integer.parseInt(id);
-        //I get the chocolate
-    	Chocolate toBeModified = chocolateManager.getChocolate(chocoId);
-    	System.out.println("Actual name: " +toBeModified.getName());
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new name or press enter to leave it as is: ");
-    	String newName = reader.readLine();
-    	if(newName.equals("")){
-    		newName = toBeModified.getName();
-    	}
-  
-    	
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new type or press enter to leave it as is: ");
-    	String newType = reader.readLine();
-    	if(newType.equals("")){
-    		newType = toBeModified.getType();
-    	}
-        
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new cocoa or press enter to leave it as is: ");
-    	String newCocoa = reader.readLine();
-    	Float floatNewCocoa;
-    	if(newCocoa.equals("")){
-    		floatNewCocoa = toBeModified.getCocoa();
-    	}else{
-    		floatNewCocoa = Float.parseFloat(newCocoa);
-    	}
-    	
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new flavors or press enter to leave it as is: ");
-    	String newFlavors = reader.readLine();
-    	if(newFlavors.equals("")){
-    		newFlavors = toBeModified.getFlavors();
-    	}
-    	
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new units or press enter to leave it as is: ");
-    	String newUnits = reader.readLine();
-    	Float floatNewUnits;
-    	if(newUnits.equals("")){
-    		floatNewUnits = toBeModified.getUnits();
-    	}else{
-    		floatNewUnits = Float.parseFloat(newUnits);
-    	}
-    	
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new shape or press enter to leave it as is: ");
-    	String newShape = reader.readLine();
-    	if(newShape.equals("")){
-    		newShape = toBeModified.getShape();
-    	}
-    	
-    	Chocolate updatedChocolate = new Chocolate( newName,newType, floatNewCocoa, newFlavors, floatNewUnits, newShape );
-       //At the very end... 
-    	chocolateManager.update(updatedChocolate);
-
-    	}catch(Exception e){
-    		e.printStackTrace();
-    		exito = false;
-    	}
-    	 return exito; 
-    	
-  
-    	
-    	
-    }
-
-	
-//---------------------------------------------------------------------	
-
-		//CREATE CHOCOLATE
-	
-//-----------------------------------------------------------------------------	
-
-	
-		private static void createChocolate() throws Exception {
-			
-			
-			System.out.println("Name");
-			String name = reader.readLine();
-			System.out.println("Type");
-			String type = reader.readLine();
-			System.out.println("Cocoa");
-			Float cocoa = Float.parseFloat(reader.readLine());
-			System.out.println("Flavors");
-			String flavors = reader.readLine();
-			System.out.println("Units");
-			Float units = Float.parseFloat(reader.readLine());
-			System.out.println("Shape");
-			String shape = reader.readLine();
-            Chocolate chocolate =new Chocolate(name, type, cocoa, flavors, units, shape);
-		   // to do insert the dog 
-			chocolateManager.create(chocolate);
-		}
-		
-		
-		
-		
-		
-		
-//---------------------------------------------------------------------	
-		
-			//SELECT CHOCOLATE
-		
-//-----------------------------------------------------------------------------	
-
-
-//la entiendo como buscar. Decirme si me equivoco porfi 
-		
-private static String selectChocolate() throws Exception{
-	   ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
-	        System.out.println("Type");
-	        String type = reader.readLine();
-	        
-	        String resultado = ""; 
-	        
-	        if ((type == null) || (type.compareTo("") == 0)) {
-	            resultado = "Ha habido un error";
-	            return resultado;
-	        }
-
-	        for (int i = 0; i < chocolates.size(); i++) {
-
-	            if (chocolates.get(i).getName().compareTo(type) == 0) { //como comparamos texto utilizamos la funcion toString
-	                resultado = "El resultado de la busqueda es " + chocolates.get(i).toString(); //ahora consigo el elemnto con get(i)
-	                break;
-	            }
-	         ///no tenemos ningun metodo tostring   
-
-	        }
-	        return resultado;
-	
-}
-
-     public List<Chocolate> showChocolates(){
-    	 
-    	 //no se si es necesario 
-    	 
-    	 return chocolate;
-     }
-
-
-//---------------------------------------------------------------------	
-
-		//SEARCH CHOCOLATE BY NAME
-	
-//-----------------------------------------------------------------------------	
-
-
-	private static void searchChocolateByName() throws Exception{
-		      System.out.println("Name");
-		      String name = reader.readLine();
-		    //why does he ask for the type if he is searching by name ?
-		      List<Chocolate> chocolates = chocolateManager.searchByName(name);
-		      for (Chocolate chocolate : chocolates) {
-				System.out.println(chocolate);
-			}
-	}
-	
-//---------------------------------------------------------------------	
-	
-		//SEARCH CHOCOLATE BY TYPE
-	
-//-----------------------------------------------------------------------------	
-
-	private static void searchChocolateByType() throws Exception{
-		     System.out.println("Type");
-	         String type = reader.readLine();
-		     List<Chocolate> chocolates = chocolateManager.searchByType(type);
-		     for (Chocolate chocolate : chocolates) {
-		    	 System.out.println(chocolate);
-				
-			}
-	}
-	
-	
-	
-	
 	
 //--------------------------------------------------------------------------------------------------------------
 	

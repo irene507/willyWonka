@@ -119,21 +119,26 @@ public class SQLiteChocolateManager implements ChocolateManager {
 
 	@Override
 	public void delete(Chocolate chocolate) {
+		
+		try{
 		String sq1 = "DELETE * FROM chocolates WHERE ID= ? ";
 		PreparedStatement p = c.prepareStatement(sq1);
 		p.setInt(1,  chocolate.getId()); 
-	//necesito un statement ???
+//necesito un statement ???
 		ResultSet rs = p.executeQuery();
 		while(rs.next()){
 			// creo que no haria falta cambiar nada dentro de la tabla 
 			//o si que cambian porque la hacen ser nulos ? 
 		}
+		
 	    rs.close();
 //si necesiatra el statement cierro 
-		stmt1.close();
+		p.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
-		
-	}//funcion 
+	}//function 
 
 	@Override
 	public boolean update(Chocolate chocolate) {
