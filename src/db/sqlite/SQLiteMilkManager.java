@@ -108,4 +108,7 @@ public class SQLiteMilkManager {
      
 	   
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> branch 'master' of https://github.com/irene507/willyWonka
