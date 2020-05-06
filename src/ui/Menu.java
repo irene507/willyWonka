@@ -248,14 +248,10 @@ public class Menu {
 				while (true) {
 				
 				int num;
-				//CHOCOLATE
-				System.out.println("What do you wanna do?     ");
-				System.out.println("1. Create chocolate       ");
-				System.out.println("2. Search chocolate by name         ");
-				System.out.println("3. Search chocolate by type         ");
-				System.out.println("4. See an animal information");
-				//CLIENT
-				//olceo no tiene acceso a los clientes, solo willy wonka
+				System.out.println("Which part do you wanna modify? ");
+				System.out.println("1. MILK             ");
+				System.out.println("2. WAREHOUSE        ");
+				System.out.println("3. WORKERS          ");
 				
 			
 				int choice = Integer.parseInt(reader.readLine());
