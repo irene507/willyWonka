@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import pojos.Animal;
 import pojos.Chocolate;
 import pojos.Milk;
 
@@ -15,7 +16,6 @@ public class SQLiteMilkManager {
       
 	 private Connection c;
 	 private Milk milk;
-	 private Milk type;
 	 
 	  //in all classes that uses a connection
 	 public SQLiteMilkManager(Connection c) {
@@ -97,12 +97,50 @@ public class SQLiteMilkManager {
  		}catch(Exception e){
  			e.printStackTrace();
  		}
- 				
- 				
  			return milkList;
  		
- 	}
+ 	}//function searchByType
+ 	
+ 	
+ 	public void update(Milk milk) {
+		try {
+			// TODO Auto-generated method stub
+			// Update every aspect of a particular animal
+			String sql = "UPDATE milk SET name=?, country=?, colour=?, specie=?, dob=?, WHERE id=?";
+			PreparedStatement s = c.prepareStatement(sql);
+			s.setString(1, milk.getName());
+			s.setString(2, milk.getType());
+			s.executeUpdate();
+			s.close();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+	}
+ 	
+	public void delete(Milk milk) {
+		String sq1 = "DELETE * FROM chocolates WHERE ID= ? ";
+		PreparedStatement p = c.prepareStatement(sq1);
+		p.setInt(1,  milk.getId());
+	//necesito un statement ???
+		ResultSet rs = p.executeQuery();
+		while(rs.next()){
+			// creo que no haria falta cambiar nada dentro de la tabla 
+			//o si que cambian porque la hacen ser nulos ? 
+		}
+	    
+		rs.close();
+//si necesiatra el statement cierro 
+		stmt1.close();
+		
+		
+	}//funcion 
+	
+	
+
 }
- 	//function searchByType
+ 	
 
    

@@ -41,7 +41,7 @@ public class SQLiteAnimalManager implements AnimalManager {
 
 	}
 
-	@Override    //Igual que update ero aun tengo que poner para que se borre
+	@Override    //Igual que update pero aun tengo que poner para que se borre
 	public void delete(Animal animal) {
 		try {
 			// Deletes every aspect of a particular animal
