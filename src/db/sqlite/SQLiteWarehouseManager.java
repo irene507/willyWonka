@@ -72,7 +72,7 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 				
 				rs.close();
 				stmt.close();
-				
+				int s;
 			}
 			}catch(Exception e){
 				e.printStackTrace();
