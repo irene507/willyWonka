@@ -14,6 +14,7 @@ public class SQLiteMilkManager {
       
 	 private Connection c;
 	 private Milk milk;
+	 private Milk type;
 	 
 	  //in all classes that uses a connection
 	 public SQLiteMilkManager(Connection c) {
@@ -99,16 +100,8 @@ public class SQLiteMilkManager {
  				
  			return milkList;
  		
- 	}//function searchByType
-
-     
-     
-     
-     
-     
-	   
+ 	}
 }
-<<<<<<< HEAD
-=======
+ 	//function searchByType
 
->>>>>>> branch 'master' of https://github.com/irene507/willyWonka
+   
