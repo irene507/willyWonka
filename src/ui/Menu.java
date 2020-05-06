@@ -103,7 +103,16 @@ public class Menu {
 		
 		
 		}
+		
+	}
 }
+	
+//--------------------------------------------------------------------------------------------------------
+	
+	//WILLYWONKA CHOCOLATE
+	
+//------------------------------------------------------------------------------------------------
+	
 	
 	private static void willyWonkaChocolate() throws Exception{
 			int choice = Integer.parseInt(reader.readLine());
@@ -137,11 +146,11 @@ public class Menu {
 			System.out.println("Search animal by....");
 			System.out.println("1. Name");
 			System.out.println("2. Specie");
-			num = Integer.parseInt(reader.readLine());
+			int num = Integer.parseInt(reader.readLine());
 			if(num == 1) {
 				SearchAnimalByName();
 				searchChocolateByName();
-				System.out.println("Write the selected chocolate´s id");
+				System.out.println("Write the selected chocolate's id");
 				int chocoId = Integer.parseInt(reader.readLine());
 
 			}
@@ -165,7 +174,12 @@ public class Menu {
 }//function chocolate
 		
 		
+	
+//--------------------------------------------------------------------------------------------------------
 		
+		//WILLYWONKA CLIENTS
+		
+//------------------------------------------------------------------------------------------------		
 	
 	
 		private static void willyWonkaClients() throws Exception{
@@ -184,7 +198,7 @@ public class Menu {
 			int choice = Integer.parseInt(reader.readLine());
 			switch(choice){
 			case 1: 
-				AddClient();
+				addClient();
 				break;
 			case 2: 
 				
@@ -216,17 +230,59 @@ public class Menu {
 			
 			}
 			
-		}}
+		}
+}
+		
+		
+//--------------------------------------------------------------------------------------------------------
+			
+			//WILLYWONKA ANIMALS
+			
+//------------------------------------------------------------------------------------------------
 	
 		
 		
 		private static void willyWonkaAnimals() throws Exception{
 			
 		   while(true){
-			 System.out.println("Add animal ");
-			 System.out.println("Erase animal ");
-			 System.out.println("Update");
-			 System.out.println("Search by name ");
+			   
+			   
+		   //ANIMAL
+			 System.out.println("1. Add animal ");
+			 System.out.println("2. Erase animal ");
+			 System.out.println("3. Update");
+			 System.out.println("4. Search by name ");
+			 System.out.println("5. Search by species");
+			 int choice = Integer.parseInt(reader.readLine());
+				switch(choice){
+				
+				
+				case 1: 
+					AddAnimal();
+					break;
+				case 2: 
+					DeleteAnimal();
+					break;
+
+				case 3:
+					UpdateAnimal();
+					break;
+				case 4:
+					SearchAnimalByName();
+					System.out.println("Introduce the id of the selected animal");
+					int id=Integer.parseInt(reader.readLine());
+					break;
+				case 5: 
+					SearchAnimalBySpecie();
+					System.out.println("Introduce the id of the selected animal");
+					int id2=Integer.parseInt(reader.readLine());
+					break;
+
+				default: 
+					break;
+					
+				
+				}
 		     
 			
 			
@@ -234,6 +290,7 @@ public class Menu {
 			
 			
 		}
+	}
 		
 	    
 //---------------------------------------------------------------------	
@@ -259,14 +316,14 @@ public class Menu {
 				int choice = Integer.parseInt(reader.readLine());
 				switch(choice){
 				case 1: 
-					willyWonkaMilk();
+					OompaLoompaMilk();
 					break;
 				
 				case 2: 
-					willyWonkaWarehouse();
+					OompaLoompaWarehouse();
 					break;
 				case 3: 
-					willyWonkaWorkers();
+					OompaLoompaWorkers();
 					break;
 	
 				
@@ -281,16 +338,64 @@ public class Menu {
 			
 //---------------------------------------------------------------------	
 			
-					//SUBMENU OL 
+			//OOMPALOOMPA MILK 
 				
 //-----------------------------------------------------------------------------	
 
 
+			public static void OompaLoompaMilk () throws Exception {
+				
+			}
 			
-
-
-
+			
+			
+			
+			
+			
+//---------------------------------------------------------------------	
+			
+			//OOMPALOOMPA WAREHOUSE 
 		
+//-----------------------------------------------------------------------------	
+
+			
+			
+			public static void OompaLoompaWarehouse () throws Exception {
+				
+			}	
+
+
+			
+			
+			
+			
+			
+			
+			
+//---------------------------------------------------------------------	
+			
+			//OOMPALOOMPA WORKERS
+		
+//-----------------------------------------------------------------------------	
+
+			
+			public static void OompaLoompaWorkers () throws Exception {
+				
+			}
+	
+			
+			
+			
+			
+			
+			
+		
+			
+			
+			
+			
+			
+			
 //----------------------------------------------------------------------------------------------
 		
 			 //ANIMALS PART
@@ -332,7 +437,7 @@ public class Menu {
 	
 //----------------------------------------------------
 	
-		//SEARCH ANIMAL
+		//SEARCH ANIMAL BY NAME
 	
 //--------------------------------------------------
 	
@@ -373,11 +478,80 @@ public class Menu {
 	
 	
 	
+//----------------------------------------------------------------------------------
+	
+	
+	//DELETE ANIMAL
 	
 	
 //------------------------------------------------------------------------------------------	
+
 	
-//CHOCOLATE PART
+	
+    private static boolean DeleteAnimal() throws Exception{
+    	
+   	 boolean conexito = true;
+        
+        try{
+        System.out.println("Introduce the ID of the chocolate you want to remove from the table");
+        String id = reader.readLine();
+        int AnimalId = Integer.parseInt(id);
+        
+        }catch(Exception e){
+       	 e.printStackTrace();
+       	 conexito = false; 
+        }
+        
+   	
+   	
+   	return conexito;
+   	
+   	
+   }
+	
+//----------------------------------------------------------------------------------------------------
+    
+    //UPDATE ANIMAL
+    
+//-----------------------------------------------------------------------------------------------
+    
+    private static boolean UpdateAnimal() throws Exception {
+    	boolean exito= true; 
+        int AnimalId= 0;
+    	try{
+    	
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		exito = false;
+    	}
+    	 return exito; 
+    	
+  
+    	
+    	
+    }
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//-------------------------------------------------------------------------------------------
+    
+    
+    	//CHOCOLATE PART
+    
+//-------------------------------------------------------------------------------------------
 	
 	
 	public void changeCharacteristics(Chocolate chocolate){
@@ -396,12 +570,11 @@ public class Menu {
     private static boolean deleteChocolate() throws Exception{
     	
     	 boolean conexito = true;
-         int chocoId = 0;
          
          try{
          System.out.println("Introduce the ID of the chocolate you want to remove from the table");
          String id = reader.readLine();
-         chocoId = Integer.parseInt(id);
+         int chocoId = Integer.parseInt(id);
          }catch(Exception e){
         	 e.printStackTrace();
         	 conexito = false; 
