@@ -122,21 +122,18 @@ public class SQLiteMilkManager {
  	
 	public void delete(Milk milk) {
 		String sq1 = "DELETE * FROM chocolates WHERE ID= ? ";
+		
+		try{
 		PreparedStatement p = c.prepareStatement(sq1);
 		p.setInt(1,  milk.getId());
-	//necesito un statement ???
-		ResultSet rs = p.executeQuery();
-		while(rs.next()){
-			// creo que no haria falta cambiar nada dentro de la tabla 
-			//o si que cambian porque la hacen ser nulos ? 
+		p.executeUpdate();
+        p.close();
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-	    
-		rs.close();
-//si necesiatra el statement cierro 
-		stmt1.close();
 		
 		
-	}//funcion 
+	}//function 
 	
 	
 

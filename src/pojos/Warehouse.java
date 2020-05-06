@@ -16,6 +16,19 @@ public class Warehouse {
 	
 	
 	
+	
+	public Warehouse(Integer id, String name, Integer corridor, Integer shelve) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.corridor = corridor;
+		this.shelve = shelve;
+	}
+
+
+
+
+
 	//GETTERS Y SETTERS
 	public Integer getId() {
 		return id;
@@ -42,6 +55,69 @@ public class Warehouse {
 	public void setShelve(Integer shelve) {
 		this.shelve = shelve;
 	}
+	
+
+
+
+
+
+	@Override
+	public String toString() {
+		return "Warehouse [id=" + id + ", name=" + name + ", corridor=" + corridor + ", shelve=" + shelve + "]";
+	}
+
+
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((corridor == null) ? 0 : corridor.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((shelve == null) ? 0 : shelve.hashCode());
+		return result;
+	}
+
+
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Warehouse other = (Warehouse) obj;
+		if (corridor == null) {
+			if (other.corridor != null)
+				return false;
+		} else if (!corridor.equals(other.corridor))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (shelve == null) {
+			if (other.shelve != null)
+				return false;
+		} else if (!shelve.equals(other.shelve))
+			return false;
+		return true;
+	}
+	
+	
 	
 	
 	
