@@ -51,10 +51,12 @@ public class Menu {
 		if(yn.equalsIgnoreCase("y")){
 			dbManager.createTables();
 		}
+		while(true){
 		//Ask the user his/her role 
 		System.out.println("WHO ARE YOU? ");
 		System.out.println("1.Willy Wonka");
 		System.out.println("2.Oompa Loompa CEO");
+		System.out.println("3.Exit");
 		int choice = Integer.parseInt(reader.readLine());
 		switch(choice){
 		case 0:
@@ -66,10 +68,13 @@ public class Menu {
 		case 2: 
 			OompaLoompaCeoMenu();
 			break;
+		case 3: 
+			System.exit(0);
+			break;
 		default: 
 			break;
 		}
-		
+		}
 		}
 
 	
@@ -80,27 +85,32 @@ public class Menu {
 //--------------------------------------------------------------------------
 	
 	private static void willyWonkaMenu() throws Exception{
-		while(true) {
+		boolean permanecer = true;
+		
+		while(permanecer) {
 		System.out.println("Which are do you wanna manage?   ");
 		System.out.println("1. CHOCOLATE   ");
 		System.out.println("2. CLIENTS      ");
 		System.out.println("3. ANIMALS       ");
+		System.out.println("4. BACK");
 				
 		int choice = Integer.parseInt(reader.readLine());
 		switch(choice){
 	
 		case 1: 
 			willyWonkaChocolate();
-		break;
+		    break;
 		 
 	    case 2: 
 	    	willyWonkaClients();
-		break;
+		    break;
 
 		case 3:
 			willyWonkaAnimals();
-		break;
-		
+		    break;
+		case 4:
+			permanecer = false; 
+		    break;
 		
 			}
 		}
@@ -121,21 +131,23 @@ public class Menu {
 			System.out.println("You are going to manage the chocolate. ");
 			System.out.println("What do you wanna do?     ");
 			System.out.println("1. Create Chocolate       ");
-			System.out.println("2. Select Chocolate       ");
+			System.out.println("2. Show Chocolate       ");
 			System.out.println("3. Delete Chocolate       ");
 			System.out.println("4. Update Chocolate       ");
-			System.out.println("5. Change characteristics ");
 			System.out.println("5. Search By...           "); 
-			System.out.println("6.Admit chocolate ");
-			System.out.println("7.get chocolate ");
 			System.out.println("6. Show chocolate         ");
+			
+			//revisar estas 
+			System.out.println("6. Admit chocolate ");
+			System.out.println("7.get chocolate ");
+            System.out.println(" Back");
 			
 	    switch(choice){	
 		case 1: 
 			createChocolate();
 			break;
 		case 2: 
-			selectChocolate();
+			showChocolate();
 			break;
 
 		case 3:
@@ -150,10 +162,7 @@ public class Menu {
 			System.out.println("2. Specie");
 			int num = Integer.parseInt(reader.readLine());
 			if(num == 1) {
-				SearchAnimalByName();
-				searchChocolateByName();
-				System.out.println("Write the selected chocolate's id");
-				int chocoId = Integer.parseInt(reader.readLine());
+			  searchChocolateByName();
 
 			}
 			else {
@@ -161,14 +170,8 @@ public class Menu {
 			}
 			
 			break;
-			searchChocolateByName();
-			break;
-			
-		//case 6: 
-			//searchChocolateByType();
-			//7break; 
-			
-		case 7: 
+		
+		case 6: 
 			showInformation();
 			break; 
 			
@@ -178,13 +181,16 @@ public class Menu {
 	//------------------------------------------------------------------------------------------	
 	
 	//CHOCOLATE PART
+	   private static void showInformation() throws Exception{
+		   List<Chocolate> chocolates = chocolateManager.showChocolates();
+		   System.out.println("You we see all chocolates on the table ");
+		   for (Chocolate chocolate : chocolates) {
+				System.out.println(chocolate.toString());
+			}
+		  
+		   
+	   }
 		
-		
-		public void changeCharacteristics(Chocolate chocolate){
-			
-			
-			
-		}
 		
 		
 	//---------------------------------------------------------------------	
@@ -202,6 +208,8 @@ public class Menu {
 	         System.out.println("Introduce the ID of the chocolate you want to remove from the table");
 	         String id = reader.readLine();
 	         chocoId = Integer.parseInt(id);
+	         chocolateManager.delete(chocoId);
+	         
 	         }catch(Exception e){
 	        	 e.printStackTrace();
 	        	 conexito = false; 
@@ -304,7 +312,7 @@ public class Menu {
 
 		
 			private static void createChocolate() throws Exception {
-				
+				//id lo crea el solo por ser autoincrement 
 				
 				System.out.println("Name");
 				String name = reader.readLine();
@@ -319,7 +327,7 @@ public class Menu {
 				System.out.println("Shape");
 				String shape = reader.readLine();
 	            Chocolate chocolate =new Chocolate(name, type, cocoa, flavors, units, shape);
-			   // to do insert the dog 
+			   // to do insert the chocolate 
 				chocolateManager.create(chocolate);
 			}
 			
@@ -334,21 +342,24 @@ public class Menu {
 			
 	//-----------------------------------------------------------------------------	
 
-
-	//la entiendo como buscar. Decirme si me equivoco porfi 
-			
-	private static String selectChocolate() throws Exception{
-		   ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
-		      String resultado = "";
-		      return resultado;
-		
-	}
-
-	     public List<Chocolate> showChocolates(){
+	
+	     private static void showChocolate(){
 	    	 
-	    	 //no se si es necesario 
+	     //cambiar para pedir id  y el nombre de la funcon 
+	    	 //pedir id haciendo parseint por ser entero 
+	    	 //llamar a la funcion 
+	    	 try{
+	    	 System.out.println("Introduce the chocolate´s ID");
+		      int chocoId = Integer.parseInt(reader.readLine());
+		      
+		      List<Chocolate> chocolates = chocolateManager.searchChocolate(chocoId);
+		      for (Chocolate chocolate : chocolates) {
+				System.out.println(chocolate.toString());
+		      }
+	    	 }catch(Exception e){
+	    		 e.printStackTrace();
+	    	 }
 	    	 
-	    	 return chocolate;
 	     }
 
 
@@ -365,7 +376,7 @@ public class Menu {
 			    //why does he ask for the type if he is searching by name ?
 			      List<Chocolate> chocolates = chocolateManager.searchByName(name);
 			      for (Chocolate chocolate : chocolates) {
-					System.out.println(chocolate);
+					System.out.println(chocolate.toString());
 				}
 		}
 		
@@ -380,7 +391,7 @@ public class Menu {
 		         String type = reader.readLine();
 			     List<Chocolate> chocolates = chocolateManager.searchByType(type);
 			     for (Chocolate chocolate : chocolates) {
-			    	 System.out.println(chocolate);
+			    	 System.out.println(chocolate.toString());
 					
 				}
 		}
@@ -751,242 +762,8 @@ public class Menu {
 	
 	
 	
-	
-//-------------------------------------------------------------------------------------------
-    
-    
-    	//CHOCOLATE PART
-    
-//-------------------------------------------------------------------------------------------
-	
-	
-	public void changeCharacteristics(Chocolate chocolate){
-		
-		
-		
-	}
-	
-	
-//---------------------------------------------------------------------	
-//DELETE CHOCOLATE 
-//-----------------------------------------------------------------------------	
-
-	
-    private static boolean deleteChocolate() throws Exception{
-    	
-    	 boolean conexito = true;
-         
-         try{
-         System.out.println("Introduce the ID of the chocolate you want to remove from the table");
-         String id = reader.readLine();
-         int chocoId = Integer.parseInt(id);
-         }catch(Exception e){
-        	 e.printStackTrace();
-        	 conexito = false; 
-         }
-         
-    	
-    	
-    	return conexito;
-    	
-    	
-    }
-    
- //---------------------------------------------------------------------	
-	
-  		//UPDATE CHOCOLATE 
-  	
- //-----------------------------------------------------------------------------	
-
- 
-    private static boolean updateChocolate() throws Exception {
-    	boolean exito= true; 
-        int chocoId= 0;
-    	try{
-    	System.out.println("Introduce the id of the chocolate ");
-        String id = reader.readLine();
-        chocoId = Integer.parseInt(id);
-        //I get the chocolate
-    	Chocolate toBeModified = chocolateManager.getChocolate(chocoId);
-    	System.out.println("Actual name: " +toBeModified.getName());
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new name or press enter to leave it as is: ");
-    	String newName = reader.readLine();
-    	if(newName.equals("")){
-    		newName = toBeModified.getName();
-    	}
-  
-    	
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new type or press enter to leave it as is: ");
-    	String newType = reader.readLine();
-    	if(newType.equals("")){
-    		newType = toBeModified.getType();
-    	}
-        
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new cocoa or press enter to leave it as is: ");
-    	String newCocoa = reader.readLine();
-    	Float floatNewCocoa;
-    	if(newCocoa.equals("")){
-    		floatNewCocoa = toBeModified.getCocoa();
-    	}else{
-    		floatNewCocoa = Float.parseFloat(newCocoa);
-    	}
-    	
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new flavors or press enter to leave it as is: ");
-    	String newFlavors = reader.readLine();
-    	if(newFlavors.equals("")){
-    		newFlavors = toBeModified.getFlavors();
-    	}
-    	
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new units or press enter to leave it as is: ");
-    	String newUnits = reader.readLine();
-    	Float floatNewUnits;
-    	if(newUnits.equals("")){
-    		floatNewUnits = toBeModified.getUnits();
-    	}else{
-    		floatNewUnits = Float.parseFloat(newUnits);
-    	}
-    	
-    	//If the user doesn´t type anything, the name is not changed 
-    	System.out.println("Type the new shape or press enter to leave it as is: ");
-    	String newShape = reader.readLine();
-    	if(newShape.equals("")){
-    		newShape = toBeModified.getShape();
-    	}
-    	
-    	Chocolate updatedChocolate = new Chocolate( newName,newType, floatNewCocoa, newFlavors, floatNewUnits, newShape );
-       //At the very end... 
-    	chocolateManager.update(updatedChocolate);
-
-    	}catch(Exception e){
-    		e.printStackTrace();
-    		exito = false;
-    	}
-    	 return exito; 
-    	
-  
-    	
-    	
-    }
-
-	
-//---------------------------------------------------------------------	
-
-		//CREATE CHOCOLATE
-	
-//-----------------------------------------------------------------------------	
-
-	
-		private static void createChocolate() throws Exception {
-			
-			
-			System.out.println("Name");
-			String name = reader.readLine();
-			System.out.println("Type");
-			String type = reader.readLine();
-			System.out.println("Cocoa");
-			Float cocoa = Float.parseFloat(reader.readLine());
-			System.out.println("Flavors");
-			String flavors = reader.readLine();
-			System.out.println("Units");
-			Float units = Float.parseFloat(reader.readLine());
-			System.out.println("Shape");
-			String shape = reader.readLine();
-            Chocolate chocolate =new Chocolate(name, type, cocoa, flavors, units, shape);
-		   // to do insert the dog 
-			chocolateManager.create(chocolate);
-		}
-		
-		
-		
-		
-		
-		
-//---------------------------------------------------------------------	
-		
-			//SELECT CHOCOLATE
-		
-//-----------------------------------------------------------------------------	
 
 
-//la entiendo como buscar. Decirme si me equivoco porfi 
-		
-private static String selectChocolate() throws Exception{
-	   ArrayList<Chocolate> chocolates = new ArrayList<Chocolate>();
-	        System.out.println("Type");
-	        String type = reader.readLine();
-	        
-	        String resultado = ""; 
-	        
-	        if ((type == null) || (type.compareTo("") == 0)) {
-	            resultado = "Ha habido un error";
-	            return resultado;
-	        }
-
-	        for (int i = 0; i < chocolates.size(); i++) {
-
-	            if (chocolates.get(i).getName().compareTo(type) == 0) { //como comparamos texto utilizamos la funcion toString
-	                resultado = "El resultado de la busqueda es " + chocolates.get(i).toString(); //ahora consigo el elemnto con get(i)
-	                break;
-	            }
-	         ///no tenemos ningun metodo tostring   
-
-	        }
-	        return resultado;
-	
-}
-
-     public List<Chocolate> showChocolates(){
-    	 
-    	 //no se si es necesario 
-    	 
-    	 return chocolate;
-     }
-
-
-//---------------------------------------------------------------------	
-
-		//SEARCH CHOCOLATE BY NAME
-	
-//-----------------------------------------------------------------------------	
-
-
-	private static void searchChocolateByName() throws Exception{
-		      System.out.println("Name");
-		      String name = reader.readLine();
-		    //why does he ask for the type if he is searching by name ?
-		      List<Chocolate> chocolates = chocolateManager.searchByName(name);
-		      for (Chocolate chocolate : chocolates) {
-				System.out.println(chocolate);
-			}
-	}
-	
-//---------------------------------------------------------------------	
-	
-		//SEARCH CHOCOLATE BY TYPE
-	
-//-----------------------------------------------------------------------------	
-
-	private static void searchChocolateByType() throws Exception{
-		     System.out.println("Type");
-	         String type = reader.readLine();
-		     List<Chocolate> chocolates = chocolateManager.searchByType(type);
-		     for (Chocolate chocolate : chocolates) {
-		    	 System.out.println(chocolate);
-				
-			}
-	}
-	
-	
-	
-	
-	
-=======
->>>>>>> branch 'master' of https://github.com/irene507/willyWonka.git
 //--------------------------------------------------------------------------------------------------------------
 	
 	
