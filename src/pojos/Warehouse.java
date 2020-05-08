@@ -24,6 +24,11 @@ public class Warehouse {
 		this.corridor = corridor;
 		this.shelve = shelve;
 	}
+	
+	//CREACION DEL CONSTRUCTOR 
+			public Warehouse() {
+				super();
+			}
 
 
 

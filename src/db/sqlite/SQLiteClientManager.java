@@ -4,17 +4,19 @@ package db.sqlite;
 	import java.sql.Date;
 	import java.sql.PreparedStatement;
 	import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 	import db.interfaces.ClientManager;
-	import pojos.Client;
+import pojos.Chocolate;
+import pojos.Client;
 
 	public class SQLiteClientManager implements ClientManager {
 		
 		private Connection c;
 		
-		public SQLiteClientManager(SQLiteManager manager) {//duda sqlite manager????
+		public SQLiteClientManager(SQLiteManager manager) {                                                 //duda sqlite manager????
 			this.c=c;
 			
 			
@@ -31,14 +33,14 @@ import java.util.List;
 			
 			try {
 				String sql = "INSERT INTO clients (id, name , cellphone , email, adress, dob) "
-						+ "VALUES (?,?,?,?,?);";
+						+ "VALUES (?,?,?,?,?,?);";
 				PreparedStatement prep = c.prepareStatement(sql);
 				prep.setInt(1, client.getId());
 				prep.setString(2, client.getName());
 				prep.setInt(3, client.getCellphone());
 				prep.setString(4, client.getEmail());
 				prep.setString(3,  client.getAdress());
-				prep.setDate(2, client.getDob());//CHEATSHEETS PARA PASARLO A SQL
+				prep.setDate(2, client.getDob());                                                  //CHEATSHEETS PARA PASARLO A SQL
 				
 				prep.executeUpdate();
 				prep.close();
@@ -51,12 +53,59 @@ import java.util.List;
 				
 			}
 		}// con esto he insert un client
+		
+		
+		//SELECT CLIENT
+		@Override
+		public List<Chocolate> searchClient(int clientId) {
+			List<Chocolate> clients = new ArrayList<Client>(); 
+			Client newClient;
+			
+			try{
+			String sql = "SELECT * FROM clients WHERE id= ? ";
+			PreparedStatement stmt = c.prepareStatement(sql);
+			stmt.setInt(1, clientId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				int id = rs.getInt("id");
+				String chocoName = rs.getString("name");
+				Integer cellphone = rs.getInt("cellphone");
+				String email = rs.getString("email");
+				String adress = rs.getString("adress");
+				Date dob = rs.getDate("dob");
+				
+				
+				newClient = new Client(id, chocoName, cellphone, email, adress,dob);
+				clients.add(newClient);
+				rs.close();
+				stmt.close();
+				
+			}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			return clients;
+			
+		}
+		
 
 		@Override
 		public void delete(Client client) {
-			// TODO Auto-generated method stub
+			try {
+				String sq1= "DELETE * FROM clients WHERE ID= ?";
+				PreparedStatement p= c.prepareStatement(sq1);
+				p.setInt(1, clientId);
+				p.executeQuery();
+				p.close();
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				
+			}
+			
 
-		}
+		
 
 		@Override
 		public void update(Client client) {
@@ -93,7 +142,7 @@ import java.util.List;
 		public List<Client> searchByName(String name) {
 			//create an empty list of clients
 			List<Client> clientsList =new ArrayList<Client>();
-			// seacrh for clients that fit the name
+			// search for clients that fit the name
 			
 		try {
 		
@@ -162,7 +211,88 @@ import java.util.List;
 		return clientsList;
 				
 		}
+		
+	
+//--------------------------------------------------------------------------------------------------------------------------------
+
+                                 //SEARCH CLIENT BY EMAIL
+
+//--------------------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public List<Chocolate> showClients(){
+		//Create an empty list of chocolates 
+		List<Chocolate> clientsList = new ArrayList<Chocolate>();
+		//Get all the chocolates 
+		try{
+			String sq1 = "SELECT * FROM clients";
+			PreparedStatement prep= c.prepareStatement(sq1);
+			ResultSet rs = prep.executeQuery();
+			//For each result 
+			while(rs.next()){
+				int id = rs.getInt("id");
+				String clientName = rs.getString("name");
+				int cellphone= rs.getInt("cellphone");
+				String email = rs.getString("email");
+				String address = rs.getString("address");
+				Date dob = rs.getDate("dob");
+	
+			//Create a new chocolate 
+				Client newClient = new Client(id, clientName, cellphone, email, address, dob );
+			//Add it to the list
+				clientsList.add(newClient);
+				
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
 		}
+		
+		
+		return clientsList;
+
+		
+	}//showallthelcients
+	
+//--------------------------------------------------------------------------------------------------------------------------------
+
+               //SEARCH CLIENT BY EMAIL
+
+//--------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	@Override
+	public Chocolate getClient(int clientId){
+	
+		Client newClient = null; 		
+		try{
+			String sq1 = "SELECT * FROM clients WHERE ID= ? "; 
+			PreparedStatement p = c.prepareStatement(sq1);
+			p.setInt(1,  clientId);
+			//Because we are going to do it just once
+			ResultSet rs = p.executeQuery();
+			
+		    rs.next();
+		    int id = rs.getInt("id");
+			String clientName = rs.getString("name");
+			int cellphone= rs.getInt("cellphone");
+			String email = rs.getString("email");
+			String address = rs.getString("address");
+			Date dob = rs.getDate("dob");
+				
+			//Create a new chocolate 
+				Client newClient = new Client(id, clientName, cellphone, email, address, dob);
+		  }catch(SQLException e){
+			  e.printStackTrace();
+		  }
+		return client; 
+		}//function
+	}
+	
+	
+	
+	
 	
 
 
