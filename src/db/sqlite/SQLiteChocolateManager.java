@@ -75,7 +75,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 			e.printStackTrace();
 		}
 
-	}
+	}//functionCreate
 
 	
 
@@ -155,7 +155,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		}
 		
 		return error;
-	}
+	}//functionUpdate
 
 	@Override
 	public Chocolate getChocolate(int chocoId){

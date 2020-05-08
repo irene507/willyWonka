@@ -57,8 +57,8 @@ import pojos.Client;
 		
 		//SELECT CLIENT
 		@Override
-		public List<Chocolate> searchClient(int clientId) {
-			List<Chocolate> clients = new ArrayList<Client>(); 
+		public List<Client> searchClient(int clientId) {
+			List<Client> clients = new ArrayList<Client>(); 
 			Client newClient;
 			
 			try{
@@ -91,18 +91,18 @@ import pojos.Client;
 		
 
 		@Override
-		public void delete(Client client) {
+		public void delete(int clientId) {
 			try {
 				String sq1= "DELETE * FROM clients WHERE ID= ?";
 				PreparedStatement p= c.prepareStatement(sq1);
 				p.setInt(1, clientId);
 				p.executeQuery();
 				p.close();
-				}catch(Exception e){
+			}catch(Exception e){
 					e.printStackTrace();
-				}
-				
 			}
+				
+	   }//functionDelete
 			
 
 		
@@ -220,7 +220,7 @@ import pojos.Client;
 //--------------------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public List<Chocolate> showClients(){
+	public List<Client> showClients(){
 		//Create an empty list of chocolates 
 		List<Chocolate> clientsList = new ArrayList<Chocolate>();
 		//Get all the chocolates 

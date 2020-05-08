@@ -46,22 +46,36 @@ public class SQLiteMilkManager {
 	
     }//function addMilk
      
-     public void select(Milk milk) {
+     public List<Milk> select(int milkId) {
+    	List<Milk> milk = new ArrayList<Milk>();
+    	Milk newMilk;
+    	 
  		try{
- 		Statement stmt = c.createStatement();
- 		String sq1 = "SELECT * FROM milk";
- 		ResultSet rs = stmt.executeQuery(sq1);
+ 		String sq1 = "SELECT * FROM milk WHERE id= ? ";
+ 		PreparedStatement stmt = c.prepareStatement(sq1);
+ 		stmt.setInt(1, milkId);
+ 		ResultSet rs = stmt.executeQuery();
  		while(rs.next()){
  			int id = rs.getInt("id");
  			String milkName = rs.getString("name");
  			String milkType = rs.getString("type");
  			
-  //todo esto dentro del while? para qué sirve? 
  			
- 			Milk newMilk = new Milk(id, milkName, milkType);
+ 			newMilk = new Milk(id, milkName, milkType);
  			
  			rs.close();
  			stmt.close();
+ 			
+ 			
+ 			
+ 	
+ 			
+ 				
+ 				newChocolate = new Chocolate(id, chocoName, type, cocoa, flavors, units, shape);
+ 				chocolates.add(newChocolate);
+ 				rs.close();
+ 				stmt.close();
+ 						
  			
  		}
  		}catch(Exception e){
@@ -118,7 +132,7 @@ public class SQLiteMilkManager {
 			e.printStackTrace();
 		}
 
-	}
+	}//update
  	
 	public void delete(Milk milk) {
 		String sq1 = "DELETE * FROM chocolates WHERE ID= ? ";
@@ -126,12 +140,12 @@ public class SQLiteMilkManager {
 		try{
 		PreparedStatement p = c.prepareStatement(sq1);
 		p.setInt(1,  milk.getId());
-		p.executeUpdate();
+		
+		p.executeQuery();
         p.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
 		
 	}//function 
 	
