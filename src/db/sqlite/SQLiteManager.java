@@ -126,7 +126,7 @@ public class SQLiteManager implements DBManager {
 		   
 		   //ANIMAL TABLE 
 		   stmt3 = c.createStatement();
-		   String sql3 = "CREATE TABLE chocolate"
+		   String sql3 = "CREATE TABLE animal"
 				+ "(id       INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "name      TEXT    NOT NULL,  "
 				+ "country     TEXT    NOT NULL,"
