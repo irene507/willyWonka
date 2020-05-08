@@ -84,20 +84,14 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 
 
 	@Override
-	public void delete(Warehouse warehouse) {
-		String sq1 = "DELETE * FROM chocolates WHERE ID= ? ";
+	public void delete(String warehouseName) {
+		String sq1 = "DELETE * FROM chocolates WHERE name= ? ";
 		PreparedStatement p = c.prepareStatement(sq1);
-		p.setInt(1,  warehouseName);
-	//necesito un statement ???
-		ResultSet rs = p.executeQuery();
-		while(rs.next()){
-			// creo que no haria falta cambiar nada dentro de la tabla 
-			//o si que cambian porque la hacen ser nulos ? 
-		}
-	    
-		rs.close();
-//si necesiatra el statement cierro 
-		stmt1.close();
+		p.setString(1,  warehouseName);
+
+		
+
+		p.close();
 		
 	}
 
@@ -126,28 +120,27 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 	
 		String sql = "SELECT * FROM warehouses WHERE name LIKE ?";
 		PreparedStatement prep = c.prepareStatement(sql);
-		prep.setString(1, "%"+name+ "%");
+		prep.setString(1, "%"+corridor+ "%");
 		ResultSet rs = prep.executeQuery();//PORQUE SELECT ES UNA QUERY
 		//for each result...
 		while (rs.next()) {//VAMOS AVANZANDO REGISTRO A REGISTRO
 			int id = rs.getInt("id");
-			String clientName = rs.getString("name");
-			int cellphone= rs.getInt("cellphone");
-			String email = rs.getString("email");
-			String address = rs.getString("address");
-			Date dob = rs.getDate("dob");
-			//create a new client
-			Client newClient =new Client(id,clientName,cellphone,email,address,dob);//crrate a new client
+			String warehouseName = rs.getString("name");
+			int corridor = rs.getInt("corridor");
+			int shelve = rs.getInt("shelve");
+			//create a new warehouse
+			
+			Warehouse newWarehouse = new wareHouse(id, warehouseName,corridor, shelve);
+			//crrate a new warehouse
 			//add it to the list
-			clientsList.add(newClient);
+			warehousesList.add(newWarehouse);
 			
 		}
 	}catch( Exception e) {
 		e.printStackTrace();
 		
 	}
-	return clientsList;
+	return warehousesList;
 			
-	}
 	}
 }
