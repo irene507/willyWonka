@@ -178,9 +178,16 @@ public class Menu {
 			}
 }//function chocolate
 		
-	//------------------------------------------------------------------------------------------	
+//------------------------------------------------------------------------------------------	
 	
 	//CHOCOLATE PART
+	
+	
+//------------------------------------------------------------------------------------
+	
+	
+	
+	
 	   private static void showInformation() throws Exception{
 		   List<Chocolate> chocolates = chocolateManager.showChocolates();
 		   System.out.println("You we see all chocolates on the table ");
@@ -193,9 +200,12 @@ public class Menu {
 		
 		
 		
-	//---------------------------------------------------------------------	
+//---------------------------------------------------------------------	
+	   
 	//DELETE CHOCOLATE 
-	//-----------------------------------------------------------------------------	
+	   
+	   
+//-----------------------------------------------------------------------------	
 
 		
 		
@@ -245,14 +255,15 @@ public class Menu {
 	    	if(newName.equals("")){
 	    		newName = toBeModified.getName();
 	    	}
-	  
+
 	    	
 	    	//If the user doesn´t type anything, the name is not changed 
 	    	System.out.println("Type the new type or press enter to leave it as is: ");
 	    	String newType = reader.readLine();
 	    	if(newType.equals("")){
 	    		newType = toBeModified.getType();
-	    	}
+	    	} 
+	    
 	        
 	    	//If the user doesn´t type anything, the name is not changed 
 	    	System.out.println("Type the new cocoa or press enter to leave it as is: ");
@@ -481,19 +492,14 @@ public class Menu {
 				case 2: 
 					DeleteAnimal();
 					break;
-
 				case 3:
 					UpdateAnimal();
 					break;
 				case 4:
 					SearchAnimalByName();
-					System.out.println("Introduce the id of the selected animal");
-					int id=Integer.parseInt(reader.readLine());
 					break;
 				case 5: 
 					SearchAnimalBySpecie();
-					System.out.println("Introduce the id of the selected animal");
-					int id2=Integer.parseInt(reader.readLine());
 					break;
 
 				default: 
