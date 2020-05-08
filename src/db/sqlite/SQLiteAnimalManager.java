@@ -1,6 +1,7 @@
 package db.sqlite;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import db.interfaces.AnimalManager;
 import pojos.Animal;
+
 
 public class SQLiteAnimalManager implements AnimalManager {
 
@@ -41,21 +43,51 @@ public class SQLiteAnimalManager implements AnimalManager {
 
 	}
 
-	@Override    //Igual que update pero aun tengo que poner para que se borre
-	public void delete(Animal animal) {
+	
+	@Override
+	public List<Animal> searchAnimal(int AnimalID) {
+		List<Animal> animal = new ArrayList<Animal>(); 
+		Animal newAnimal;
+		
+		try{
+		String sql = "SELECT * FROM animales WHERE id= ? ";
+		PreparedStatement stmt = c.prepareStatement(sql);
+		stmt.setInt(1, AnimalID);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()){
+			int id = rs.getInt("id");
+			String animalName = rs.getString("name");
+			String colour = rs.getString("colour");
+			String country = rs.getString("country");
+			String specie = rs.getString("specie");
+			Date dob= rs.getDate("dob");
+			
+			newAnimal = new Animal(id, animalName, colour, country, specie, dob);
+			animal.add(newAnimal);
+			rs.close();
+			stmt.close();
+			
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return animal;
+		
+	}//functionSELECT
+	
+	
+	public void delete (int AnimalID) {
 		try {
-			// Deletes every aspect of a particular animal
-			String sql = "UPDATE animals SET name=?, country=?, colour=?, specie=?, dob=?, WHERE id=?";
-			PreparedStatement s = c.prepareStatement(sql);
-			s.setString(1, animal.getName());
-			s.setString(2, animal.getCountry());
-			s.setString(3, animal.getColour());
-			s.setString(4, animal.getSpecie());
-			s.setDate(5, animal.getDob());
-			s.setInt(6, animal.getId());
-			s.executeUpdate();
-			s.close();
+			String sq1 = "DELETE * FROM animales WHERE ID= ? ";
+			PreparedStatement p = c.prepareStatement(sq1);
+			p.setInt(1, AnimalID); 
 
+			//Statement s = c.prepareStatement("DELETE * FROM chocolates WHERE ID="+ chocolate.getUnits());
+			//s.execute(sq1);
+			
+			p.executeQuery();
+			p.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -167,6 +199,12 @@ public class SQLiteAnimalManager implements AnimalManager {
 	public Animal getAnimal() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void delete(Animal animal) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
