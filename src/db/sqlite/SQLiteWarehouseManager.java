@@ -1,6 +1,7 @@
 package db.sqlite;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import pojos.Chocolate;
+import pojos.Client;
 import pojos.Warehouse;
 
 
@@ -116,7 +118,36 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 
 	@Override
 	public List<Warehouse> searchByCorridor(Integer corridor) {
-		// TODO Auto-generated method stub
-		return null;
+		//create an empty list of warehouse
+		List<Warehouse> warehousesList =new ArrayList<Warehouse>();
+		
+		
+	try {
+	
+		String sql = "SELECT * FROM warehouses WHERE name LIKE ?";
+		PreparedStatement prep = c.prepareStatement(sql);
+		prep.setString(1, "%"+name+ "%");
+		ResultSet rs = prep.executeQuery();//PORQUE SELECT ES UNA QUERY
+		//for each result...
+		while (rs.next()) {//VAMOS AVANZANDO REGISTRO A REGISTRO
+			int id = rs.getInt("id");
+			String clientName = rs.getString("name");
+			int cellphone= rs.getInt("cellphone");
+			String email = rs.getString("email");
+			String address = rs.getString("address");
+			Date dob = rs.getDate("dob");
+			//create a new client
+			Client newClient =new Client(id,clientName,cellphone,email,address,dob);//crrate a new client
+			//add it to the list
+			clientsList.add(newClient);
+			
+		}
+	}catch( Exception e) {
+		e.printStackTrace();
+		
+	}
+	return clientsList;
+			
+	}
 	}
 }

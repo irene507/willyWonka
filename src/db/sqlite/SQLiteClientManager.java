@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 	import db.interfaces.ClientManager;
-import pojos.Chocolate;
 import pojos.Client;
 
 	public class SQLiteClientManager implements ClientManager {
@@ -25,6 +24,12 @@ import pojos.Client;
 		public SQLiteClientManager(Connection c2) {
 			// TODO Auto-generated constructor stub
 		}
+		
+//--------------------------------------------------------------------------------------------------------------------------------
+
+        //ADD CLIENT
+
+//--------------------------------------------------------------------------------------------------------------------------------		
 		
 
 
@@ -54,8 +59,14 @@ import pojos.Client;
 			}
 		}// con esto he insert un client
 		
+//--------------------------------------------------------------------------------------------------------------------------------
+
+        //SEARCH CLIENT POR ID
+
+//--------------------------------------------------------------------------------------------------------------------------------		
 		
-		//SELECT CLIENT
+		
+		
 		@Override
 		public List<Client> searchClient(int clientId) {
 			List<Client> clients = new ArrayList<Client>(); 
@@ -89,6 +100,12 @@ import pojos.Client;
 			
 		}
 		
+//--------------------------------------------------------------------------------------------------------------------------------
+
+        //DELETE CLIENT
+
+//--------------------------------------------------------------------------------------------------------------------------------		
+		
 
 		@Override
 		public void delete(int clientId) {
@@ -103,6 +120,11 @@ import pojos.Client;
 			}
 				
 	   }//functionDelete
+//--------------------------------------------------------------------------------------------------------------------------------
+
+        //UPDATE CLIENT
+
+//--------------------------------------------------------------------------------------------------------------------------------		
 			
 
 		
@@ -132,11 +154,7 @@ import pojos.Client;
 
 		}
 
-		@Override
-		public void select(Client client) {
-			// TODO Auto-generated method stub
-
-		}
+		
 
 		@Override
 		public List<Client> searchByName(String name) {
@@ -215,14 +233,14 @@ import pojos.Client;
 	
 //--------------------------------------------------------------------------------------------------------------------------------
 
-                                 //SEARCH CLIENT BY EMAIL
+                                 //SHOW CLIENTS
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
 	@Override
 	public List<Client> showClients(){
 		//Create an empty list of chocolates 
-		List<Chocolate> clientsList = new ArrayList<Chocolate>();
+		List<Client> clientsList = new ArrayList<Client>();
 		//Get all the chocolates 
 		try{
 			String sq1 = "SELECT * FROM clients";
@@ -256,14 +274,14 @@ import pojos.Client;
 	
 //--------------------------------------------------------------------------------------------------------------------------------
 
-               //SEARCH CLIENT BY EMAIL
+               //GET CLIENT BY ID
 
 //--------------------------------------------------------------------------------------------------------------------------------
 	
 	
 	
 	@Override
-	public Chocolate getClient(int clientId){
+	public Client getClient(int clientId){
 	
 		Client newClient = null; 		
 		try{
@@ -282,11 +300,12 @@ import pojos.Client;
 			Date dob = rs.getDate("dob");
 				
 			//Create a new chocolate 
-				Client newClient = new Client(id, clientName, cellphone, email, address, dob);
+			 newClient = new Client(id, clientName, cellphone, email, address, dob);
+			 
 		  }catch(SQLException e){
 			  e.printStackTrace();
 		  }
-		return client; 
+		return newClient; 
 		}//function
 	}
 	
