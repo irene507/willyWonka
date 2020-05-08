@@ -46,7 +46,7 @@ public class SQLiteMilkManager {
 	
     }//function addMilk
      
-     public List<Milk> select(int milkId) {
+     public List<Milk> searchMilk(int milkId) {
     	List<Milk> milk = new ArrayList<Milk>();
     	Milk newMilk;
     	 
@@ -62,6 +62,7 @@ public class SQLiteMilkManager {
  			
  			
  			newMilk = new Milk(id, milkName, milkType);
+ 			milk.add(newMilk);
  			
  			rs.close();
  			stmt.close();

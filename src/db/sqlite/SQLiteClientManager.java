@@ -222,7 +222,7 @@ import pojos.Client;
 	@Override
 	public List<Client> showClients(){
 		//Create an empty list of chocolates 
-		List<Chocolate> clientsList = new ArrayList<Chocolate>();
+		List<Client> clientsList = new ArrayList<Client>();
 		//Get all the chocolates 
 		try{
 			String sq1 = "SELECT * FROM clients";
@@ -263,7 +263,7 @@ import pojos.Client;
 	
 	
 	@Override
-	public Chocolate getClient(int clientId){
+	public Client getClient(int clientId){
 	
 		Client newClient = null; 		
 		try{
@@ -282,11 +282,12 @@ import pojos.Client;
 			Date dob = rs.getDate("dob");
 				
 			//Create a new chocolate 
-				Client newClient = new Client(id, clientName, cellphone, email, address, dob);
+			 newClient = new Client(id, clientName, cellphone, email, address, dob);
+			 
 		  }catch(SQLException e){
 			  e.printStackTrace();
 		  }
-		return client; 
+		return newClient; 
 		}//function
 	}
 	

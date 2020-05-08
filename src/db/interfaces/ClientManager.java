@@ -14,7 +14,7 @@ public interface ClientManager{
 	public List<Client> searchByEmail(String email);
 	List<Client> searchClient(int clientId);
 	List<Client> showClients();
-	Chocolate getClient(int clientId);
+	Client getClient(int clientId);
 	
 	
 	
