@@ -43,7 +43,7 @@ public class Menu {
 		//Initialize BufferedReader
 		reader = new BufferedReader(new InputStreamReader(System.in));
         //Welcome screen
-		System.out.print("-------------WELCOME!--------- ");
+		System.out.print("-------------WELCOME!---------\n ");
 		
 		//we offer the user to create tables 
 		System.out.println("Do you want to create the tables? (Y/N)");
@@ -138,13 +138,13 @@ public class Menu {
 			System.out.println("6. Show chocolate         ");
 			
 			//revisar estas 
-			System.out.println("6. Admit chocolate ");
+			//System.out.println("6. Admit chocolate ");
 			System.out.println("7.get chocolate ");
             System.out.println(" Back");
 			
 	    switch(choice){	
 		case 1: 
-			createChocolate();
+			//createChocolate();
 			break;
 		case 2: 
 			showChocolate();
@@ -311,7 +311,7 @@ public class Menu {
 	//-----------------------------------------------------------------------------	
 
 		
-			private static void createChocolate() throws Exception {
+		/*	private static void createChocolate() throws Exception {
 				//id lo crea el solo por ser autoincrement 
 				
 				System.out.println("Name");
@@ -332,6 +332,7 @@ public class Menu {
 			}
 			
 			
+			*/
 			
 			
 			
@@ -434,8 +435,6 @@ public class Menu {
 			case 4:
 
 				searchClientByName();
-
-
 				break;
 			case 5: 
 				updateClient();
@@ -472,7 +471,7 @@ public class Menu {
 			 System.out.println("4. Search by name ");
 			 System.out.println("5. Search by species");
 			 int choice = Integer.parseInt(reader.readLine());
-				switch(choice){
+			 switch(choice){
 				
 				
 				case 1: 
