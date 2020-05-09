@@ -26,7 +26,7 @@ public class OompaLoompa {
 		this.cellphone=cellphone;
 		this.email=email;
 		this.address=address;
-		this.dob=dob;
+		this.dob = dob;
 	}
 	public OompaLoompa(String name, Integer cellphone, String email, String address, Date dob) {
 		super();
@@ -34,7 +34,7 @@ public class OompaLoompa {
 		this.cellphone=cellphone;
 		this.email=email;
 		this.address=address;
-		this.dob=dob;
+		this.dob = dob;
 	}
 	
 	

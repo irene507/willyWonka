@@ -703,27 +703,49 @@ public class Menu {
 		//DELETE WAREHOUSE
 //----------------------------------------------------------------
 	private static boolean DeleteWarehouse() throws Exception{
-		 boolean conn = true;
-	        
-	        try{
-	        System.out.println("Introduce the ID of the warehouse you want to remove from the table");
-	        int id = Integer.parseInt(reader.readLine());
-	        
-	        
-	        }catch(Exception e){
-	       	 e.printStackTrace();
-	       	 conn = false; 
-	        }
-	        
+		
+	    	ArrayList<Warehouse> warehouses = new ArrayList<Warehouse>();
+	    	 boolean success = true;
+	         boolean found = false;
+	         int index = 0;
+	         
+	         System.out.println("Name");
+			 String name = reader.readLine();
+	         
+	         for (int i = 0; i < warehouses.size(); i++) {
+	             if (warehouses.get(i).getName().equalsIgnoreCase(name)) {
+	                 index = i; 
+	                 found = true;
+	                 break;
+	             }
+	         }
+
+	         if (found == true) {
+	             warehouses.remove(index); 
+	             warehouseManager.delete(name);
+
+	         } else {
+	             success = false;
+	         }
+	    	
+	    	
+	    	return success;
+	    		
+	    }
 	   	
-	   	
-	   	return conn;
-	   	
-	}
+	
 //----------------------------------------------------------------
 		// SELECT/SHOW WAREHOUSE
 //----------------------------------------------------------------
 	private static void ShowWarehouse() throws Exception{
+		 try{
+	    	 System.out.println("Introduce id of warehouse: ");
+		      int WHid = Integer.parseInt(reader.readLine());
+		      Warehouse warehouse = warehouseManager.select(WHid);
+		      warehouse.toString();
+	    	 }catch(Exception e){
+	    		 e.printStackTrace();
+	    	 }
 		
 	}
 
@@ -731,6 +753,39 @@ public class Menu {
 			//UPDATE  WAREHOUSE
 //----------------------------------------------------------------
 	private static void UpdateWarehouse()throws Exception{
+		System.out.print("Introduce the id of the warehouse you want to update: " );
+		int WHid = Integer.parseInt(reader.readLine());
+		Warehouse oldWarehouse = warehouseManager.select(WHid);
+		System.out.print("Actual name: "+oldWarehouse.getName());
+		System.out.print("Type new name or enter to continue: ");
+		String name = reader.readLine();
+		if(name.equals("")) {
+			name = oldWarehouse.getName();
+		}
+		System.out.print("Actual corridor: "+oldWarehouse.getCorridor());
+		System.out.print("Type ner corridor or enter to continue: ");
+		String scorridor = reader.readLine();
+		int corridor;
+		if (scorridor.equals("")) {
+			corridor = oldWarehouse.getCorridor();
+		}
+		else {
+			corridor = Integer.parseInt(scorridor);
+		}
+		System.out.print("Actual shelve: "+oldWarehouse.getCorridor());
+		System.out.print("Type ner corridor or enter to continue: ");
+		String sshelve = reader.readLine();
+		int shelve;
+		if (sshelve.equals("")) {
+			shelve = oldWarehouse.getShelve();
+		}
+		else {
+			shelve = Integer.parseInt(sshelve);
+		}
+		
+		Warehouse warehouse = new Warehouse(WHid, name, corridor, shelve);
+		warehouseManager.update(warehouse);
+		
 		
 	}
 //----------------------------------------------------------------
@@ -755,7 +810,12 @@ public class Menu {
 			System.out.println(warehouse);
 		}
 	}
-			
+	
+	
+	
+	
+	
+	
 	
 //----------------------------------------------------------------------------------------------
 	
@@ -774,7 +834,7 @@ public class Menu {
 		String email = reader.readLine();
 		System.out.print("4. Address: ");
 		String address = reader.readLine();
-		System.out.print("5. Date of Birth: ");
+		System.out.print("5. Date of Birth (yyyy-mm-dd): ");
 		LocalDate dob = LocalDate.parse(reader.readLine(), formatter); 
 		OompaLoompa oompaloompa = new OompaLoompa (name,cellphone,email,address, Date.valueOf(dob));
 		oompaloompaManager.add(oompaloompa);
@@ -785,36 +845,108 @@ public class Menu {
 //DELETE WORKER
 //----------------------------------------------------------------
 private static boolean DeleteWorker() throws Exception{
- boolean conn = true;
+	ArrayList<OompaLoompa> workers = new ArrayList<OompaLoompa>();
+	 boolean success = true;
+    boolean found = false;
+    int index = 0;
     
-    try{
-    System.out.println("Introduce the ID of the worker you want to remove from the table");
-    int id = Integer.parseInt(reader.readLine());
+    System.out.println("Name");
+	 String name = reader.readLine();
     
-    
-    }catch(Exception e){
-   	 e.printStackTrace();
-   	 conn = false; 
+    for (int i = 0; i < workers.size(); i++) {
+        if (workers.get(i).getName().equalsIgnoreCase(name)) {
+            index = i; 
+            found = true;
+            break;
+        }
     }
-    
+
+    if (found == true) {
+        workers.remove(index); 
+        oompaloompaManager.delete(name);
+
+    } else {
+        success = false;
+    }
 	
 	
-	return conn;
+	return success;
+		
+
 	
 }
 //----------------------------------------------------------------
 // SELECT/SHOW WORKER
 //----------------------------------------------------------------
 private static void ShowWorker() throws Exception{
+	
+		 try{
+	    	 System.out.println("Introduce id of worker: ");
+		      int Wid = Integer.parseInt(reader.readLine());
+		      OompaLoompa worker = oompaloompaManager.select(Wid);
+		      worker.toString();
+	    	 }catch(Exception e){
+	    		 e.printStackTrace();
+	    	 }
+		
+	}
 
-}
+
+
 
 //----------------------------------------------------------------
 	//UPDATE WORKER
 //----------------------------------------------------------------
 private static void UpdateWorker()throws Exception{
+	
+		System.out.print("Introduce the id of the worker you want to update: " );
+		int Wid = Integer.parseInt(reader.readLine());
+		OompaLoompa oldWorker = oompaloompaManager.select(Wid);
+		System.out.print("Actual name: "+oldWorker.getName());
+		System.out.print("Type new name or enter to continue: ");
+		String name = reader.readLine();
+		if(name.equals("")) {
+			name = oldWorker.getName();
+		}
+		System.out.print("Actual cellphone: "+oldWorker.getCellphone());
+		System.out.print("Type new cellphone or enter to continue: ");
+		String scellphone = reader.readLine();
+		int cellphone;
+		if (scellphone.equals("")) {
+			cellphone = oldWorker.getCellphone();
+		}
+		else {
+			cellphone = Integer.parseInt(scellphone);
+		}
+		System.out.print("Actual email: "+oldWorker.getEmail());
+		System.out.print("Type new email or enter to continue: ");
+		String email = reader.readLine();
+		if(email.equals("")) {
+			email = oldWorker.getEmail();
+		}
+		System.out.print("Actual address: "+oldWorker.getAddress());
+		System.out.print("Type new address or enter to continue: ");
+		String address = reader.readLine();
+		if(address.equals("")) {
+			address = oldWorker.getAddress();
+		}
+		System.out.print("Actual date of birth: "+oldWorker.getDob());
+		System.out.print("Type new date of birth (yyyy-mm-dd) or enter to continue: ");
+		String sdob = reader.readLine();
+		Date dob;
+		if(sdob.equals("")) {
+			dob = oldWorker.getDob();
+		}
+		else {
+			dob = Date.valueOf(LocalDate.parse(sdob, formatter));
+		}
+		
+		OompaLoompa oompaloompa = new OompaLoompa(Wid, name, cellphone, email, address, dob);
+		oompaloompaManager.update(oompaloompa);
+		
+		
+	}
 
-}
 //----------------------------------------------------------------
 //SEARCH WORKER BY NAME
 //----------------------------------------------------------------
