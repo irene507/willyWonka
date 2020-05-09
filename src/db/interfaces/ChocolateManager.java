@@ -5,7 +5,7 @@ import pojos.*;
 
 public interface ChocolateManager {
 
-   public void create(Chocolate chocolate);
+   //public void create(Chocolate chocolate);
    public List<Chocolate> searchChocolate(int chocoId);
    public void delete(int chocoId);
    public boolean update(Chocolate chocolate);

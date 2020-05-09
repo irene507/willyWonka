@@ -51,7 +51,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		
 
 	}
-
+/*
 	@Override
 	public void create(Chocolate chocolate) {
 		
@@ -76,7 +76,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		}
 
 	}//functionCreate
-
+   */
 	
 
 	@Override
@@ -302,6 +302,14 @@ public class SQLiteChocolateManager implements ChocolateManager {
 			return chocolatesList;
 		
 	}
+
+/*
+	@Override
+	public void create(Chocolate chocolate) {
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 
 }
 

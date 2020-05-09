@@ -87,7 +87,9 @@ public class SQLiteOompaLoompaManager implements OompaLoompaManager{
 			String sql = "DELETE FROM OompaLoompa WHERE name = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, OLname);
+			
 			prep.executeUpdate();
+			prep.close();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

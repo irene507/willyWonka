@@ -66,22 +66,13 @@ public class SQLiteMilkManager {
  			
  			rs.close();
  			stmt.close();
- 			
- 			
- 			
- 	
- 			
- 				
- 				newChocolate = new Chocolate(id, chocoName, type, cocoa, flavors, units, shape);
- 				chocolates.add(newChocolate);
- 				rs.close();
- 				stmt.close();
  						
  			
  		}
  		}catch(Exception e){
  			e.printStackTrace();
  		}
+ 		 return milk;
  		
  	}//functionSELECT
      
