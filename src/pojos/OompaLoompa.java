@@ -23,6 +23,18 @@ public class OompaLoompa {
 		super();
 		this.id = id;
 		this.name = name;
+		this.cellphone=cellphone;
+		this.email=email;
+		this.address=address;
+		this.dob=dob;
+	}
+	public OompaLoompa(String name, Integer cellphone, String email, String address, Date dob) {
+		super();
+		this.name = name;
+		this.cellphone=cellphone;
+		this.email=email;
+		this.address=address;
+		this.dob=dob;
 	}
 	
 	

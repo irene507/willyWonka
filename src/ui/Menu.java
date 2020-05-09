@@ -20,6 +20,9 @@ public class Menu {
 	private static ChocolateManager chocolateManager;
 	private static ClientManager clientManager;
 	private static AnimalManager animalManager;
+	private static WarehouseManager warehouseManager;
+	private static OompaLoompaManager oompaloompaManager;
+	
 
 	// Used for parsing dates
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -93,7 +96,7 @@ public class Menu {
 		System.out.println("2. CLIENTS      ");
 		System.out.println("3. ANIMALS       ");
 		System.out.println("4. BACK");
-				
+		 
 		int choice = Integer.parseInt(reader.readLine());
 		switch(choice){
 	
@@ -249,7 +252,7 @@ public class Menu {
 	        //I get the chocolate
 	    	Chocolate toBeModified = chocolateManager.getChocolate(chocoId);
 	    	System.out.println("Actual name: " +toBeModified.getName());
-	    	//If the user doesn´t type anything, the name is not changed 
+	    	//If the user doesnï¿½t type anything, the name is not changed 
 	    	System.out.println("Type the new name or press enter to leave it as is: ");
 	    	String newName = reader.readLine();
 	    	if(newName.equals("")){
@@ -257,7 +260,7 @@ public class Menu {
 	    	}
 
 	    	
-	    	//If the user doesn´t type anything, the name is not changed 
+	    	//If the user doesnï¿½t type anything, the name is not changed 
 	    	System.out.println("Type the new type or press enter to leave it as is: ");
 	    	String newType = reader.readLine();
 	    	if(newType.equals("")){
@@ -265,7 +268,7 @@ public class Menu {
 	    	} 
 	    
 	        
-	    	//If the user doesn´t type anything, the name is not changed 
+	    	//If the user doesnï¿½t type anything, the name is not changed 
 	    	System.out.println("Type the new cocoa or press enter to leave it as is: ");
 	    	String newCocoa = reader.readLine();
 	    	Float floatNewCocoa;
@@ -275,14 +278,14 @@ public class Menu {
 	    		floatNewCocoa = Float.parseFloat(newCocoa);
 	    	}
 	    	
-	    	//If the user doesn´t type anything, the name is not changed 
+	    	//If the user doesnï¿½t type anything, the name is not changed 
 	    	System.out.println("Type the new flavors or press enter to leave it as is: ");
 	    	String newFlavors = reader.readLine();
 	    	if(newFlavors.equals("")){
 	    		newFlavors = toBeModified.getFlavors();
 	    	}
 	    	
-	    	//If the user doesn´t type anything, the name is not changed 
+	    	//If the user doesnï¿½t type anything, the name is not changed 
 	    	System.out.println("Type the new units or press enter to leave it as is: ");
 	    	String newUnits = reader.readLine();
 	    	Float floatNewUnits;
@@ -292,7 +295,7 @@ public class Menu {
 	    		floatNewUnits = Float.parseFloat(newUnits);
 	    	}
 	    	
-	    	//If the user doesn´t type anything, the name is not changed 
+	    	//If the user doesnï¿½t type anything, the name is not changed 
 	    	System.out.println("Type the new shape or press enter to leave it as is: ");
 	    	String newShape = reader.readLine();
 	    	if(newShape.equals("")){
@@ -361,7 +364,7 @@ public class Menu {
 	    	 //pedir id haciendo parseint por ser entero 
 	    	 //llamar a la funcion 
 	    	 try{
-	    	 System.out.println("Introduce the chocolate´s ID");
+	    	 System.out.println("Introduce the chocolateï¿½s ID");
 		      int chocoId = Integer.parseInt(reader.readLine());
 		      
 		      List<Chocolate> chocolates = chocolateManager.searchChocolate(chocoId);
@@ -584,7 +587,37 @@ public class Menu {
 			
 			
 			public static void OompaLoompaWarehouse () throws Exception {
+				System.out.println("1. Add Warehouse ");
+				System.out.println("2. Delete Warehouse ");
+				System.out.println("3. Update Warehouse ");
+				System.out.println("4. Select Warehouse ");
+				System.out.println("5. Search by Name ");
+				System.out.println("6. Search by Corridor");
 				
+				int choice = Integer.parseInt(reader.readLine());
+				switch(choice) {
+				case 1:
+					AddWarehouse();
+					break;
+				case 2: 
+					DeleteWarehouse();
+					break;
+				case 3:
+					UpdateWarehouse();
+					break;
+				case 4:
+					ShowWarehouse();
+					break;
+				case 5:
+					SearchWarehouseByName();
+					break;
+				case 6:
+					SearchWarehouseByCorridor();
+					break;
+				default:
+					break;
+				
+				}
 			}	
 
 
@@ -603,6 +636,37 @@ public class Menu {
 
 			
 			public static void OompaLoompaWorkers () throws Exception {
+				System.out.println("1. Add Worker ");
+				System.out.println("2. Delete Worker ");
+				System.out.println("3. Update Worker ");
+				System.out.println("4. Select Worker ");
+				System.out.println("5. Search by Name ");
+				System.out.println("6. Search by Date of Birth ");
+				
+				int choice = Integer.parseInt(reader.readLine());
+				switch(choice) {
+				case 1:
+					AddWorker();
+					break;
+				case 2: 
+					DeleteWorker();
+					break;
+				case 3:
+					UpdateWorker();
+					break;
+				case 4:
+					ShowWorker();
+					break;
+				case 5:
+					SearchWorkerByName();
+					break;
+				case 6:
+					SearchWorkerByDOB();
+					break;
+				default:
+					break;
+				
+				}
 				
 			}
 	
@@ -615,8 +679,166 @@ public class Menu {
 			
 			
 			
+//----------------------------------------------------------------------------------------------
 			
+			 //WAREHOUSE PART 
+				
+//----------------------------------------------------------------
+			//ADD WAREHOUSE
+//----------------------------------------------------------------
+	private static void AddWarehouse() throws Exception{
+		System.out.print("Please introduce the new Warehouse");
+		System.out.print("1. Name of the warehouse: ");
+		String name = reader.readLine();
+		System.out.print("2. Corridor number: ");
+		int corridor = Integer.parseInt(reader.readLine());
+		System.out.print("3. Shelve number: ");
+		int shelve = Integer.parseInt(reader.readLine());
+		Warehouse warehouse = new Warehouse (name,corridor, shelve);
+		warehouseManager.add(warehouse);
+		
+	}
+	
+//----------------------------------------------------------------
+		//DELETE WAREHOUSE
+//----------------------------------------------------------------
+	private static boolean DeleteWarehouse() throws Exception{
+		 boolean conn = true;
+	        
+	        try{
+	        System.out.println("Introduce the ID of the warehouse you want to remove from the table");
+	        int id = Integer.parseInt(reader.readLine());
+	        
+	        
+	        }catch(Exception e){
+	       	 e.printStackTrace();
+	       	 conn = false; 
+	        }
+	        
+	   	
+	   	
+	   	return conn;
+	   	
+	}
+//----------------------------------------------------------------
+		// SELECT/SHOW WAREHOUSE
+//----------------------------------------------------------------
+	private static void ShowWarehouse() throws Exception{
+		
+	}
+
+//----------------------------------------------------------------
+			//UPDATE  WAREHOUSE
+//----------------------------------------------------------------
+	private static void UpdateWarehouse()throws Exception{
+		
+	}
+//----------------------------------------------------------------
+	//SEARCH WAREHOUSE BY NAME
+//----------------------------------------------------------------
+	private static void SearchWarehouseByName() throws Exception{
+		System.out.print("Please, introduce the name of the warehouse you want to look for");
+		String name= reader.readLine();
+		List <Warehouse> warehouses= warehouseManager.searchByName(name);
+		for (Warehouse warehouse : warehouses) {
+			System.out.println(warehouse);
+		}
+	}
+//----------------------------------------------------------------
+	//SEARCH WAREHOUSE BY CORRIDOR
+//----------------------------------------------------------------
+	private static void SearchWarehouseByCorridor() throws Exception{
+		System.out.print("Please, introduce the corridor of the warehouse you want to look for");
+		int corridor = Integer.parseInt(reader.readLine());
+		List <Warehouse> warehouses= warehouseManager.searchByCorridor(corridor);
+		for (Warehouse warehouse : warehouses) {
+			System.out.println(warehouse);
+		}
+	}
 			
+	
+//----------------------------------------------------------------------------------------------
+	
+	 //WORKERS PART 
+		
+//----------------------------------------------------------------
+	//ADD WORKER
+//----------------------------------------------------------------
+	private static void AddWorker() throws Exception{
+		System.out.print("Please introduce the new Worker");
+		System.out.print("1. Name of the worker: ");
+		String name = reader.readLine();
+		System.out.print("2. Cellphone: ");
+		int cellphone = Integer.parseInt(reader.readLine());
+		System.out.print("3. Email: ");
+		String email = reader.readLine();
+		System.out.print("4. Address: ");
+		String address = reader.readLine();
+		System.out.print("5. Date of Birth: ");
+		LocalDate dob = LocalDate.parse(reader.readLine(), formatter); 
+		OompaLoompa oompaloompa = new OompaLoompa (name,cellphone,email,address, Date.valueOf(dob));
+		oompaloompaManager.add(oompaloompa);
+
+}
+
+//----------------------------------------------------------------
+//DELETE WORKER
+//----------------------------------------------------------------
+private static boolean DeleteWorker() throws Exception{
+ boolean conn = true;
+    
+    try{
+    System.out.println("Introduce the ID of the worker you want to remove from the table");
+    int id = Integer.parseInt(reader.readLine());
+    
+    
+    }catch(Exception e){
+   	 e.printStackTrace();
+   	 conn = false; 
+    }
+    
+	
+	
+	return conn;
+	
+}
+//----------------------------------------------------------------
+// SELECT/SHOW WORKER
+//----------------------------------------------------------------
+private static void ShowWorker() throws Exception{
+
+}
+
+//----------------------------------------------------------------
+	//UPDATE WORKER
+//----------------------------------------------------------------
+private static void UpdateWorker()throws Exception{
+
+}
+//----------------------------------------------------------------
+//SEARCH WORKER BY NAME
+//----------------------------------------------------------------
+private static void SearchWorkerByName() throws Exception{
+System.out.print("Please, introduce the name of the worker you want to look for");
+String name= reader.readLine();
+List <OompaLoompa> workers= oompaloompaManager.searchByName(name);
+for (OompaLoompa oompaloompa : workers) {
+	System.out.println(oompaloompa);
+}
+}
+//----------------------------------------------------------------
+//SEARCH WORKER BY DOB
+//----------------------------------------------------------------
+private static void SearchWorkerByDOB() throws Exception{
+System.out.print("Please, introduce the Date of Birth of the worker you want to look for");
+LocalDate dob = LocalDate.parse(reader.readLine(), formatter); 
+List <OompaLoompa> workers= oompaloompaManager.searchBydob(Date.valueOf(dob));
+for (OompaLoompa oompaloompa : workers) {
+	System.out.println(oompaloompa);
+}
+}
+	
+
 			
 //----------------------------------------------------------------------------------------------
 		
@@ -747,7 +969,7 @@ public class Menu {
         //I get the animal
     	Animal toBeModified = animalManager.getAnimal(AnimalId);
     	System.out.println("Actual name: " +toBeModified.getName());
-    	//If the user doesn´t type anything, the name is not changed 
+    	//If the user doesnï¿½t type anything, the name is not changed 
     	System.out.println("Type the new name or press enter to leave it as is: ");
     	String newName = reader.readLine();
     	if(newName.equals("")){
@@ -755,7 +977,7 @@ public class Menu {
     	}
 
     	
-    	//If the user doesn´t type anything, the colour is not changed 
+    	//If the user doesnï¿½t type anything, the colour is not changed 
     	System.out.println("Type the new colour or press enter to leave it as is: ");
     	String newColour = reader.readLine();
     	if(newColour.equals("")){
@@ -763,14 +985,14 @@ public class Menu {
     	} 
     
         
-    	//If the user doesn´t type anything, the country is not changed 
+    	//If the user doesnï¿½t type anything, the country is not changed 
     	System.out.println("Type the new country or press enter to leave it as is: ");
     	String newCountry = reader.readLine();
     	if(newCountry.equals("")){
     		newCountry = toBeModified.getCountry();
     	}
     	
-    	//If the user doesn´t type anything, the specie is not changed 
+    	//If the user doesnï¿½t type anything, the specie is not changed 
     	System.out.println("Type the new specie or press enter to leave it as is: ");
     	String newSpecie = reader.readLine();
     	if(newSpecie.equals("")){
@@ -778,7 +1000,7 @@ public class Menu {
     	}
     	
     	
-    	//If the user doesn´t type anything, the date of birth is not changed 
+    	//If the user doesnï¿½t type anything, the date of birth is not changed 
     	System.out.println("Type the new date of birth in this format (year-month day)"
     			+ " or press enter to leave it as is: ");
 

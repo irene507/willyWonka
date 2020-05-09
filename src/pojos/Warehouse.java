@@ -19,6 +19,12 @@ public class Warehouse {
 		this.corridor=corridor;
 		this.shelve = shelve;
 	}
+	public Warehouse(String name, int corridor, int shelve) {
+		super();
+		this.name = name;
+		this.corridor=corridor;
+		this.shelve = shelve;
+	}
 	
 	
 	
