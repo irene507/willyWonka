@@ -742,12 +742,63 @@ public class Menu {
     	boolean exito= true; 
         int AnimalId= 0;
     	try{
+    	System.out.println("Introduce the id of the animal ");
+        String id = reader.readLine();
+        AnimalId = Integer.parseInt(id);
+        //I get the animal
+    	Animal toBeModified = animalManager.getAnimal(AnimalId);
+    	System.out.println("Actual name: " +toBeModified.getName());
+    	//If the user doesn´t type anything, the name is not changed 
+    	System.out.println("Type the new name or press enter to leave it as is: ");
+    	String newName = reader.readLine();
+    	if(newName.equals("")){
+    		newName = toBeModified.getName();
+    	}
+
     	
+    	//If the user doesn´t type anything, the colour is not changed 
+    	System.out.println("Type the new colour or press enter to leave it as is: ");
+    	String newColour = reader.readLine();
+    	if(newColour.equals("")){
+    		newColour = toBeModified.getColour();
+    	} 
+    
+        
+    	//If the user doesn´t type anything, the country is not changed 
+    	System.out.println("Type the new country or press enter to leave it as is: ");
+    	String newCountry = reader.readLine();
+    	if(newCountry.equals("")){
+    		newCountry = toBeModified.getCountry();
+    	}
+    	
+    	//If the user doesn´t type anything, the specie is not changed 
+    	System.out.println("Type the new specie or press enter to leave it as is: ");
+    	String newSpecie = reader.readLine();
+    	if(newSpecie.equals("")){
+    		newSpecie = toBeModified.getSpecie();
+    	}
+    	
+    	
+    	//If the user doesn´t type anything, the date of birth is not changed 
+    	System.out.println("Type the new date of birth in this format (year-month day)"
+    			+ " or press enter to leave it as is: ");
+
+		String newdate= reader.readLine();
+		LocalDate dob = LocalDate.parse(newdate, formatter); 
+    	if(dob.equals("")){
+    		Date.valueOf(dob) = toBeModified.getDob();
+    	}
+    	
+    	Animal updatedAnimal = new Animal( newName, newColour, newCountry, newSpecie, Date.valueOf(dob) );
+       //At the very end... 
+    	animalManager.update(updatedAnimal);
+
     	}catch(Exception e){
     		e.printStackTrace();
     		exito = false;
     	}
     	 return exito; 
+    	
     	
   
     	

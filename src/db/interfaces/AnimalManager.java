@@ -11,5 +11,5 @@ public interface AnimalManager {
 	 public List<Animal> searchByNameAnimal(String name_a);
 	 public List<Animal> searchBySpecieAnimal(String specie_a);
 	 public void update (Animal animal);
-	 public Animal getAnimal();
+	 public Animal getAnimal(int AnimalId);
 }
