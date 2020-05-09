@@ -12,7 +12,7 @@ import pojos.OompaLoompa;
 
 public class SQLiteOompaLoompaManager implements OompaLoompaManager{
 	private Connection c;
-	private OompaLoompa oompaloompa;
+	
 	
 	public SQLiteOompaLoompaManager (Connection c) {
 		this.c=c;
@@ -87,9 +87,7 @@ public class SQLiteOompaLoompaManager implements OompaLoompaManager{
 			String sql = "DELETE FROM OompaLoompa WHERE name = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, OLname);
-			
 			prep.executeUpdate();
-			prep.close();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

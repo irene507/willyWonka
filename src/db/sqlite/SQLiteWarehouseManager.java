@@ -1,146 +1,143 @@
 package db.sqlite;
 
 import java.sql.Connection;
-import java.sql.Date;
-import java.util.List;
-import java.util.ArrayList;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import pojos.Chocolate;
-import pojos.Client;
-import pojos.Warehouse;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import db.interfaces.WarehouseManager;
 
+import pojos.Warehouse;
+
+
+
 public class SQLiteWarehouseManager implements WarehouseManager {
-    private Connection c;
-    private Warehouse warehouse;
-    
-    //en todas las clases que usen a connection
-    
-	public SQLiteWarehouseManager(Connection c) {
-		// TODO Auto-generated constructor stub
+	private Connection c;
+	public Warehouse warehouse = null;
+	private SQLiteWarehouseManager (Connection c) {
 		this.c=c;
 	}
-
-    
-
-
-	@Override
-	public void add(Warehouse warehouse) {
+	
+	
+	public void add(Warehouse warehouse){
 		try {
-			String sql = "INSERT INTO chocolate (id, name , corridor, shelve) "
-					+ "VALUES (?,?,?,?,?);";
+		String sql = "INSERT INTO Warehouse (name, corridor, shelve)"
+				+"VALUES(?,?,?);";
+		PreparedStatement prep = c.prepareStatement(sql);
+		prep.setString(1, warehouse.getName());
+		prep.setInt(2, warehouse.getCorridor());
+		prep.setInt(3, warehouse.getShelve());
+		
+		
+		prep.executeUpdate();
+		prep.close();
+	}catch (Exception ex) {
+		ex.printStackTrace();
+	}
+	
+}
+	public Warehouse select(int WHid) {
+		try {
+			String sql = "SELECT * FROM Warehouse WHERE id = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setInt(1, warehouse.getId());
-			prep.setString(2, warehouse.getName());
-			prep.setInt(3, warehouse.getCorridor());
-			prep.setInt(4, warehouse.getShelve());
-			
-			
-			prep.executeUpdate();
-			prep.close();
-			
+			prep.setInt(1, WHid);
+			ResultSet rs = prep.executeQuery();
+			int id = rs.getInt("id");
+			String name = rs.getString("name");
+			int corridor = rs.getInt("corridor");
+			int shelve = rs.getInt("shelve");
 			
 		
-		}catch(Exception e) {
-			
-			e.printStackTrace();
-			
+			warehouse = new Warehouse (id,name,corridor,shelve);
+			prep.close();
+			rs.close();
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return warehouse;
+		
+	}
+
+	
+	public void delete(String WHname) {
+		try {
+			String sql = "DELETE FROM Warehouse WHERE name = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString(1, WHname);
+			prep.executeUpdate();
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 		
 	}
-
-
-	@Override
-	public void select(Warehouse warehouse) {
+	public void update(Warehouse warehouse) {
 		try{
-			Statement stmt = c.createStatement();
-			String sq1 = "SELECT * FROM warehouse";
-			ResultSet rs = stmt.executeQuery(sq1);
-			while(rs.next()){
+			String sql = "UPDATE Warehouse SET name = ?, corridor = ?, shelve = ? WHERE id = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString(1,warehouse.getName());
+			prep.setInt(2, warehouse.getCorridor());
+			prep.setInt(3, warehouse.getShelve());
+			prep.setInt(4, warehouse.getId());
+			prep.executeUpdate();
+			prep.close();
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+	};
+	public List<Warehouse> searchByName(String name){
+		List<Warehouse> WHList = new ArrayList<Warehouse>();
+		try{
+			String sql = "SELECT * FROM Warehouse WHERE name = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString(1,"%"+name+"%");
+			ResultSet rs = prep.executeQuery();
+			while(rs.next()) {
 				int id = rs.getInt("id");
-				String warehouseName = rs.getString("name");
+				String WHname = rs.getString("name");
 				int corridor = rs.getInt("corridor");
 				int shelve = rs.getInt("shelve");
 				
-	 
 				
-				Warehouse newWarehouse = new Warehouse(id, warehouseName, corridor, shelve);
+				warehouse = new Warehouse(id,WHname,corridor,shelve);
+				WHList.add(warehouse);
 				
-				rs.close();
-				stmt.close();
-				int s;
 			}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		
-	}
-
-
-	@Override
-	public void delete(String warehouseName) {
-		String sq1 = "DELETE * FROM chocolates WHERE name= ? ";
-		PreparedStatement p = c.prepareStatement(sq1);
-		p.setString(1,  warehouseName);
-
-		
-
-		p.close();
-		
-	}
-
-
-	@Override
-	public void update(Warehouse warehouse) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public List<Warehouse> searchByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public List<Warehouse> searchByCorridor(Integer corridor) {
-		//create an empty list of warehouse
-		List<Warehouse> warehousesList =new ArrayList<Warehouse>();
-		
-		
-	try {
-	
-		String sql = "SELECT * FROM warehouses WHERE name LIKE ?";
-		PreparedStatement prep = c.prepareStatement(sql);
-		prep.setString(1, "%"+corridor+ "%");
-		ResultSet rs = prep.executeQuery();//PORQUE SELECT ES UNA QUERY
-		//for each result...
-		while (rs.next()) {//VAMOS AVANZANDO REGISTRO A REGISTRO
-			int id = rs.getInt("id");
-			String warehouseName = rs.getString("name");
-			int corridor = rs.getInt("corridor");
-			int shelve = rs.getInt("shelve");
-			//create a new warehouse
-			
-			Warehouse newWarehouse = new wareHouse(id, warehouseName,corridor, shelve);
-			//crrate a new warehouse
-			//add it to the list
-			warehousesList.add(newWarehouse);
-			
+			prep.close();
+			rs.close();
+		}catch(Exception ex) {
+			ex.printStackTrace();
 		}
-	}catch( Exception e) {
-		e.printStackTrace();
-		
+		return WHList;
+	};
+	public List<Warehouse> searchByCorridor(Integer corridor){
+		List<Warehouse> WHList = new ArrayList<Warehouse>();
+		try{
+			String sql = "SELECT * FROM Warehouse WHERE corridor = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, corridor);
+			ResultSet rs = prep.executeQuery();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				int WHcorridor = rs.getInt("corridor");
+				int shelve = rs.getInt("shelve");
+				
+				
+				warehouse = new Warehouse(id,name,WHcorridor,shelve);
+				WHList.add(warehouse);
+				
+				
+			}
+			prep.close();
+			rs.close();
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return WHList;
 	}
-	return warehousesList;
-			
-	}
+	
+
 }
