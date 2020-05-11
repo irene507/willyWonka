@@ -3,12 +3,15 @@ package ui;
 import java.io.BufferedReader;
 import java.io.IOException; 
 import java.io.InputStreamReader;
+import java.security.MessageDigest;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import pojos.*;
+import pojos.users.*;
 import db.interfaces.*;
+import db.jpa.JPAUserManager;
 import db.sqlite.*;
 import java.util.*;
 
@@ -22,6 +25,7 @@ public class Menu {
 	private static AnimalManager animalManager;
 	private static WarehouseManager warehouseManager;
 	private static OompaLoompaManager oompaloompaManager;
+	private static UserManager userManager;
 	
 
 	// Used for parsing dates
@@ -36,6 +40,10 @@ public class Menu {
 	    //Connects with the database
 		dbManager = new SQLiteManager();
 		dbManager.connect();
+		//Need to create the tables with JDBC before using JPA
+		dbManager.createTables();
+		userManager = new JPAUserManager();
+		userManager.connect();
 		
 		
 		//chocolateManager = dbManager.getChocolateManager();
@@ -56,23 +64,29 @@ public class Menu {
 		}
 		while(true){
 		//Ask the user his/her role 
-		System.out.println("WHO ARE YOU? ");
-		System.out.println("1.Willy Wonka");
-		System.out.println("2.Oompa Loompa CEO");
-		System.out.println("3.Exit");
+		System.out.println("What do you want to do? ");
+		System.out.println("1.Create a new role");
+		System.out.println("2.Create a new user");
+		System.out.println("3.Login");
+		System.out.println("0.Exit");
 		int choice = Integer.parseInt(reader.readLine());
 		switch(choice){
 		case 0:
+			System.exit(0);
+			dbManager.disconnect();
+			userManager.disconnect();
 			break;
 		case 1: 
-			willyWonkaMenu();
+			//Create a new role
+			newRole();
 			break;
 		
 		case 2: 
-			OompaLoompaCeoMenu();
+			//Create a new user
+			newUser();
 			break;
 		case 3: 
-			System.exit(0);
+			//Login
 			break;
 		default: 
 			break;
@@ -80,7 +94,72 @@ public class Menu {
 	}
 }
 
+	private static void newRole() throws Exception{
+		System.out.println("Please type the new role information ");
+		System.out.println("Role name:");
+		String roleName = reader.readLine();
+		Role role = new Role(roleName);
+		userManager.createRole(role);
+		
+		
+		
+	}
 	
+	private static void newUser() throws Exception{
+		System.out.println("Please type the new user information ");
+		System.out.println("Username: ");
+		String username = reader.readLine();
+		System.out.println("Password: ");
+		String password = reader.readLine(); 
+		//Create the password´s hash
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(password.getBytes());
+		byte[] hash = md.digest();
+		//Show all the roles and let the user choose one
+		List<Role> roles = userManager.getRoles();
+		for (Role role : roles) {
+			System.out.println(role);
+		}
+		
+		System.out.println("Type the chosen role id: ");
+		int roleId = Integer.parseInt(reader.readLine());
+		//Get the chosen role from the database
+		Role chosenRole = userManager.getRole(roleId);
+		//Create the user and store it 
+		User user = new User(username, hash, chosenRole);
+		userManager.createUser(user);
+		
+		
+		
+	}
+	
+	
+	private static void login() throws Exception{
+		System.out.println("Please input your credentials ");
+		System.out.println("Username: ");
+		String username = reader.readLine();
+		System.out.println("Password: ");
+		String password = reader.readLine();
+		User user = userManager.checkPassword(username, password);
+		//check if the user/password combination was right
+		if( user == null){
+			System.out.println("Wrong credentials, please try again!");
+		}
+		//check the role 
+		else if(user.getRole().getRole().equalsIgnoreCase("Willy Wonka")){
+			System.out.println("Welcome Willy Wonka´ " +username+ "!");
+			willyWonkaMenu();
+		}
+		else if(user.getRole().getRole().equalsIgnoreCase("Oompa Loompa")){
+			System.out.println("Welcome Oompa Loompa´ " +username+ "!");
+			OompaLoompaCeoMenu();
+			
+		}
+		else{
+			System.out.println("Invalid Role ");
+		}
+		
+	}
 //-----------------------------------------------------------------------------------
 	
 	//WILLY WONKA MENU
@@ -495,7 +574,7 @@ public class Menu {
 					DeleteAnimal();
 					break;
 				case 3:
-					UpdateAnimal();
+					//UpdateAnimal();
 					break;
 				case 4:
 					SearchAnimalByName();
@@ -1091,6 +1170,7 @@ for (OompaLoompa oompaloompa : workers) {
     
 //-----------------------------------------------------------------------------------------------
     
+    /*
     private static boolean UpdateAnimal() throws Exception {
     	boolean exito= true; 
         int AnimalId= 0;
@@ -1162,7 +1242,7 @@ for (OompaLoompa oompaloompa : workers) {
 	
 	
 	
-	
+	*/
 	
 	
 	

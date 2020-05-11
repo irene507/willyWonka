@@ -3,6 +3,7 @@ package pojos.users;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import javax.persistence.Column;
 //if you cannot do this import that means that the libraries that we have imported ("eclipselink" and "javaxpersistence")
 //are not in the correct lib so they are not link 
 import javax.persistence.Entity;
@@ -29,6 +30,8 @@ public class User implements Serializable {
 	@TableGenerator(name="users", table="sqlite_sequence",
 	    pkColumnName="name", valueColumnName="seq", pkColumnValue="users")
 	private Integer id;
+	//we want the username to be unique 
+	@Column(unique = true)
 	private String username;
 	@Lob
 	private byte[] password;
@@ -41,7 +44,15 @@ public class User implements Serializable {
 	public User() {
 		super();
 	} 
-	public Integer getId() {
+	
+	public User(String username, byte[] password, Role role) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.role = role;
+	}
+
+    public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {

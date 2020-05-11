@@ -2,9 +2,8 @@ package db.interfaces;
 
 import java.util.List;
 
-import javax.management.relation.Role;
 
-import pojos.users.User;
+import pojos.users.*;
 
 public interface UserManager {
        

@@ -32,7 +32,7 @@ public class SQLiteManager implements DBManager {
 		try{
 			// Open database connection
 		Class.forName("org.sqlite.JDBC");
-		this.c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
+		this.c = DriverManager.getConnection("jdbc:sqlite:./db/chocolate.db");
 		
 		Statement sta = c.createStatement();
 		
