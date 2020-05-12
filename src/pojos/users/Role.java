@@ -27,7 +27,7 @@ public class Role implements Serializable{
 	private Integer id;
 	private String role;
 	@OneToMany(mappedBy = "role")
-	private List<User> users;
+	private List<User> users;// role has a one to many relationship with user so i need that list
 	
 	
 	//in this constructor need to initialize
