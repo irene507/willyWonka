@@ -1,0 +1,9 @@
+<!DOCTYPE client [
+	<!ELEMENT client (name, cellphone, email, adress, dob)>
+	<!ATTLIST client name CDATA #REQUIRED>
+	<!ELEMENT cellphone (#PCDATA)>
+	<!ELEMENT email (#PCDATA)>
+	<!ELEMENT adress (#PCDATA)>
+	<!ELEMENT dob (#PCDATA)>
+	
+]>

@@ -6,6 +6,7 @@ import java.sql.Connection;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -159,6 +160,19 @@ public class SQLiteManager implements DBManager {
 		}
 
 	}
+	@Override
+	public int getLastId() {
+		int result = 0;
+		try {
+			String query = "SELECT last_insert_rowid() AS lastId";
+			PreparedStatement p = c.prepareStatement(query);
+			ResultSet rs = p.executeQuery();
+			result = rs.getInt("lastId");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}	
 	
 
 	

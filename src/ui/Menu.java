@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException; 
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
@@ -10,10 +11,21 @@ import java.time.format.DateTimeFormatter;
 
 import pojos.*;
 import pojos.users.*;
+import xml.utils.CustomErrorHandler;
 import db.interfaces.*;
 import db.jpa.JPAUserManager;
 import db.sqlite.*;
 import java.util.*;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 public class Menu {
 
@@ -190,13 +202,19 @@ public class Menu {
 		case 3:
 			willyWonkaAnimals();
 		    break;
+		    
 		case 4:
 			permanecer = false; 
 		    break;
+		default:
+			break;
 		
 			}
 		}
 	}
+	
+
+	
 
 	
 //--------------------------------------------------------------------------------------------------------
@@ -508,8 +526,10 @@ public class Menu {
 			System.out.println("1. Add client             ");
 			System.out.println("2. Erase client           ");
 			System.out.println("3. Select client          ");
-			System.out.println("4. Search client by name  ");
+			System.out.println("4. Search client by ...  ");
 			System.out.println("5. Update client          ");
+			System.out.println("6. generate XML         ");
+			
 		
 
 			
@@ -526,12 +546,27 @@ public class Menu {
 				selectClient();
 				break;
 			case 4:
+				System.out.println("Search client by....");
+				System.out.println("1. Name");
+				System.out.println("2. email");
+				int num = Integer.parseInt(reader.readLine());
+				if(num == 1) {
+				  searchClientByName();
 
-				searchClientByName();
+				}
+				else {
+				  searchClientByEmail();
+				}
+				
 				break;
+
+				
 			case 5: 
 				updateClient();
 				break;
+			case 6: 
+				generateClientXML();
+				break;	
 			
 
 			default: 
@@ -542,6 +577,10 @@ public class Menu {
 			
 		}
 }
+		
+		
+		
+		
 		
 		
 //--------------------------------------------------------------------------------------------------------
@@ -1242,15 +1281,6 @@ for (OompaLoompa oompaloompa : workers) {
     }
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 
 //--------------------------------------------------------------------------------------------------------------
@@ -1329,10 +1359,26 @@ for (OompaLoompa oompaloompa : workers) {
 	
 	
 	
-	private static String selectClient() throws Exception{// select client by name
+	private static void selectClient() throws Exception{// select client by name
 		   
-		       String resultado = "hola";
-		        return resultado;
+		
+	    	 
+		     //cambiar para pedir id  y el nombre de la funcon 
+		    	 //pedir id haciendo parseint por ser entero 
+		    	 //llamar a la funcion 
+		    	 try{
+		    	 System.out.println("Introduce the client ID");
+			      int clientId = Integer.parseInt(reader.readLine());
+			      
+			      List<Client> clients = clientManager.searchClient(clientId);
+			      for (Client client : clients) {
+					System.out.println(client.toString());
+			      }
+		    	 }catch(Exception e){
+		    		 e.printStackTrace();
+		    	 }
+		    	 
+		     
 	}
 	
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -1349,6 +1395,20 @@ for (OompaLoompa oompaloompa : workers) {
 			System.out.println(client);
 		}
 }
+//--------------------------------------------------------------------------------------------------------------------------------
+
+    //SEARCH CLIENT BY EMAIL
+
+//--------------------------------------------------------------------------------------------------------------------------------	
+private static void searchClientByEmail() throws Exception{
+System.out.println("Type!");
+System.out.println("email");
+String email = reader.readLine();
+List<Client> clients = clientManager.searchByEmail(email);
+for (Client client : clients) {
+System.out.println(client);
+}
+}	
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
@@ -1356,11 +1416,151 @@ for (OompaLoompa oompaloompa : workers) {
 
 //--------------------------------------------------------------------------------------------------------------------------------
 	private static boolean updateClient() throws Exception {
-    	boolean exito= false;
+		boolean exito= true; 
+        int clientId= 0;
+    	try{
+    	System.out.println("Introduce the id of the client ");
+        String id = reader.readLine();
+        clientId = Integer.parseInt(id);
+        //I get the chocolate
+    	Client toBeModified = clientManager.getClient(clientId);
+    	System.out.println("Actual name: " +toBeModified.getName());
+    	//If the user doesn�t type anything, the name is not changed 
+    	System.out.println("Type the new name or press enter to leave it as is: ");
+    	String newName = reader.readLine();
+    	if(newName.equals("")){
+    		newName = toBeModified.getName();
+    	}
+
     	
-    	return exito; 
+    	//If the user doesn�t type anything, the name is not changed 
+    	System.out.println("Type the new cellphone or press enter to leave it as is: ");
+    	String newCellphone = reader.readLine();
+    	Integer intNewCellphone;
+    	if(newCellphone.equals("")){
+    		intNewCellphone = toBeModified.getCellphone();
+    	}else{
+    		intNewCellphone = Integer.parseInt(newCellphone);
+    	}
+    
+        
+    	//If the user doesn�t type anything, the name is not changed 
+    	System.out.println("Type the new email or press enter to leave it as is: ");
+    	String newEmail = reader.readLine();
+    	if(newEmail.equals("")){
+    		newEmail = toBeModified.getEmail();
+    	}
+    	
+    	//If the user doesn�t type anything, the name is not changed 
+    	System.out.println("Type the new adress or press enter to leave it as is: ");
+    	String newAdress = reader.readLine();
+    	if(newAdress.equals("")){
+    		newAdress = toBeModified.getAdress();
+    	}
+    	
+    	
+    	//If the user doesn�t type anything, the name is not changed 
+    	System.out.println("Type the new shape or press enter to leave it as is: ");
+    	String newDob = reader.readLine();
+    	Date dateNewDob;
+    	if(newDob.equals("")){
+    		dateNewDob = toBeModified.getDob();
+    	}else{
+    		dateNewDob =  Date.valueOf(LocalDate.parse(newDob, formatter));
+    	}
+    	
+    	Client updatedClient = new Client(newName, intNewCellphone, newEmail, newAdress, dateNewDob);
+       //At the very end... 
+    	clientManager.update(updatedClient);
+
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		exito = false;
+    	}
+    	 return exito;  
     	
     }
+	
+//--------------------------------------------------------------------------------------------------------------------------------
+
+    //GENERATE CLIENT XML
+
+//--------------------------------------------------------------------------------------------------------------------------------	
+	
+private static void generateClientXML() throws Exception {
+		System.out.print("Please introduce the id of the Client");
+		System.out.print("1. client id ");
+		Integer clientId = Integer.parseInt( reader.readLine());
+		Client client = clientManager.getClient(clientId);
+		// Create a JAXBContext
+		JAXBContext context = JAXBContext.newInstance(Client.class);
+		// Get the marshaller
+		Marshaller marshal = context.createMarshaller();
+		// Pretty formatting
+		marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		// Marshall the dog to a file
+		File file = new File("./xmls/Output-Client.xml");
+		marshal.marshal(client, file);
+		// Marshall the dog to the screen
+		marshal.marshal(client, System.out);
+	}	
+//--------------------------------------------------------------------------------------------------------------------------------
+
+                    //CREATE A CLIENT WITH XML
+
+//--------------------------------------------------------------------------------------------------------------------------------
+	
+/*
+ * private static void admitClientXML() throws Exception {
+		// Create a JAXBContext
+		JAXBContext context = JAXBContext.newInstance(Client.class);
+		// Get the unmarshaller
+		Unmarshaller unmarshal = context.createUnmarshaller();
+		// Open the file
+		File file = null;
+		boolean incorrectClient = false;
+		do {
+			System.out.println("Type the filename for the XML document (expected in the xmls folder):");
+			String fileName = reader.readLine();
+			file = new File("./xmls/" + fileName);
+			try {
+				// Create a DocumentBuilderFactory
+				DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
+				// Set it up so it validates XML documents
+				dBF.setValidating(true);
+				// Create a DocumentBuilder and an ErrorHandler (to check validity)
+				DocumentBuilder builder = dBF.newDocumentBuilder();
+				CustomErrorHandler customErrorHandler = new xml.utils.CustomErrorHandler();
+				builder.setErrorHandler(customErrorHandler);
+				// Parse the XML file and print out the result
+				Document doc = builder.parse(file);
+				if (!customErrorHandler.isValid()) {
+					incorrectClient = true;
+				}
+			} catch (ParserConfigurationException ex) {
+				System.out.println(file + " error while parsing!");
+				incorrectClient = true;
+			} catch (SAXException ex) {
+				System.out.println(file + " was not well-formed!");
+				incorrectClient = true;
+			} catch (IOException ex) {
+				System.out.println(file + " was not accesible!");
+				incorrectClient = true;
+			}
+			
+		} while (incorrectClient);
+		// Unmarshall the dog from a file
+		Client client = (Client) unmarshal.unmarshal(file);
+		// Print the client
+		System.out.println("Added to the database: " + client);
+		clientManager.admit(client);
+		// Get the dogId from the database because the XML file doesn't have it
+		int clientId = dbManager.getLastId();
+		
+		}
+	}	
+ */
+	
 }//main
 
 	

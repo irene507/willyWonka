@@ -9,4 +9,5 @@ public interface DBManager {
         public ClientManager getClientManager();
         public AnimalManager getAnimalManager();
         public void createTables();
+        public int getLastId();
 }

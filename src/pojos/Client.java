@@ -2,13 +2,39 @@ package pojos;
 
 import java.sql.Date;
 
-public class Client {
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import xml.utils.SQLDateAdapter;
+
+import java.io.Serializable;
+import java.sql.Date;
+
+@XmlAccessorType(XmlAccessType.FIELD)// we are going to put anotations into a class (en los atributos)
+@XmlRootElement(name = "client")
+@XmlType(propOrder = {"name", "cellphone", "email", "adress", "dob"})
+public class Client implements Serializable {
 	
+	
+	private static final long serialVersionUID =6891296751142184360L;
+	
+	@XmlTransient //doesnt persit, isnt stored, this flied is going to be ignaored in xml.
 	private Integer id;
+	@XmlAttribute//
 	private String name;
+	@XmlElement
 	private Integer cellphone;
+	@XmlElement
 	private String email;
+	@XmlElement
 	private String adress;
+	@XmlJavaTypeAdapter(SQLDateAdapter.class)// a class that gets a date and reurnts a strign(marshal) and vs(unmarshal)
 	private Date dob;
 	
 	//constructor con id y name
