@@ -26,11 +26,7 @@ public class JPAUserManager implements UserManager {
 
 	}
 
-	@Override
-	public void disconnect() {
-		em.close();
 
-	}
 
 	@Override
 	public void createUser(User user) {
@@ -91,7 +87,18 @@ public class JPAUserManager implements UserManager {
 		
 		
 	}
-
+	@Override
+	public boolean closeConnection( ){
+		try{
+			em.close();
+			return true;
+		}catch(Exception e ){
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
 	
 
 }
