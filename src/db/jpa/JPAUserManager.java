@@ -7,7 +7,6 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import db.interfaces.UserManager;
-import db.pojos.User;
 import pojos.Client;
 import pojos.users.*;
 
@@ -39,17 +38,6 @@ public class JPAUserManager implements UserManager {
 	//                         DISCONNECT JPA
 	//------------------------------------------------------------------
 
-	@Override
-	public  boolean disconnect() {
-		try {
-		em.close();
-		return true;
-		} catch (Exception close_error){
-			close_error.printStackTrace();
-			return false;
-		}	
-
-	}
 
 	@Override
 	public void createUser(User user) {
@@ -110,6 +98,19 @@ public class JPAUserManager implements UserManager {
 		
 		
 	}
+
+	@Override
+	public boolean closeConnection( ){
+		try{
+			em.close();
+			return true;
+		}catch(Exception e ){
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
 	
 	@Override
 	public Integer insertNewClient (User user) {

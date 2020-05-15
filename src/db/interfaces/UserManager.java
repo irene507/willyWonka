@@ -8,9 +8,11 @@ import pojos.users.*;
 
 public interface UserManager {
        
+
 	
 	public boolean disconnect();
-	public boolean connect();
+	public void connect();
+    public boolean closeConnection(); 
 	public void createUser(User user);
 	public void createRole(Role role);
 	public Role getRole(int id);
