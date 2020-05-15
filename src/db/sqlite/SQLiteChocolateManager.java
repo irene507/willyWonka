@@ -9,8 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import pojos.Chocolate;
-
-
+import pojos.Client;
 import db.interfaces.ChocolateManager;
 
 public class SQLiteChocolateManager implements ChocolateManager {
@@ -51,7 +50,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		
 
 	}
-/*
+
 	@Override
 	public void create(Chocolate chocolate) {
 		
@@ -76,7 +75,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		}
 
 	}//functionCreate
-   */
+
 	
 
 	@Override
@@ -159,8 +158,8 @@ public class SQLiteChocolateManager implements ChocolateManager {
 
 	@Override
 	public Chocolate getChocolate(int chocoId){
-		 		
-		Chocolate newChoco = null;
+
+		Chocolate newChocolate = null; 
 		try{
 			String sq1 = "SELECT * FROM chocolates WHERE ID= ? "; 
 			PreparedStatement p = c.prepareStatement(sq1);
@@ -178,11 +177,11 @@ public class SQLiteChocolateManager implements ChocolateManager {
 				String shape = rs.getString("shape");
 				
 			//Create a new chocolate 
-				Chocolate newChocolate = new Chocolate(id, chocoName, type, cocoa, flavors, units, shape);
+			 newChocolate = new Chocolate(id, chocoName, type, cocoa, flavors, units, shape);
 		  }catch(SQLException e){
 			  e.printStackTrace();
 		  }
-		return chocolate; 
+		return newChocolate; 
 		}//function 
 	
 	
@@ -303,13 +302,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		
 	}
 
-/*
-	@Override
-	public void create(Chocolate chocolate) {
-		// TODO Auto-generated method stub
-		
-	}
-	*/
+
 
 }
 

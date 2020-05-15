@@ -5,8 +5,8 @@ public interface DBManager {
         public void connect();
         public void disconnect();
         
-  ////  public ChocolateManager getChocolateManager();
-      //public ClientManager getClientManager();
-      //public AnimalManager getAnimalManager();
+        public ChocolateManager getChocolateManager();
+        public ClientManager getClientManager();
+        public AnimalManager getAnimalManager();
         public void createTables();
 }

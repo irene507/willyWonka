@@ -3,6 +3,7 @@ package db.sqlite;
 
 import java.sql.Connection;
 
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -17,9 +18,9 @@ import db.interfaces.AnimalManager;
 public class SQLiteManager implements DBManager {
     
 	private Connection c;
-//	private ChocolateManager chocolate;
-//	private ClientManager client;
-//	private AnimalManager animal;
+	private ChocolateManager chocolate;
+	private ClientManager client;
+	private AnimalManager animal;
 	
 	public SQLiteManager(){
 	//with an empty constructor
@@ -34,19 +35,19 @@ public class SQLiteManager implements DBManager {
 		Class.forName("org.sqlite.JDBC");
 		this.c = DriverManager.getConnection("jdbc:sqlite:./db/chocolate.db");
 		
-		Statement sta = c.createStatement();
+		Statement stmt1 = c.createStatement();
 		
 		
 		
 		c.createStatement().execute("PRAGMA foreign_keys=ON");
 		//Create ChocolateManager 
-		//chocolate = new SQLiteChocolateManager(c);
+		chocolate = new SQLiteChocolateManager(c);
 		
 		//Create others like ClientManager... 
-	//	client = new SQLiteClientManager(c);
+		client = new SQLiteClientManager(c);
 		
 		//Create AnimalManager
-	//	animal= new SQLiteAnimalManager(c);
+	     animal= new SQLiteAnimalManager(c);
 		
    // we could initialize other managers here		
 		
@@ -74,7 +75,7 @@ public class SQLiteManager implements DBManager {
 
 	}
 	
-	/*
+	
 	@Override
 	public ChocolateManager getChocolateManager(){
 		
@@ -90,7 +91,7 @@ public class SQLiteManager implements DBManager {
 	public AnimalManager getAnimalManager() {
 		return animal;
 	}
-	*/
+	
 
 
 	@Override

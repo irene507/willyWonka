@@ -5,11 +5,13 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import db.interfaces.AnimalManager;
 import pojos.Animal;
+import pojos.Client;
 
 
 public class SQLiteAnimalManager implements AnimalManager {
@@ -57,12 +59,12 @@ public class SQLiteAnimalManager implements AnimalManager {
 		while(rs.next()){
 			int id = rs.getInt("id");
 			String animalName = rs.getString("name");
-			String colour = rs.getString("colour");
 			String country = rs.getString("country");
+			String colour = rs.getString("colour");
 			String specie = rs.getString("specie");
 			Date dob= rs.getDate("dob");
 			
-			newAnimal = new Animal(id, animalName, colour, country, specie, dob);
+			newAnimal = new Animal(id, animalName, country, colour, specie, dob);
 			animal.add(newAnimal);
 			rs.close();
 			stmt.close();
@@ -82,10 +84,6 @@ public class SQLiteAnimalManager implements AnimalManager {
 			String sq1 = "DELETE * FROM animales WHERE ID= ? ";
 			PreparedStatement p = c.prepareStatement(sq1);
 			p.setInt(1, AnimalID); 
-
-			//Statement s = c.prepareStatement("DELETE * FROM chocolates WHERE ID="+ chocolate.getUnits());
-			//s.execute(sq1);
-			
 			p.executeQuery();
 			p.close();
 		} catch (Exception e) {
@@ -177,7 +175,7 @@ public class SQLiteAnimalManager implements AnimalManager {
 		try {
 			// TODO Auto-generated method stub
 			// Update every aspect of a particular animal
-			String sql = "UPDATE animals SET name=?, country=?, colour=?, specie=?, dob=?, WHERE id=?";
+			String sql = "UPDATE animal SET name=?, country=?, colour=?, specie=?, dob=?, WHERE id=?";
 			PreparedStatement s = c.prepareStatement(sql);
 			s.setString(1, animal.getName());
 			s.setString(2, animal.getCountry());
@@ -196,15 +194,30 @@ public class SQLiteAnimalManager implements AnimalManager {
 	}
 
 	@Override
-	public Animal getAnimal() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete(Animal animal) {
-		// TODO Auto-generated method stub
-		
+	public Animal getAnimal(int AnimalId) {
+		Animal newAnimal = null; 		
+		try{
+			String sq1 = "SELECT * FROM animal WHERE ID= ? "; 
+			PreparedStatement p = c.prepareStatement(sq1);
+			p.setInt(1,  AnimalId);
+			//Because we are going to do it just once
+			ResultSet rs = p.executeQuery();
+			
+		    rs.next();
+		    int id = rs.getInt("id");
+			String AnimalName = rs.getString("name");
+			String AnimalCountry= rs.getString("country");
+			String AnimalColour = rs.getString("colour");
+			String AnimalSpecie = rs.getString("specie");
+			Date dob = rs.getDate("dob");
+				
+			//Create a new chocolate 
+			 newAnimal = new Animal(id, AnimalName, AnimalCountry, AnimalColour, AnimalSpecie, dob);
+			 
+		  }catch(SQLException e){
+			  e.printStackTrace();
+		  }
+		return newAnimal; 
 	}
 
 }
