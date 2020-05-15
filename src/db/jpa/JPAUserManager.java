@@ -7,7 +7,6 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import db.interfaces.UserManager;
-import db.pojos.User;
 import pojos.Client;
 import pojos.users.*;
 
