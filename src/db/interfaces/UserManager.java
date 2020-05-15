@@ -2,13 +2,15 @@ package db.interfaces;
 
 import java.util.List;
 
+
 import pojos.Client;
 import pojos.users.*;
 
 public interface UserManager {
        
 	
-	public boolean disconnect(); 
+	public boolean disconnect();
+	public boolean connect();
 	public void createUser(User user);
 	public void createRole(Role role);
 	public Role getRole(int id);

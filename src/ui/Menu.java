@@ -46,9 +46,9 @@ public class Menu {
 		userManager.connect();
 		
 		
-		//chocolateManager = dbManager.getChocolateManager();
-		//clientManager = dbManager.getClientManager();
-		//animalManager= dbManager.getAnimalManager();
+		chocolateManager = dbManager.getChocolateManager();
+		clientManager = dbManager.getClientManager();
+		animalManager= dbManager.getAnimalManager();
 		
 		
 		//Initialize BufferedReader
@@ -404,7 +404,7 @@ public class Menu {
 	//-----------------------------------------------------------------------------	
 
 		
-		/*	private static void createChocolate() throws Exception {
+		private static void createChocolate() throws Exception {
 				//id lo crea el solo por ser autoincrement 
 				
 				System.out.println("Name");
@@ -425,7 +425,7 @@ public class Menu {
 			}
 			
 			
-			*/
+			
 			
 			
 			
@@ -519,7 +519,7 @@ public class Menu {
 				addClient();
 				break;
 			case 2: 
-				
+				deleteClient();
 				break;
 
 			case 3:
@@ -574,7 +574,7 @@ public class Menu {
 					DeleteAnimal();
 					break;
 				case 3:
-					//UpdateAnimal();
+					UpdateAnimal();
 					break;
 				case 4:
 					SearchAnimalByName();
@@ -611,7 +611,7 @@ public class Menu {
 			   
 				while (true) {
 				
-				int num;
+				
 				System.out.println("Which part do you wanna modify? ");
 				System.out.println("1. MILK             ");
 				System.out.println("2. WAREHOUSE        ");
@@ -1146,11 +1146,13 @@ for (OompaLoompa oompaloompa : workers) {
     private static boolean DeleteAnimal() throws Exception{
     	
    	 boolean conexito = true;
+   	 int AnimalId;
         
         try{
         System.out.println("Introduce the ID of the chocolate you want to remove from the table");
         String id = reader.readLine();
-        int AnimalId = Integer.parseInt(id);
+        AnimalId = Integer.parseInt(id);
+        animalManager.delete(AnimalId);
         
         }catch(Exception e){
        	 e.printStackTrace();
@@ -1170,7 +1172,7 @@ for (OompaLoompa oompaloompa : workers) {
     
 //-----------------------------------------------------------------------------------------------
     
-    /*
+ 
     private static boolean UpdateAnimal() throws Exception {
     	boolean exito= true; 
         int AnimalId= 0;
@@ -1188,6 +1190,12 @@ for (OompaLoompa oompaloompa : workers) {
     		newName = toBeModified.getName();
     	}
 
+    	//If the user doesn�t type anything, the country is not changed 
+    	System.out.println("Type the new country or press enter to leave it as is: ");
+    	String newCountry = reader.readLine();
+    	if(newCountry.equals("")){
+    		newCountry = toBeModified.getCountry();
+    	}
     	
     	//If the user doesn�t type anything, the colour is not changed 
     	System.out.println("Type the new colour or press enter to leave it as is: ");
@@ -1196,13 +1204,6 @@ for (OompaLoompa oompaloompa : workers) {
     		newColour = toBeModified.getColour();
     	} 
     
-        
-    	//If the user doesn�t type anything, the country is not changed 
-    	System.out.println("Type the new country or press enter to leave it as is: ");
-    	String newCountry = reader.readLine();
-    	if(newCountry.equals("")){
-    		newCountry = toBeModified.getCountry();
-    	}
     	
     	//If the user doesn�t type anything, the specie is not changed 
     	System.out.println("Type the new specie or press enter to leave it as is: ");
@@ -1213,16 +1214,18 @@ for (OompaLoompa oompaloompa : workers) {
     	
     	
     	//If the user doesn�t type anything, the date of birth is not changed 
-    	System.out.println("Type the new date of birth in this format (year-month day)"
+    	System.out.println("Type the new date of birth in this format (year-month-day)"
     			+ " or press enter to leave it as is: ");
 
-		String newdate= reader.readLine();
-		LocalDate dob = LocalDate.parse(newdate, formatter); 
-    	if(dob.equals("")){
-    		Date.valueOf(dob) = toBeModified.getDob();
+		String newDob = reader.readLine();
+		Date dateNewDob; 
+    	if(newDob.equals("")){
+    		dateNewDob = toBeModified.getDob();
     	}
-    	
-    	Animal updatedAnimal = new Animal( newName, newColour, newCountry, newSpecie, Date.valueOf(dob) );
+    	else {
+    		dateNewDob = Date.valueOf(LocalDate.parse(newDob, formatter));  
+    	}
+    	Animal updatedAnimal = new Animal( newName, newCountry, newColour, newSpecie, dateNewDob );
        //At the very end... 
     	animalManager.update(updatedAnimal);
 
@@ -1239,10 +1242,6 @@ for (OompaLoompa oompaloompa : workers) {
     }
 
 	
-	
-	
-	
-	*/
 	
 	
 	
