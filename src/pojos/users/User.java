@@ -33,11 +33,11 @@ public class User implements Serializable {
 	//we want the username to be unique 
 	@Column(unique = true)
 	private String username;
-	@Lob
+	@Lob //the anotation for blob
 	private byte[] password;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id")
-	private Role role;
+	private Role role;// porque user esta conectado con role en el uml
 	
 
 	

@@ -25,7 +25,7 @@ public class Menu {
 	private static AnimalManager animalManager;
 	private static WarehouseManager warehouseManager;
 	private static OompaLoompaManager oompaloompaManager;
-	private static UserManager userManager;
+	private static UserManager userManager; //JPA
 	
 
 	// Used for parsing dates
@@ -42,7 +42,7 @@ public class Menu {
 		dbManager.connect();
 		//Need to create the tables with JDBC before using JPA
 		dbManager.createTables();
-		userManager = new JPAUserManager();
+		userManager = new JPAUserManager(); //we dont hace a constructor but we dont need it
 		userManager.connect();
 		
 		
