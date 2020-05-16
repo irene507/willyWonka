@@ -1,9 +1,14 @@
 package pojos;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class OompaLoompa {
+public class OompaLoompa implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8733922470714588273L;
 	private Integer id;
 	private String name;
 	private Integer cellphone;
@@ -75,6 +80,8 @@ public class OompaLoompa {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
+	
+	
 	
 	
 	

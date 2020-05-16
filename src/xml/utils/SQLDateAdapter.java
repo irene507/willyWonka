@@ -10,12 +10,14 @@ public class SQLDateAdapter extends XmlAdapter<String, Date> {
 	
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-	@Override
+	@Override 
+	//Receives a date and return a string ---> Marshall
 	public String marshal(Date sqlDate) throws Exception {
 		return sqlDate.toLocalDate().format(formatter);
 	}
 
 	@Override
+	//Receives a string and returns a date ----> Unmarshall
 	public Date unmarshal(String string) throws Exception {
 		LocalDate localDate = LocalDate.parse(string, formatter);
 		return Date.valueOf(localDate);

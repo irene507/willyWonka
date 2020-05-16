@@ -16,7 +16,7 @@ import xml.utils.SQLDateAdapter;
 import java.io.Serializable;
 import java.sql.Date;
 
-@XmlAccessorType(XmlAccessType.FIELD)// we are going to put anotations into a class (en los atributos)
+@XmlAccessorType(XmlAccessType.FIELD)// we are going to put annotations into a class (en los atributos)
 @XmlRootElement(name = "client")
 @XmlType(propOrder = {"name", "cellphone", "email", "adress", "dob"})
 public class Client implements Serializable {
@@ -24,8 +24,7 @@ public class Client implements Serializable {
 	
 	private static final long serialVersionUID =6891296751142184360L;
 	
-	@XmlTransient //doesnt persit, isnt stored, this file is going to be ignored in xml.
-	private Integer id;
+	@XmlTransient //doesnt persit, isnt stored, this field is going to be ignored in xml.
 	@XmlAttribute//
 	private String name;
 	@XmlElement
@@ -34,11 +33,13 @@ public class Client implements Serializable {
 	private String email;
 	@XmlElement
 	private String adress;
-	@XmlJavaTypeAdapter(SQLDateAdapter.class)// a class that gets a date and returns a string(marshal) and a date(unmarshal)
+
+	@XmlJavaTypeAdapter(SQLDateAdapter.class)// a class that gets a date and returns a string(marshall)vs(unmarshall)
+
 	private Date dob;
 	
-	//constructor con id y name
 	
+	//CONSTRUCTOR WITH ID AND NAME 
 	public Client(Integer id, String name) {
 		super();
 		this.id = id;
