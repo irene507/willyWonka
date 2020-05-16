@@ -11,6 +11,7 @@ import java.util.List;
 
 import db.interfaces.AnimalManager;
 import pojos.Animal;
+import pojos.OompaLoompa;
 
 
 public class SQLiteAnimalManager implements AnimalManager {
@@ -218,5 +219,6 @@ public class SQLiteAnimalManager implements AnimalManager {
 		  }
 		return newAnimal; 
 	}
+	
 
 }

@@ -2,14 +2,14 @@
 package db.sqlite;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import pojos.Animal;
-import pojos.Chocolate;
 import pojos.Milk;
 
 public class SQLiteMilkManager {
@@ -77,33 +77,67 @@ public class SQLiteMilkManager {
  	}//functionSELECT
      
      
+ 	public List<Milk> searchByName(String name) {
+		// TODO Auto-generated method stub
+
+		// Create an empty list of animals
+		List<Milk> MilkList = new ArrayList<Milk>();
+
+		// Search for all animals that fit the name
+		try {
+			String sql = "SELECT * FROM milk WHERE name LIKE ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString(1, "%" + name + "%");
+			ResultSet rs = prep.executeQuery();
+
+			// For each result
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String name_m = rs.getString("name");
+				String type = rs.getString("type");
+				// I create a new milk and..
+				Milk newMilk = new Milk(id, name_m, type);
+				// Add it to the list
+		        MilkList.add(newMilk);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+
+		}
+		return MilkList;
+ 	}
+     
+ 	
  	public List<Milk> searchByType(String type) {
- 		//Create an empty list of milk
- 	    List<Milk> milkList = new ArrayList<Milk>();
- 		//Search for all milk that "fit" the name
- 		 try{
- 			String sq1 = "SELECT * FROM milk WHERE type LIKE ? ";
- 			PreparedStatement prep= c.prepareStatement(sq1);
- 			//ANY CHARACTERS +name + ANY CHARACTERS
- 			prep.setString(1, "%" + type + "%");
- 			ResultSet rs = prep.executeQuery();
- 			//For each result 
-     		while(rs.next()){
- 	     		int id= rs.getInt("id");
- 			    String milkName = rs.getString("name");
- 				String milkType = rs.getString("type");
- 				
- 			//Create a new milk
- 		    Milk newMilk = new Milk(id, milkName, milkType);
- 			//Add it to the list
- 		    milkList.add(newMilk);
- 						
- 		}
- 				
- 		}catch(Exception e){
- 			e.printStackTrace();
- 		}
- 			return milkList;
+ 			// TODO Auto-generated method stub
+ 			// Create an empty list of animals
+ 			List<Milk> MilkList = new ArrayList<Milk>();
+
+ 			// Search for all animals that fit the name
+ 			try {
+ 				String sql = "SELECT * FROM milk WHERE type LIKE ?";
+ 				PreparedStatement prep = c.prepareStatement(sql);
+ 				prep.setString(1, "%" + type + "%");
+ 				ResultSet rs = prep.executeQuery();
+
+ 				// For each result
+ 				while (rs.next()) {
+ 					int id = rs.getInt("id");
+ 					String name = rs.getString("name");
+ 					String type_m=  rs.getString("type");
+ 					// I create a new animal and..
+ 					Milk newMilk = new Milk(id, name, type_m);
+ 					// Add it to the list
+ 					MilkList.add(newMilk);
+ 				}
+ 			} catch (Exception e) {
+ 				e.printStackTrace();
+ 				// TODO: handle exception
+
+ 			}
+
+ 			return MilkList;
  		
  	}//function searchByType
  	
@@ -126,22 +160,44 @@ public class SQLiteMilkManager {
 
 	}//update
  	
-	public void delete(Milk milk) {
-		String sq1 = "DELETE * FROM chocolates WHERE ID= ? ";
-		
+	public void delete(int milkId) {
 		try{
+		String sq1 = "DELETE * FROM milk WHERE ID= ? ";
 		PreparedStatement p = c.prepareStatement(sq1);
-		p.setInt(1,  milk.getId());
+		p.setInt(1, milkId); 
+
+		//Statement s = c.prepareStatement("DELETE * FROM milk WHERE ID= ?");
+		//s.execute(sq1);
 		
 		p.executeQuery();
-        p.close();
+		p.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
 	}//function 
 	
-	
+	public Milk getMilk(int MilkId) {
+		Milk newMilk = null; 		
+		try{
+			String sq1 = "SELECT * FROM milk WHERE ID= ? "; 
+			PreparedStatement p = c.prepareStatement(sq1);
+			p.setInt(1,  MilkId);
+			//Because we are going to do it just once
+			ResultSet rs = p.executeQuery();
+			
+		    rs.next();
+		    int id = rs.getInt("id");
+			String MilkName = rs.getString("name");
+			String MilkType= rs.getString("type");
+				
+			//Create a new chocolate 
+			 newMilk = new Milk(id, MilkName, MilkType);
+			 
+		  }catch(SQLException e){
+			  e.printStackTrace();
+		  }
+		return newMilk; 
+	}
 
 }
  	

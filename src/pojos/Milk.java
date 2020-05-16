@@ -33,18 +33,34 @@ public class Milk implements Serializable {
 	
 	
 	
-	//Constructor
+	//Constructor with all variables
 	public Milk(Integer id, String name, String type) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.type = type;
 	}
-	//Getters y setters
 	
+	
+	//constructor without id
+	
+	public Milk(String name, String type) {
+		super();
+		this.name = name;
+		this.type = type;
+	}
+
+	//constructor with only id
 	public Integer getId() {
 		return id;
 	}
+
+	
+	
+	//Getters y setters
+	
+
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
