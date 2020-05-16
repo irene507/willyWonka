@@ -19,7 +19,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
     //in all classes that uses a connection 
     
 	public SQLiteChocolateManager(Connection c) {
-		// TODO Auto-generated constructor stub
+		
 		this.c=c;
 	}
 

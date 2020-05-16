@@ -11,18 +11,13 @@ import java.time.format.DateTimeFormatter;
 
 import pojos.*;
 import pojos.users.*;
-import xml.utils.CustomErrorHandler;
 import db.interfaces.*;
 import db.jpa.JPAUserManager;
 import db.sqlite.*;
 import java.util.*;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.bind.*;
+
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -202,7 +197,7 @@ public class Menu {
 		case 3:
 			willyWonkaAnimals();
 		    break;
-		    
+		
 		case 4:
 			permanecer = false; 
 		    break;
@@ -214,7 +209,7 @@ public class Menu {
 	}
 	
 
-	
+
 
 	
 //--------------------------------------------------------------------------------------------------------
@@ -226,7 +221,7 @@ public class Menu {
 	
 	private static void willyWonkaChocolate() throws Exception{
 			int choice = Integer.parseInt(reader.readLine());
-			
+			int chocoId= 0; 
 			
 			System.out.println("You are going to manage the chocolate. ");
 			System.out.println("What do you wanna do?     ");
@@ -236,6 +231,9 @@ public class Menu {
 			System.out.println("4. Update Chocolate       ");
 			System.out.println("5. Search By...           "); 
 			System.out.println("6. Show chocolate         ");
+			System.out.println("7. Generate XML   ");
+			System.out.println("8. Admit chocolate through XML");
+			System.out.println("0. Back                   ");
 			
 			//revisar estas 
 			//System.out.println("6. Admit chocolate ");
@@ -243,6 +241,10 @@ public class Menu {
             System.out.println(" Back");
 			
 	    switch(choice){	
+	    case 0:
+	    	System.exit(0);
+	    	break;
+	    	
 		case 1: 
 			//createChocolate();
 			break;
@@ -274,9 +276,64 @@ public class Menu {
 		case 6: 
 			showInformation();
 			break; 
+		case 7:
+			generateChocolateXML(chocoId);
+			break;
+		case 8: 
+			admitChocolateXML();
+			break;
 			
 			}
 }//function chocolate
+	
+	//??we are going to get the marshall
+	private static void admitChocolateXML() throws Exception{
+		
+		//Create a JAXBContext
+		JAXBContext context = JAXBContext.newInstance(Chocolate.class);
+		//Get the unmarshaller
+		Unmarshaller unmarshall = context.createUnmarshaller();
+        //Now, we are going to unmarshall the chocolate(object) by reading from a file 
+        System.out.println("Type the filename for the XML document(expected in the XMLS folder)");
+		String fileName = reader.readLine();
+        File file = new File("./xmls/"  +fileName );
+        //Create the object by reading from a file 
+        Chocolate chocolate = (Chocolate) unmarshall.unmarshal(file);
+        //Printout
+		System.out.println("Added to the database: " +chocolate);
+		//Get the chocolateID
+		int chocoId = dbManager.getLastId();
+		//Insert it
+		chocolateManager.admit(chocolate);
+	//??For each medicine of the dog   
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	private static void generateChocolateXML(int chocoId) throws Exception{
+		//??????Create the object 
+		Chocolate chocolate = chocolateManager.getChocolate(chocoId);
+		//Throw into an XML, so we start... 
+		//Create a JAXBContext
+		JAXBContext context = JAXBContext.newInstance(Chocolate.class);
+		//Get the marshaller
+		Marshaller marshall = context.createMarshaller();
+		//Formatting
+		marshall.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        //Write the marshall to a file, but first we need to create the file
+        File file = new File("./xmls/Output-Chocolate.xml");
+		marshall.marshal(chocolate, file);
+		//Printout
+		marshall.marshal(chocolate, System.out);
+		
+	}
 		
 //------------------------------------------------------------------------------------------	
 	
@@ -286,9 +343,10 @@ public class Menu {
 //------------------------------------------------------------------------------------
 	
 	
+	//SHOW INFO CHOCOLATE
+		
 	
-	
-	   private static void showInformation() throws Exception{
+      private static void showInformation() throws Exception{
 		   List<Chocolate> chocolates = chocolateManager.showChocolates();
 		   System.out.println("You we see all chocolates on the table ");
 		   for (Chocolate chocolate : chocolates) {
@@ -349,7 +407,7 @@ public class Menu {
 	        //I get the chocolate
 	    	Chocolate toBeModified = chocolateManager.getChocolate(chocoId);
 	    	System.out.println("Actual name: " +toBeModified.getName());
-	    	//If the user doesnï¿½t type anything, the name is not changed 
+	    	//If the user does not type anything, the name is not changed 
 	    	System.out.println("Type the new name or press enter to leave it as is: ");
 	    	String newName = reader.readLine();
 	    	if(newName.equals("")){
@@ -357,7 +415,7 @@ public class Menu {
 	    	}
 
 	    	
-	    	//If the user doesnï¿½t type anything, the name is not changed 
+	    	//If the user does not type anything, the name is not changed 
 	    	System.out.println("Type the new type or press enter to leave it as is: ");
 	    	String newType = reader.readLine();
 	    	if(newType.equals("")){
@@ -365,7 +423,7 @@ public class Menu {
 	    	} 
 	    
 	        
-	    	//If the user doesnï¿½t type anything, the name is not changed 
+	    	//If the user does not type anything, the name is not changed 
 	    	System.out.println("Type the new cocoa or press enter to leave it as is: ");
 	    	String newCocoa = reader.readLine();
 	    	Float floatNewCocoa;
@@ -375,14 +433,14 @@ public class Menu {
 	    		floatNewCocoa = Float.parseFloat(newCocoa);
 	    	}
 	    	
-	    	//If the user doesnï¿½t type anything, the name is not changed 
+	    	//If the user does not type anything, the name is not changed 
 	    	System.out.println("Type the new flavors or press enter to leave it as is: ");
 	    	String newFlavors = reader.readLine();
 	    	if(newFlavors.equals("")){
 	    		newFlavors = toBeModified.getFlavors();
 	    	}
 	    	
-	    	//If the user doesnï¿½t type anything, the name is not changed 
+	    	//If the user does not type anything, the name is not changed 
 	    	System.out.println("Type the new units or press enter to leave it as is: ");
 	    	String newUnits = reader.readLine();
 	    	Float floatNewUnits;
@@ -392,7 +450,7 @@ public class Menu {
 	    		floatNewUnits = Float.parseFloat(newUnits);
 	    	}
 	    	
-	    	//If the user doesnï¿½t type anything, the name is not changed 
+	    	//If the user does not type anything, the name is not changed 
 	    	System.out.println("Type the new shape or press enter to leave it as is: ");
 	    	String newShape = reader.readLine();
 	    	if(newShape.equals("")){
@@ -456,12 +514,9 @@ public class Menu {
 
 	
 	     private static void showChocolate(){
-	    	 
-	     //cambiar para pedir id  y el nombre de la funcon 
-	    	 //pedir id haciendo parseint por ser entero 
-	    	 //llamar a la funcion 
+
 	    	 try{
-	    	 System.out.println("Introduce the chocolateï¿½s ID");
+	    	 System.out.println("Introduce the chocolate´s ID");
 		      int chocoId = Integer.parseInt(reader.readLine());
 		      
 		      List<Chocolate> chocolates = chocolateManager.searchChocolate(chocoId);
