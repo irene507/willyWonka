@@ -24,7 +24,7 @@ public class Client implements Serializable {
 	
 	private static final long serialVersionUID =6891296751142184360L;
 	
-	@XmlTransient //doesnt persit, isnt stored, this flied is going to be ignaored in xml.
+	@XmlTransient //doesnt persit, isnt stored, this file is going to be ignored in xml.
 	private Integer id;
 	@XmlAttribute//
 	private String name;
@@ -34,7 +34,7 @@ public class Client implements Serializable {
 	private String email;
 	@XmlElement
 	private String adress;
-	@XmlJavaTypeAdapter(SQLDateAdapter.class)// a class that gets a date and reurnts a strign(marshal) and vs(unmarshal)
+	@XmlJavaTypeAdapter(SQLDateAdapter.class)// a class that gets a date and returns a string(marshal) and a date(unmarshal)
 	private Date dob;
 	
 	//constructor con id y name

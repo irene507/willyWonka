@@ -1,12 +1,13 @@
 package db.sqlite;
 
 	import java.sql.Connection;
+
 	import java.sql.Date;
 	import java.sql.PreparedStatement;
 	import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+	import java.sql.SQLException;
+	import java.util.ArrayList;
+	import java.util.List;
 
 	import db.interfaces.ClientManager;
 import pojos.Client;
@@ -37,7 +38,7 @@ import pojos.Client;
 		public void addClient(Client client)  {
 			
 			try {
-				String sql = "INSERT INTO clients (id, name , cellphone , email, adress, dob) "
+				String sql = "INSERT INTO client (id, name , cellphone , email, adress, dob) "
 						+ "VALUES (?,?,?,?,?,?);";
 				PreparedStatement prep = c.prepareStatement(sql);
 				prep.setInt(1, client.getId());
@@ -73,7 +74,7 @@ import pojos.Client;
 			Client newClient;
 			
 			try{
-			String sql = "SELECT * FROM clients WHERE id= ? ";
+			String sql = "SELECT * FROM client WHERE id= ? ";
 			PreparedStatement stmt = c.prepareStatement(sql);
 			stmt.setInt(1, clientId);
 			ResultSet rs = stmt.executeQuery();
@@ -110,7 +111,7 @@ import pojos.Client;
 		@Override
 		public void delete(int clientId) {
 			try {
-				String sq1= "DELETE * FROM clients WHERE ID= ?";
+				String sq1= "DELETE * FROM client WHERE ID= ?";
 				PreparedStatement p= c.prepareStatement(sq1);
 				p.setInt(1, clientId);
 				p.executeQuery();
@@ -133,7 +134,7 @@ import pojos.Client;
 		public void update(Client client) {
 			try {
 			//update every aspect of a particular client
-			String sql = "UPDATE clients SET name=?, cellphone=?, email=?, adress=?, dob=? WHERE id=?";
+			String sql = "UPDATE client SET name=?, cellphone=?, email=?, adress=?, dob=? WHERE id=?";
 			PreparedStatement s= c.prepareStatement(sql);
 			s.setString(1, client.getName());
 			s.setInt(2, client.getCellphone());
@@ -164,7 +165,7 @@ import pojos.Client;
 			
 		try {
 		
-			String sql = "SELECT * FROM clients WHERE name LIKE ?";
+			String sql = "SELECT * FROM client WHERE name LIKE ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, "%"+name+ "%");
 			ResultSet rs = prep.executeQuery();//PORQUE SELECT ES UNA QUERY
@@ -204,7 +205,7 @@ import pojos.Client;
 			
 		try {
 		
-			String sql = "SELECT * FROM clients WHERE email LIKE ?";
+			String sql = "SELECT * FROM client WHERE email LIKE ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, "%"+email+ "%");
 			ResultSet rs = prep.executeQuery();//PORQUE SELECT ES UNA QUERY
@@ -243,7 +244,7 @@ import pojos.Client;
 		List<Client> clientsList = new ArrayList<Client>();
 		//Get all the chocolates 
 		try{
-			String sq1 = "SELECT * FROM clients";
+			String sq1 = "SELECT * FROM client";
 			PreparedStatement prep= c.prepareStatement(sq1);
 			ResultSet rs = prep.executeQuery();
 			//For each result 
@@ -285,7 +286,7 @@ import pojos.Client;
 	
 		Client newClient = null; 		
 		try{
-			String sq1 = "SELECT * FROM clients WHERE ID= ? "; 
+			String sq1 = "SELECT * FROM client WHERE ID= ? "; 
 			PreparedStatement p = c.prepareStatement(sq1);
 			p.setInt(1,  clientId);
 			//Because we are going to do it just once
