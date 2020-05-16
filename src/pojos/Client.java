@@ -2,6 +2,7 @@ package pojos;
 
 import java.sql.Date;
 
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -25,6 +26,7 @@ public class Client implements Serializable {
 	private static final long serialVersionUID =6891296751142184360L;
 	
 	@XmlTransient //doesnt persit, isnt stored, this field is going to be ignored in xml.
+	private int id;
 	@XmlAttribute//
 	private String name;
 	@XmlElement
@@ -128,7 +130,7 @@ public class Client implements Serializable {
 		result = prime * result + ((cellphone == null) ? 0 : cellphone.hashCode());
 		result = prime * result + ((dob == null) ? 0 : dob.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -163,10 +165,7 @@ public class Client implements Serializable {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (id != other.id)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -175,6 +174,9 @@ public class Client implements Serializable {
 			return false;
 		return true;
 	}
+
+
+
 	
 	
 	
