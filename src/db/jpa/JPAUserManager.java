@@ -197,6 +197,18 @@ public Client SearchClientById(Integer clientId) {
 	}
 }
 
+@Override
+public boolean disconnect() {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+@Override
+public void connect() {
+	// TODO Auto-generated method stub
+	
+}
+
 
 	
 
