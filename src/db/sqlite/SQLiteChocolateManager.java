@@ -1,25 +1,23 @@
 package db.sqlite;
 
 import java.sql.Connection;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 
 import pojos.Chocolate;
-import pojos.Client;
 import db.interfaces.ChocolateManager;
 
 public class SQLiteChocolateManager implements ChocolateManager {
     private Connection c;
-    private Chocolate chocolate;
-    
     //in all classes that uses a connection 
     
 	public SQLiteChocolateManager(Connection c) {
-		// TODO Auto-generated constructor stub
+		
 		this.c=c;
 	}
 
@@ -56,7 +54,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		
 		
 		try{
-			String sq1 = "INSERT INTO chocolates(name, type, cocoa, flavors, units, shape)"
+			String sq1 = "INSERT INTO chocolate (name, type, cocoa, flavors, units, shape)"
 					+ "VALUES(?,?,?,?,?,?)";
 			PreparedStatement prep = c.prepareStatement(sq1);
 			
@@ -84,7 +82,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		Chocolate newChocolate;
 		
 		try{
-		String sql = "SELECT * FROM chocolates WHERE id= ? ";
+		String sql = "SELECT * FROM chocolate WHERE id= ? ";
 		PreparedStatement stmt = c.prepareStatement(sql);
 		stmt.setInt(1, chocoId);
 		ResultSet rs = stmt.executeQuery();
@@ -115,7 +113,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 	public void delete(int chocoId) {
 		
 		try{
-		String sq1 = "DELETE * FROM chocolates WHERE ID= ? ";
+		String sq1 = "DELETE * FROM chocolate WHERE ID= ? ";
 		PreparedStatement p = c.prepareStatement(sq1);
 		p.setInt(1, chocoId); 
 
@@ -161,7 +159,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 
 		Chocolate newChocolate = null; 
 		try{
-			String sq1 = "SELECT * FROM chocolates WHERE ID= ? "; 
+			String sq1 = "SELECT * FROM chocolate WHERE ID= ? "; 
 			PreparedStatement p = c.prepareStatement(sq1);
 			p.setInt(1,  chocoId);
 			//Because we are going to do it just once
@@ -191,7 +189,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		List<Chocolate> chocolatesList = new ArrayList<Chocolate>();
 		//Get all the chocolates 
 		try{
-			String sq1 = "SELECT * FROM chocolates";
+			String sq1 = "SELECT * FROM chocolate";
 			PreparedStatement prep= c.prepareStatement(sq1);
 			ResultSet rs = prep.executeQuery();
 			//For each result 
@@ -230,7 +228,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 		List<Chocolate> chocolatesList = new ArrayList<Chocolate>();
 		//Search for all chocolates that "fit" the name
 		try{
-			String sq1 = "SELECT * FROM chocolates WHERE name LIKE ? ";
+			String sq1 = "SELECT * FROM chocolate WHERE name LIKE ? ";
 			PreparedStatement prep= c.prepareStatement(sq1);
 			//ANY CHARACTERS +name + ANY CHARACTERS
 						
@@ -271,7 +269,7 @@ public class SQLiteChocolateManager implements ChocolateManager {
 				List<Chocolate> chocolatesList = new ArrayList<Chocolate>();
 		//Search for all chocolates that "fit" the name
 		 try{
-			String sq1 = "SELECT * FROM chocolates WHERE type LIKE ? ";
+			String sq1 = "SELECT * FROM chocolate WHERE type LIKE ? ";
 			PreparedStatement prep= c.prepareStatement(sq1);
 			//ANY CHARACTERS +name + ANY CHARACTERS
 			prep.setString(1, "%" + type + "%");

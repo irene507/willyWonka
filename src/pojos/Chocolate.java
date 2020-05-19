@@ -2,23 +2,50 @@ package pojos;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.*;
+
+
+@XmlAccessorType(XmlAccessType.FIELD) //put annotations in the "fits" of the class
+@XmlRootElement(name = "Chocolate")
+@XmlType(propOrder= {"name, type, cocoa, flavors, units, shape"})
+
 public class Chocolate implements Serializable {
+	
+	//<element attribute = "value">text or other elements</element> 
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = -2290544292024275090L;
 		//no tenemos ningun dato relacionado con dato 
    // podriamos poner un dato que fuera la fecha de creacion de ese chocolate 
 	//Date: siempre import java.sql
+	    
+	    //It is something that does not persist,so is not stored.
+	    //--->So this field is going to be ignore by the XML 
+	    //Though, other times you can use @XmlAttribute
+	    @XmlTransient 
         private Integer id;
+        
+        @XmlAttribute
         private String name;
+        @XmlElement
         private String type;
+        @XmlElement
         private Float cocoa;
+        @XmlElement
         private String flavors;
+        @XmlElement
         private Float units;
+        @XmlElement
         private String shape;
+    
+  //el tiene una lista de medicinas 
+  // @XmlElement   y @XmlElementWrapper() 
+  
         
         
+    
         public Chocolate(Integer id, String name, String type, Float cocoa, String flavors, Float units,
 				String shape) {
 			super();
@@ -50,10 +77,7 @@ public class Chocolate implements Serializable {
         
 
 
-
-
-
-		//CREACION DEL CONSTRUCTOR 
+		//CREATION OF THE CONSTRUCTOR
 		public Chocolate() {
 			super();
 		}
@@ -115,7 +139,7 @@ public class Chocolate implements Serializable {
 			this.shape = shape;
 		}
 		
-        //MÉTODO TOSTRING()
+        //TOSTRING() method
 		@Override
 		public String toString() {
 			return "Chocolate [id=" + id + ", name=" + name + ", cocoa=" + cocoa + ", type=" + type + ", flavors="

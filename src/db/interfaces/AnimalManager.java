@@ -2,6 +2,7 @@ package db.interfaces;
 
 import java.util.List;
 import pojos.Animal;
+import pojos.OompaLoompa;
 
 public interface AnimalManager {
 	

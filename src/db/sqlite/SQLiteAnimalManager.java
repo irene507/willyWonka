@@ -11,7 +11,7 @@ import java.util.List;
 
 import db.interfaces.AnimalManager;
 import pojos.Animal;
-import pojos.Client;
+import pojos.OompaLoompa;
 
 
 public class SQLiteAnimalManager implements AnimalManager {
@@ -28,7 +28,7 @@ public class SQLiteAnimalManager implements AnimalManager {
 
 		// Insert the provider animal
 		try {
-			String sql = "INSERT INTO Animal (name, country, colour , specie, dob) " + "VALUES (?,?,?,?,?);";
+			String sql = "INSERT INTO animal (name, country, colour , specie, dob) " + "VALUES (?,?,?,?,?);";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, animal.getName());
 			prep.setString(2, animal.getCountry());
@@ -52,7 +52,7 @@ public class SQLiteAnimalManager implements AnimalManager {
 		Animal newAnimal;
 		
 		try{
-		String sql = "SELECT * FROM animales WHERE id= ? ";
+		String sql = "SELECT * FROM animal WHERE id= ? ";
 		PreparedStatement stmt = c.prepareStatement(sql);
 		stmt.setInt(1, AnimalID);
 		ResultSet rs = stmt.executeQuery();
@@ -81,7 +81,7 @@ public class SQLiteAnimalManager implements AnimalManager {
 	
 	public void delete (int AnimalID) {
 		try {
-			String sq1 = "DELETE * FROM animales WHERE ID= ? ";
+			String sq1 = "DELETE * FROM animal WHERE ID= ? ";
 			PreparedStatement p = c.prepareStatement(sq1);
 			p.setInt(1, AnimalID); 
 			p.executeQuery();
@@ -141,7 +141,7 @@ public class SQLiteAnimalManager implements AnimalManager {
 
 		// Search for all animals that fit the name
 		try {
-			String sql = "SELECT * FROM Animal WHERE specie LIKE ?";
+			String sql = "SELECT * FROM animal WHERE specie LIKE ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, "%" + specie_a + "%");
 			ResultSet rs = prep.executeQuery();
@@ -219,5 +219,6 @@ public class SQLiteAnimalManager implements AnimalManager {
 		  }
 		return newAnimal; 
 	}
+	
 
 }

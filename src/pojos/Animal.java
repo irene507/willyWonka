@@ -1,15 +1,57 @@
 package pojos;
 
+
+
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Animal {
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import xml.utils.SQLDateAdapter;
+
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name= "animal")
+@XmlType(propOrder = {"name", "country", "colour", "specie", "dob" })
+
+
+
+public class Animal implements Serializable {
 	
+	//<Element attribute= "value"> text or other elements </Element>
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 614943080265068918L;
+	
+	
+	@XmlTransient //In some cases you might prefer to use @XmlAttribute
 	private Integer id;
+	
+	@XmlElement
 	private String name;
+	
+	@XmlAttribute
 	private String country;
+	
+	@XmlAttribute
 	private String colour;
+	
+	@XmlAttribute
 	private String specie;
+	
+	@XmlJavaTypeAdapter(SQLDateAdapter.class) // a class that gets a date and returns a string (Marshal) and a date (Unmarshal)
 	private Date dob;
+	
+	
+	
+	
+	
+	
+	
+	
 	
 //Constructors
 	
@@ -20,7 +62,7 @@ public class Animal {
 		this.specie = specie;
 	}
 	
-	
+
 	//Constructor used in SearchByName
 	
 	public Animal(Integer id, String name, String country, String colour, String specie, Date dob) {
