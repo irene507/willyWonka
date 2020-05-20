@@ -30,8 +30,8 @@ public class JPAUserManager implements UserManager {
 		e.printStackTrace();
 		return false;
 	}
-		// en lugar de hacer un void hago un boolean para comprobar que se ha establecido la conexion
-
+		//instead of doing a void I like to do a boolean so I can see if It has been stablished
+		
 	}
 	
 	//------------------------------------------------------------------
@@ -195,6 +195,18 @@ public Client SearchClientById(Integer clientId) {
 		search_client_error.printStackTrace();
 		return null;
 	}
+}
+
+@Override
+public boolean disconnect() {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+@Override
+public void connect() {
+	// TODO Auto-generated method stub
+	
 }
 
 

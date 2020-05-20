@@ -11,12 +11,18 @@ import java.time.format.DateTimeFormatter;
 
 import pojos.*;
 import pojos.users.*;
+import xml.utils.CustomErrorHandler;
 import db.interfaces.*;
 import db.jpa.JPAUserManager;
 import db.sqlite.*;
 import java.util.*;
 
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.xml.bind.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -71,6 +77,7 @@ public class Menu {
 			System.out.println("1.Create a new role");
 			System.out.println("2.Create a new user");
 			System.out.println("3.Login");
+			System.out.println("4.Delete User");
 			System.out.println("0.Exit");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
@@ -91,6 +98,9 @@ public class Menu {
 			case 3:
 				// Login
 				break;
+			case 4: 
+				//Delete user
+				deleteUser();
 			default:
 				break;
 			}
@@ -155,6 +165,41 @@ public class Menu {
 			System.out.println("Invalid Role ");
 		}
 
+	}
+	
+	
+	///NI IDEA DE CÓMO AGREGARLO A NUESTRO PROYECTO 
+	private static void deleteUser()throws Exception {
+		       // Get the entity manager
+			  // Note that we are using the class' entity manager
+				em = Persistence.createEntityManagerFactory("chocolate-provider").createChocolateManager();
+				em.getTransaction().begin();
+				em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
+				em.getTransaction().commit();
+
+				// Get the new user to fire from the command prompt
+				System.out.println(" Users :");
+				printEmployees();
+				System.out.print("Choose a user to fire. Type it's ID:");
+				BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+				int user_id = Integer.parseInt(reader.readLine());
+				Query q2 = em.createNativeQuery("SELECT * FROM employees WHERE id = ?", Employee.class);
+				q2.setParameter(1, emp_id);
+				Employee poorGuy = (Employee) q2.getSingleResult();
+
+				// Begin transaction
+				em.getTransaction().begin();
+				// Store the object
+				em.remove(poorGuy);
+				// End transaction
+				em.getTransaction().commit();
+
+				// Close the entity manager
+				em.close();
+		
+		
+		
+		
 	}
 //-----------------------------------------------------------------------------------
 
@@ -541,16 +586,45 @@ public class Menu {
 	
 
 	// ??we are going to get the marshall
+	//input.dog.xml como lo saca??????
+	//not valid cause its missing an attribute 
+	//well-formed por qué? 
 	private static void admitChocolateXML() throws Exception {
-
+       boolean incorrectChocolate = true;
 		// Create a JAXBContext
 		JAXBContext context = JAXBContext.newInstance(Chocolate.class);
 		// Get the unmarshaller
 		Unmarshaller unmarshall = context.createUnmarshaller();
+		while(incorrectChocolate){
+			
 		// Now, we are going to unmarshall the chocolate(object) by reading from a file
 		System.out.println("Type the filename for the XML document(expected in the XMLS folder)");
 		String fileName = reader.readLine();
 		File file = new File("./xmls/" + fileName);
+		
+		 try {
+	        	// Create a DocumentBuilderFactory
+	            DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
+	            // Set it up so it validates XML documents
+	            dBF.setValidating(true);
+	            // Create a DocumentBuilder and an ErrorHandler (to check validity)
+	            DocumentBuilder builder = dBF.newDocumentBuilder();
+	            CustomErrorHandler customErrorHandler = new CustomErrorHandler();
+	            builder.setErrorHandler(customErrorHandler);
+	            // Parse the XML file and print out the result
+	            Document doc = builder.parse(file);
+	            incorrectChocolate = false;
+	           
+	        } catch (ParserConfigurationException ex) {
+	            System.out.println(file + " error while parsing!");
+	           
+	        } catch (SAXException ex) {
+	            System.out.println(file + " was not well-formed!");
+	            
+	        } catch (IOException ex) {
+	            System.out.println(file + " was not accesible!");
+	            
+	        }
 		// Create the object by reading from a file
 		Chocolate chocolate = (Chocolate) unmarshall.unmarshal(file);
 		// Printout
@@ -564,6 +638,8 @@ public class Menu {
 	}
 
 	private static void generateChocolateXML(int chocoId) throws Exception {
+		System.out.print("Please introduce the ID of the Chocolate");
+		Integer chocoId = Integer.parseInt(reader.readLine());
 		// ??????Create the object
 		Chocolate chocolate = chocolateManager.getChocolate(chocoId);
 		// Throw into an XML, so we start...
@@ -578,6 +654,11 @@ public class Menu {
 		marshall.marshal(chocolate, file);
 		// Printout
 		marshall.marshal(chocolate, System.out);
+		//aqui coge el ultimo id y lo junta con medicines.... nosotras? Que hacemos? Por que??
+		
+		
+		
+	}
 
 	}
 	
