@@ -347,6 +347,7 @@ public class Menu {
 				System.out.println("Search client by....");
 				System.out.println("1. Name");
 				System.out.println("2. email");
+				
 				int num = Integer.parseInt(reader.readLine());
 				if (num == 1) {
 					searchClientByName();
