@@ -14,10 +14,10 @@
               <p>Chocolate:
                   <table border="1"> 
                      <th>Chocolate</th>
-                     <xsl: for-each select= "chocolate/name/name">
+                     <xsl:for-each select = "chocolate/name/name">
                      <tr>
-                        <td><xsl:value-of select= "/name" /></tr></td>
-                     </xsl: for-each>
+                        <td><xsl:value-of select= "/name" /></td></tr>
+                     </xsl:for-each>
                   </table>
                </p>
             </body>                  

@@ -78,6 +78,7 @@ public class Menu {
 			System.out.println("2.Create a new user");
 			System.out.println("3.Login");
 			System.out.println("4.Delete User");
+			System.out.println("5.Update User");
 			System.out.println("0.Exit");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
@@ -97,10 +98,14 @@ public class Menu {
 				break;
 			case 3:
 				// Login
+				login();
 				break;
 			case 4: 
 				//Delete user
 				deleteUser();
+			case 5 : 
+				//Update user
+				updateUser(); 
 			default:
 				break;
 			}
@@ -168,37 +173,15 @@ public class Menu {
 	}
 	
 	
-	///NI IDEA DE CÓMO AGREGARLO A NUESTRO PROYECTO 
-	private static void deleteUser()throws Exception {
-		       // Get the entity manager
-			  // Note that we are using the class' entity manager
-				em = Persistence.createEntityManagerFactory("chocolate-provider").createChocolateManager();
-				em.getTransaction().begin();
-				em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
-				em.getTransaction().commit();
-
-				// Get the new user to fire from the command prompt
-				System.out.println(" Users :");
-				printEmployees();
-				System.out.print("Choose a user to fire. Type it's ID:");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-				int user_id = Integer.parseInt(reader.readLine());
-				Query q2 = em.createNativeQuery("SELECT * FROM employees WHERE id = ?", Employee.class);
-				q2.setParameter(1, emp_id);
-				Employee poorGuy = (Employee) q2.getSingleResult();
-
-				// Begin transaction
-				em.getTransaction().begin();
-				// Store the object
-				em.remove(poorGuy);
-				// End transaction
-				em.getTransaction().commit();
-
-				// Close the entity manager
-				em.close();
-		
-		
-		
+	//CREo que está bien ?
+	private static Integer deleteUser()throws Exception {
+		        System.out.println("What´s the Id of the user you want to delete? ");
+		        int Id = Integer.parseInt(reader.readLine());
+		        
+				return Id;
+				
+				// gettransaction, set , y commmit 
+	
 		
 	}
 //-----------------------------------------------------------------------------------
@@ -638,10 +621,10 @@ public class Menu {
 
 	}
 
-	private static void generateChocolateXML(int chocoId) throws Exception {
+	private static void generateChocolateXML() throws Exception {
 		System.out.print("Please introduce the ID of the Chocolate");
 		Integer chocoId = Integer.parseInt(reader.readLine());
-		// ??????Create the object
+		//Create the object
 		Chocolate chocolate = chocolateManager.getChocolate(chocoId);
 		// Throw into an XML, so we start...
 		// Create a JAXBContext
@@ -659,7 +642,7 @@ public class Menu {
 		
 		
 		
-	}
+	
 
 	}
 	
