@@ -5,6 +5,8 @@ import pojos.Animal;
 import pojos.Milk;
 
 public interface MilkManager{
+	
+	public void give(int chocoId, int milkId);
 	public void add(Milk milk);
 	public List<Milk> searchMilk(int milkId);
 	public void delete(int milkId);

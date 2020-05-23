@@ -109,7 +109,7 @@ public class JPAUserManager implements UserManager {
 	     em.getTransaction().commit();
 
 	}
-	
+/*	
 	public void updateUser(){
 		  // Begin transaction
 	      em.getTransaction().begin();
@@ -118,6 +118,7 @@ public class JPAUserManager implements UserManager {
 		 // End transaction
 		 em.getTransaction().commit();
 	}
+*/
 	
 	@Override
 	public boolean closeConnection( ){

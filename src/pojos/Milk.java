@@ -1,15 +1,20 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.*;
 
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-//creo que esto de rootelement no lo necesitamos en ningun pojo mas que en el chocolate 
+
 @XmlRootElement(name = "Milk")
 
 @XmlType(propOrder= {"name, type"})
+
+
 public class Milk implements Serializable {
 	//<element attribute = "value">text or other elements</element> 
 	
@@ -28,8 +33,8 @@ public class Milk implements Serializable {
 	private String name;
 	@XmlElement
 	private String type;
-	
-	//quizas si que es mas facil crear aqui el ArrayList
+	@XmlTransient
+	private List<Chocolate> chocolates;
 	
 	
 	
@@ -39,6 +44,7 @@ public class Milk implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.type = type;
+		chocolates = new ArrayList<Chocolate>();
 	}
 	
 	
@@ -48,6 +54,7 @@ public class Milk implements Serializable {
 		super();
 		this.name = name;
 		this.type = type;
+		chocolates = new ArrayList<Chocolate>();
 	}
 
 	//constructor with only id

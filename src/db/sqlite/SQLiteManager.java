@@ -97,7 +97,7 @@ public class SQLiteManager implements DBManager {
 
 	@Override
 	public void createTables() {
-		Statement stmt1, stmt2, stmt3, stmt4;
+		Statement stmt1, stmt2, stmt3, stmt4, stmt5;
  
 		try{
 		   //CHOCO TABLE 
@@ -145,11 +145,19 @@ public class SQLiteManager implements DBManager {
 				   + "type      TEXT    NOT NULL)  ";
 		   stmt4.executeUpdate(sql4);
 		   
-///COMO DEBO INSERTAR ESTO? PARA QUE SE UNAN? 
+		   //TABLE OF THE MANY-TOMANY RELATIONSHIP BETWEEN CHOCOLATE & MILK
+		   stmt5= c.createStatement();
+			String sql5 = "CREATE TABLE chocolateMilks " 
+			+ "(chocoId     INTEGER  REFERENCES chocolate(id), "
+			+ "milkId     INTEGER  REFERENCES milk(id), " 
+			+ "PRIMARY KEY(chocoid, milkId))";
+		   
+
 		   stmt1.close();
 		   stmt2.close();
 		   stmt3.close();
 		   stmt4.close();
+		   stmt5.close();
 		   
 		}catch(SQLException e){ 
 			//if there are exception of type "SQLException" we are not doing nothing 

@@ -1,6 +1,8 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.*;
 
@@ -16,6 +18,7 @@ public class Chocolate implements Serializable {
 	 * 
 	 */
 	
+
 	private static final long serialVersionUID = -2290544292024275090L;
 		//no tenemos ningun dato relacionado con dato 
    // podriamos poner un dato que fuera la fecha de creacion de ese chocolate 
@@ -39,9 +42,15 @@ public class Chocolate implements Serializable {
         private Float units;
         @XmlElement
         private String shape;
-    
-  //el tiene una lista de medicinas 
-  // @XmlElement   y @XmlElementWrapper() 
+        
+        
+        
+        
+        
+    	@XmlElement(name = "milk")
+    	@XmlElementWrapper(name = "milks")
+    	private List<Milk> milks;
+   
   
         
         
@@ -56,6 +65,7 @@ public class Chocolate implements Serializable {
 			this.flavors = flavors;
 			this.units = units;
 			this.shape = shape;
+			this.milks = new ArrayList<Milk>();
 		}
         
         public Chocolate(String name, String type, Float cocoa, String flavors, Float units, String shape) {
@@ -66,13 +76,14 @@ public class Chocolate implements Serializable {
 			this.flavors = flavors;
 			this.units = units;
 			this.shape = shape;
+			this.milks = new ArrayList<Milk>();
 		}
         
         public Chocolate(Integer id, String name) {
 			super();
 			this.id = id;
 			this.name = name;
-		
+			this.milks = new ArrayList<Milk>();
 		}
         
 
@@ -211,6 +222,14 @@ public class Chocolate implements Serializable {
 			} else if (!units.equals(other.units))
 				return false;
 			return true;
+		}
+		
+		public List<Milk> getMilks() {
+			return milks;
+		}
+
+		public void setMilks(List<Milk> milks) {
+			this.milks = milks;
 		}
 
 	

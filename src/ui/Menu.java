@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -105,7 +106,7 @@ public class Menu {
 				deleteUser();
 			case 5 : 
 				//Update user
-				updateUser(); 
+				//updateUser(); 
 			default:
 				break;
 			}
@@ -271,9 +272,9 @@ public class Menu {
 			updateChocolate();
 			break;
 		case 5:
-			System.out.println("Search animal by....");
+			System.out.println("Search chocolate by....");
 			System.out.println("1. Name");
-			System.out.println("2. Specie");
+			System.out.println("2. Type");
 			int num = Integer.parseInt(reader.readLine());
 			if (num == 1) {
 				searchChocolateByName();
@@ -288,6 +289,19 @@ public class Menu {
 			showInformation();
 			break;
 		case 7:
+			System.out.println("For ths first you have to search a specific chocolate");
+			System.out.println("Search animal by....");
+			System.out.println("1. Name");
+			System.out.println("2. Type");
+			num = Integer.parseInt(reader.readLine());
+			if (num == 1) {
+				searchChocolateByName();
+
+			} else {
+				searchChocolateByType();
+			}
+			System.out.println("Type the selected chocolate's id");
+			int AnimalId = Integer.parseInt(reader.readLine());
 			generateChocolateXML(chocoId);
 			break;
 		case 8:
@@ -365,7 +379,8 @@ public class Menu {
 	private static void willyWonkaAnimals() throws Exception {
 
 		while (true) {
-
+			int i=0;
+			
 			// ANIMAL
 			System.out.println("1. Add animal ");
 			System.out.println("2. Erase animal ");
@@ -374,9 +389,10 @@ public class Menu {
 			System.out.println("5. Search by species");
 			System.out.println("6. Show an animal");
 			System.out.println("7. Generate XML");
+		    System.out.println("8. Create animal through XML");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
-
+  
 			case 1:
 				AddAnimal();
 				break;
@@ -396,8 +412,24 @@ public class Menu {
 				ShowAnimal();
 				break;
 			case 7:
-				break;
+				System.out.println("For ths first you have to search a specific animal");
+				System.out.println("Search animal by....");
+				System.out.println("1. Name");
+				System.out.println("2. Specie");
+				int num = Integer.parseInt(reader.readLine());
+				if (num == 1) {
+					SearchAnimalByName();
 
+				} else {
+					SearchAnimalBySpecie();
+				}
+
+				System.out.println("Type the selected animal's id");
+				int AnimalId = Integer.parseInt(reader.readLine());
+				GenerateXML(AnimalId);
+				break;
+			case 8:
+				CreateAnimalXML();
 			default:
 				break;
 
@@ -569,6 +601,22 @@ public class Menu {
 	
 	
 
+	
+	
+	
+
+	
+	
+// ------------------------------------------------------------------------------------------
+
+	// CHOCOLATE PART
+
+// ------------------------------------------------------------------------------------
+
+	//ADMIT CHOCOLATE XML
+	
+//--------------------------------------------------------------------------------
+
 	// ??we are going to get the marshall
 	//input.dog.xml como lo saca??????
 	//not valid cause its missing an attribute 
@@ -615,15 +663,29 @@ public class Menu {
 		System.out.println("Added to the database: " + chocolate);
 		// Get the chocolateID
 		int chocoId = dbManager.getLastId();
-		// Insert it
-		chocolateManager.admit(chocolate);
-		// ??For each medicine of the dog
+		// For each milk of the chocolates
+		List<Milk> milks= chocolate.getMilks();
+		for(Milk milk: milks) {
+			milkManager.give(chocoId, milk.getId());
+		}
+		
+		
+		
+		}
+		
 
 	}
+		
+		
+		
+		
+//----------------------------------------------------------------------------------------
+		
+		//GENERATE CHOCOLATE XML 
+		
+//---------------------------------------------------------------------------------------
 
-	private static void generateChocolateXML() throws Exception {
-		System.out.print("Please introduce the ID of the Chocolate");
-		Integer chocoId = Integer.parseInt(reader.readLine());
+	private static void generateChocolateXML(int chocoId) throws Exception {
 		//Create the object
 		Chocolate chocolate = chocolateManager.getChocolate(chocoId);
 		// Throw into an XML, so we start...
@@ -649,16 +711,12 @@ public class Menu {
 	
 	
 	
-
 	
 	
-// ------------------------------------------------------------------------------------------
-
-	// CHOCOLATE PART
-
-// ------------------------------------------------------------------------------------
-
 	
+	
+	
+//-------------------------------------------------------------------------------
 	
 	// SHOW INFO CHOCOLATE
 
@@ -1456,6 +1514,7 @@ public class Menu {
 // ------------------------------------------------------------------------------
 
 	// SHOW ANIMAL
+	
 // ------------------------------------------------------------------------------
 
 	private static void ShowAnimal() throws Exception {
@@ -1472,11 +1531,53 @@ public class Menu {
 	}
 	
 	
+//---------------------------------------------------------------------------------------
 	
+	// GENERATE XML FOR ANIMAL
 	
+//------------------------------------------------------------------------------------------
 	
+	private static void GenerateXML (int AnimalId) throws Exception{
+		Animal animal = animalManager.getAnimal(AnimalId); //we get the dog from the data base
+		//Create a JAXBContext
+		JAXBContext context = JAXBContext.newInstance(Animal.class);//We specify the class we want for the XML
+		//Get the marshaller
+		Marshaller marshal = context.createMarshaller(); // we call the create a marshaller method from the context class
+		//Pretty formating
+		marshal.setProperty(marshal.JAXB_FORMATTED_OUTPUT, true);
+		//Marshal the Animal to a file
+		File file= new File("_/xmls/Output-Animal.xml");
+		marshal.marshal(animal, file);
+		//Marshal the animal to the screen
+		marshal.marshal(animal, System.out); //calling the method but instead with file with system.out
+	}
+
 	
+//---------------------------------------------------------------------------------------------------
 	
+	//CREATE ANIMAL THROUGH XML
+	
+//--------------------------------------------------------------------------------------------------
+	
+	public static void CreateAnimalXML() throws Exception{
+		//Create a JAXBContext
+		JAXBContext context = JAXBContext.newInstance(Animal.class);//We specify the class we want for the XML
+		//Get the unmarshaller
+		Unmarshaller unmarshal = context.createUnmarshaller(); // we call the create a marshaller method from the context class
+		//Unmarshal the Animal from a file
+		System.out.println("Type the filename for the XML document (expected in the xmls folder): ");
+		String fileName= reader.readLine();
+		File file= new File("_/xmls/"+ fileName);
+		Animal animal= (Animal) unmarshal.unmarshal(file); //we do a cast to animal
+		// now we need to output the dog to the data base
+		//Print the animal
+		System.out.println("Added to the data base: "+ animal); //to see what It's added to the data base
+		//Insert it
+		animalManager.add(animal);
+		//We have the animal created
+		
+	
+	}
 	
 	
 	
