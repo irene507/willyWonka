@@ -44,6 +44,7 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().begin();
 		em.persist(user);
 		em.getTransaction().commit();
+		//YA ESTA
 
 	}
 
