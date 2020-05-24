@@ -30,8 +30,8 @@ public class JPAUserManager implements UserManager {
 		e.printStackTrace();
 		return false;
 	}
-		// en lugar de hacer un void hago un boolean para comprobar que se ha establecido la conexion
-
+		//instead of doing a void I like to do a boolean so I can see if It has been stablished
+		
 	}
 	
 	//------------------------------------------------------------------
@@ -100,6 +100,27 @@ public class JPAUserManager implements UserManager {
 		
 	}
 
+	
+	public void deleteUser(int id) {
+	     // Begin transaction
+	     em.getTransaction().begin();
+	     // Store the object
+	     em.remove(id);
+	     // End transaction
+	     em.getTransaction().commit();
+
+	}
+/*	
+	public void updateUser(){
+		  // Begin transaction
+	      em.getTransaction().begin();
+		  // Make changes
+       	  dep.setAddress(newLocation);
+		 // End transaction
+		 em.getTransaction().commit();
+	}
+*/
+	
 	@Override
 	public boolean closeConnection( ){
 		try{

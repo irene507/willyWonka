@@ -24,6 +24,23 @@ public class SQLiteMilkManager {
 			this.c=c;
    	 }
 	 
+		public void give(int chocoId, int milkId) {
+			// Link a chocolate with a milk
+			try {
+				String sql = "INSERT INTO chocolateMilks (chocoId, milkId) "
+						+ "VALUES (?,?);";
+				PreparedStatement prep = c.prepareStatement(sql);
+				prep.setInt(1, chocoId);
+				prep.setInt(2, milkId);
+				prep.executeUpdate();
+				prep.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+	 
+
      public void addMilk(){
 	    try {
 			String sql = "INSERT INTO milk (id_m, name_m , type_m) "
