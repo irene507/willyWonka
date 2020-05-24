@@ -18,6 +18,25 @@ import java.util.List;
 
 public class JPAClient implements ClientManager {
 	
+private EntityManager em;
+	
+	@Override
+	public boolean stablish_connection() {
+		try {
+		em = Persistence.createEntityManagerFactory("chocolate-provider").createEntityManager();
+		em.getTransaction().begin();
+		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
+		em.getTransaction().commit();
+		return true;
+	} catch (Exception e) {
+		e.printStackTrace();
+		return false;
+	}
+		//instead of doing a void I like to do a boolean so I can see if It has been stablished
+		
+	}
+	
+	
 	@Override
 	public Integer insertNewClient (User user) {
 	
@@ -101,6 +120,18 @@ public Client SearchClientById(Integer clientId) {
 		search_client_error.printStackTrace();
 		return null;
 	}
+}
+
+@Override
+public boolean closeConnection( ){
+	try{
+		em.close();
+		return true;
+	}catch(Exception e ){
+		e.printStackTrace();
+		return false;
+	}
+	
 }
 
 

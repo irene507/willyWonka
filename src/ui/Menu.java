@@ -325,8 +325,10 @@ public class Menu {
 			System.out.println("2. Erase client           ");
 			System.out.println("3. Select client          ");
 			System.out.println("4. Search client by ...  ");
-			System.out.println("5. Update client          ");
-			System.out.println("6. generate XML         ");
+			System.out.println("5. Show all clients          ");
+			System.out.println("6. Update client          ");
+			System.out.println("7. generate XML         ");
+			System.out.println("8. Create animal through XML");
 
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
@@ -354,12 +356,18 @@ public class Menu {
 				}
 
 				break;
-
 			case 5:
+				showClient();
+				break;	
+
+			case 6:
 				updateClient();
 				break;
-			case 6:
+			case 7:
 				generateClientXML();
+				break;
+			case 8:
+				CreateAClientXML();
 				break;
 
 			default:
@@ -369,6 +377,8 @@ public class Menu {
 
 		}
 	}
+
+
 
 //--------------------------------------------------------------------------------------------------------
 
@@ -1798,35 +1808,51 @@ public class Menu {
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
-	/*
-	 * private static void admitClientXML() throws Exception { // Create a
-	 * JAXBContext JAXBContext context = JAXBContext.newInstance(Client.class); //
-	 * Get the unmarshaller Unmarshaller unmarshal = context.createUnmarshaller();
-	 * // Open the file File file = null; boolean incorrectClient = false; do {
-	 * System.out.
-	 * println("Type the filename for the XML document (expected in the xmls folder):"
-	 * ); String fileName = reader.readLine(); file = new File("./xmls/" +
-	 * fileName); try { // Create a DocumentBuilderFactory DocumentBuilderFactory
-	 * dBF = DocumentBuilderFactory.newInstance(); // Set it up so it validates XML
-	 * documents dBF.setValidating(true); // Create a DocumentBuilder and an
-	 * ErrorHandler (to check validity) DocumentBuilder builder =
-	 * dBF.newDocumentBuilder(); CustomErrorHandler customErrorHandler = new
-	 * xml.utils.CustomErrorHandler(); builder.setErrorHandler(customErrorHandler);
-	 * // Parse the XML file and print out the result Document doc =
-	 * builder.parse(file); if (!customErrorHandler.isValid()) { incorrectClient =
-	 * true; } } catch (ParserConfigurationException ex) { System.out.println(file +
-	 * " error while parsing!"); incorrectClient = true; } catch (SAXException ex) {
-	 * System.out.println(file + " was not well-formed!"); incorrectClient = true; }
-	 * catch (IOException ex) { System.out.println(file + " was not accesible!");
-	 * incorrectClient = true; }
-	 * 
-	 * } while (incorrectClient); // Unmarshall the dog from a file Client client =
-	 * (Client) unmarshal.unmarshal(file); // Print the client
-	 * System.out.println("Added to the database: " + client);
-	 * clientManager.admit(client); // Get the dogId from the database because the
-	 * XML file doesn't have it int clientId = dbManager.getLastId();
-	 * 
-	 * } }
-	 */
+		
+		public static void CreateAClientXML() throws Exception{
+			//Create a JAXBContext
+			JAXBContext context = JAXBContext.newInstance(Client.class);//We specify the class we want for the XML
+			//Get the unmarshaller
+			Unmarshaller unmarshal = context.createUnmarshaller(); // we call the create a marshaller method from the context class
+			//Unmarshal the Animal from a file
+			System.out.println("Type the filename for the XML document (expected in the xmls folder): ");
+			String fileName= reader.readLine();
+			File file= new File("_/xmls/"+ fileName);
+			Client client= (Client) unmarshal.unmarshal(file); //we do a cast to animal
+			// now we need to output the dog to the data base
+			//Print the animal
+			System.out.println("Added to the data base: "+ client); //to see what It's added to the data base
+			//Insert it
+			clientManager.addClient(client);
+			//We have the animal created
+			
+		
+		}
+		
+// ---------------------------------------------------------------------
+
+		// SELECT CHOCOLATE
+
+// -----------------------------------------------------------------------------
+
+		private static void showClient() {
+
+			try {
+				System.out.println("Introduce the chocolate´s ID");
+				int chocoId = Integer.parseInt(reader.readLine());
+
+				List<Chocolate> chocolates = chocolateManager.searchChocolate(chocoId);
+				for (Chocolate chocolate : chocolates) {
+					System.out.println(chocolate.toString());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}	
+		
+		
+		
+	
 
 }// main

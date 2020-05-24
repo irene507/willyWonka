@@ -22,6 +22,9 @@ public interface ClientManager{
 	public boolean DeleteClient(Client client);
 	public Client SearchClient(User user);
 	public Client SearchClientById(Integer clientId);
+	boolean stablish_connection();
+	boolean closeConnection();
+	
 	
 	
 	
