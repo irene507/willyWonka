@@ -1,4 +1,4 @@
-package db.jpa;
+/*package db.jpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -136,4 +136,4 @@ public boolean closeConnection( ){
 
 
 	
-}
+}*/

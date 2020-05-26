@@ -78,11 +78,12 @@ public class Menu {
 		while (true) {
 			// Ask the user his/her role
 			System.out.println("What do you want to do? ");
-			System.out.println("1.Create a new role");
-			System.out.println("2.Create a new user");
-			System.out.println("3.Login");
-			System.out.println("4.Delete User");
-			System.out.println("5.Update User");
+			System.out.println("1.Login");
+			System.out.println("2.Create a User");
+			System.out.println("3.Delete a User");
+			System.out.println("4.Update a User");
+			System.out.println("5.Create a new role");
+			System.out.println("6.Delete a Role");
 			System.out.println("0.Exit");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
@@ -92,24 +93,28 @@ public class Menu {
 				userManager.disconnect();
 				break;
 			case 1:
-				// Create a new role
-				newRole();
+				//Login
+				login();
 				break;
-
 			case 2:
-				// Create a new user
+				//Create new User
 				newUser();
 				break;
 			case 3:
-				// Login
-				login();
+				//Delete User
+				deleteUser();
 				break;
 			case 4: 
-				//Delete user
-				deleteUser();
-			case 5 : 
 				//Update user
 				//updateUser(); 
+			case 5 : 
+				//Create new Role
+				newRole();
+				break;
+			case 6:
+				//Delete Role
+				deleteRole();
+				break;
 			default:
 				break;
 			}
@@ -117,18 +122,63 @@ public class Menu {
 	}
 
 	private static void newRole() throws Exception {
-		System.out.println("Please type the new role information ");
-		System.out.println("Role name:");
-		String roleName = reader.readLine();
-		Role role = new Role(roleName);
-		userManager.createRole(role);
+		boolean incorrect=true;
+		System.out.println("Please choose between the available roles: ");
+		System.out.println("1.Willy Wonka");
+		System.out.println("2.OompaLoompa CEO");
+		int option = Integer.parseInt(reader.readLine());
+		String roleName;
+		Role role;
+		while(incorrect) {
+		if (option==1) {
+			roleName = "Willy Wonka";
+			role = new Role(roleName);
+			userManager.createRole(role);
+			incorrect = false;
+		}else if(option==2) {
+			roleName = "Oompa Loompa";
+			role = new Role(roleName);
+			userManager.createRole(role);
+			incorrect = false;
+		}else {
+			System.out.println("Wrong option introduced");
+			
+		}
+		}
+		
+		
 
 	}
 
 	private static void newUser() throws Exception {
+		boolean incorrect=true,errfound=true;
 		System.out.println("Please type the new user information ");
+		List<User> users = userManager.getUsers();
+		String username;
 		System.out.println("Username: ");
-		String username = reader.readLine();
+		username = reader.readLine();
+		if(!users.isEmpty()) {
+			do{
+				
+				for(User user:users) {
+					if(user.getUsername().equalsIgnoreCase(username)) {
+						System.out.println("That Username already exists, introduce a new username");
+						username = reader.readLine();
+						errfound=true;
+						
+					}else {
+						errfound=false;
+					}
+				}
+				if(errfound) {
+					incorrect=true;
+				}else {
+					incorrect=false;
+				}
+			}while(incorrect);
+		
+		}
+		
 		System.out.println("Password: ");
 		String password = reader.readLine();
 		// Create the password�s hash
@@ -180,16 +230,31 @@ public class Menu {
 	
 	
 	//CREo que est� bien ?
-	private static Integer deleteUser()throws Exception {
+	private static void deleteUser()throws Exception {
 		        System.out.println("What�s the Id of the user you want to delete? ");
+		        List<User> users = userManager.getUsers();
+				for (User user : users) {
+					System.out.println("ID: "+user.getId()+"  Name: "+user.getUsername());
+				}
 		        int Id = Integer.parseInt(reader.readLine());
-		        
-				return Id;
+		        userManager.deleteUser(Id);
+		       
 				
 				// gettransaction, set , y commmit 
 	
 		
 	}
+	
+	private static void deleteRole()throws Exception{
+		System.out.println("What�s the Id of the user you want to delete? ");
+        List<Role> roles = userManager.getRoles();
+		for (Role role : roles) {
+			System.out.println(role);
+		}
+        int Id = Integer.parseInt(reader.readLine());
+        userManager.deleteRole(Id);
+	}
+	
 //-----------------------------------------------------------------------------------
 
 	// WILLY WONKA MENU
@@ -394,7 +459,7 @@ public class Menu {
 	private static void willyWonkaAnimals() throws Exception {
 
 		while (true) {
-			int i=0;
+			
 			
 			// ANIMAL
 			System.out.println("1. Add animal ");

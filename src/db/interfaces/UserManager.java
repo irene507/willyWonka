@@ -21,8 +21,9 @@ public interface UserManager {
 	public User checkPassword(String username, String password);
 	public void disconnect();
 	public void connect();
-	 
-	
+	public List<User> getUsers();
+	public void deleteUser(int id);
+	public void deleteRole(int id);
 	
 	
 	

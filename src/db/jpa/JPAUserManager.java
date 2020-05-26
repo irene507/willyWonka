@@ -57,6 +57,13 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().commit();
 
 	}
+	public List<User> getUsers(){
+		
+		Query q = em.createNativeQuery("SELECT * FROM users",User.class);
+		List<User> users = (List<User>) q.getResultList();
+		
+		return users;
+	}
 
 	@Override
 	public Role getRole(int id) {
@@ -104,13 +111,19 @@ public class JPAUserManager implements UserManager {
 
 	
 	public void deleteUser(int id) {
-	     // Begin transaction
 	     em.getTransaction().begin();
-	     // Store the object
-	     em.remove(id);
-	     // End transaction
+		 Query q = em.createNativeQuery("DELETE FROM users WHERE id= ?");
+		 q.setParameter(1, id);
+		 q.executeUpdate();
 	     em.getTransaction().commit();
-
+	     
+	}
+	public void deleteRole(int id) {
+		em.getTransaction().begin();
+		 Query q = em.createNativeQuery("DELETE FROM roles WHERE id= ?");
+		 q.setParameter(1, id);
+		 q.executeUpdate();
+	     em.getTransaction().commit();
 	}
 /*	
 	public void updateUser(){

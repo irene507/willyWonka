@@ -12,13 +12,14 @@
 		<!-- Entity Class -->
 		<class>pojos.users.User</class>
 		<class>pojos.users.Role</class>
-<<<<<<< HEAD
+
 		<class>pojos.Chocolate</class>
-=======
->>>>>>> branch 'master' of https://github.com/irene507/willyWonka
+<!--branch 'master' of https://github.com/irene507/willyWonka-->
 		<class>pojos.Client</class>
 		<class>pojos.OompaLoompa</class>
 		<class>pojos.Warehouse</class>
+		<class>pojos.Animal</class>
+		<class>pojos.Milk</class>
  
 		<properties>	
 			<!-- Connection properties -->
