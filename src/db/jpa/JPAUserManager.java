@@ -1,6 +1,7 @@
 package db.jpa;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
@@ -19,16 +20,17 @@ public class JPAUserManager implements UserManager {
 	private EntityManager em;
 	
 	@Override
-	public boolean stablish_connection() {
+	public void connect() {
 		try {
 		em = Persistence.createEntityManagerFactory("chocolate-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
-		return true;
+		
 	} catch (Exception e) {
+		
 		e.printStackTrace();
-		return false;
+		
 	}
 		//instead of doing a void I like to do a boolean so I can see if It has been stablished
 		
@@ -122,13 +124,13 @@ public class JPAUserManager implements UserManager {
 */
 	
 	@Override
-	public boolean closeConnection( ){
+	public void disconnect( ){
 		try{
 			em.close();
-			return true;
+			
 		}catch(Exception e ){
 			e.printStackTrace();
-			return false;
+			
 		}
 		
 	}

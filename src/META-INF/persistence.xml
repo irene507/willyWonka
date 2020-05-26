@@ -17,6 +17,8 @@
 =======
 >>>>>>> branch 'master' of https://github.com/irene507/willyWonka
 		<class>pojos.Client</class>
+		<class>pojos.OompaLoompa</class>
+		<class>pojos.Warehouse</class>
  
 		<properties>	
 			<!-- Connection properties -->

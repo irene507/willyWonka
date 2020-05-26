@@ -10,9 +10,7 @@ public interface UserManager {
        
 
 	
-	boolean stablish_connection();
-    public boolean closeConnection();
-    
+	
     
 	public void createUser(User user);
 	public void createRole(Role role);
@@ -21,8 +19,8 @@ public interface UserManager {
 	public Role getRole(int id);
 	public List<Role> getRoles();
 	public User checkPassword(String username, String password);
-	void disconnect();
-	void connect();
+	public void disconnect();
+	public void connect();
 	 
 	
 	

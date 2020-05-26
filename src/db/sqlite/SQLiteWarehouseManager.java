@@ -16,7 +16,8 @@ import pojos.Warehouse;
 public class SQLiteWarehouseManager implements WarehouseManager {
 	private Connection c;
 	public Warehouse warehouse = null;
-	private SQLiteWarehouseManager (Connection c) {
+	
+	public SQLiteWarehouseManager (Connection c) {
 		this.c=c;
 	}
 	

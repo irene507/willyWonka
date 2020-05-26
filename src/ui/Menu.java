@@ -52,26 +52,29 @@ public class Menu {
 		// Connects with the database
 		dbManager = new SQLiteManager();
 		dbManager.connect();
+		chocolateManager = dbManager.getChocolateManager();
+		clientManager = dbManager.getClientManager();
+		animalManager = dbManager.getAnimalManager();
+		oompaloompaManager = dbManager.getOompaLoompaManager();
+		warehouseManager = dbManager.getWarehouseManager();
+		
 		// Need to create the tables with JDBC before using JPA
 		dbManager.createTables();
 		userManager = new JPAUserManager(); // we dont hace a constructor but we dont need it
 		userManager.connect();
-
-		chocolateManager = dbManager.getChocolateManager();
-		clientManager = dbManager.getClientManager();
-		animalManager = dbManager.getAnimalManager();
+		
 
 		// Initialize BufferedReader
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		// Welcome screen
-		System.out.print("-------------WELCOME!---------\n ");
+		System.out.print("-------------WELCOME!------------\n ");
 
-		// we offer the user to create tables
-		System.out.println("Do you want to create the tables? (Y/N)");
+		// we offer the user to create tables (donÂ´t need to as they have already been created)
+		/*System.out.println("Do you want to create the tables? (Y/N)");
 		String yn = reader.readLine();
 		if (yn.equalsIgnoreCase("y")) {
 			dbManager.createTables();
-		}
+		}*/
 		while (true) {
 			// Ask the user his/her role
 			System.out.println("What do you want to do? ");
@@ -128,11 +131,12 @@ public class Menu {
 		String username = reader.readLine();
 		System.out.println("Password: ");
 		String password = reader.readLine();
-		// Create the password´s hash
+		// Create the passwordï¿½s hash
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		md.update(password.getBytes());
 		byte[] hash = md.digest();
 		// Show all the roles and let the user choose one
+		
 		List<Role> roles = userManager.getRoles();
 		for (Role role : roles) {
 			System.out.println(role);
@@ -145,6 +149,7 @@ public class Menu {
 		// Create the user and store it
 		User user = new User(username, hash, chosenRole);
 		userManager.createUser(user);
+		
 
 	}
 
@@ -161,10 +166,10 @@ public class Menu {
 		}
 		// check the role
 		else if (user.getRole().getRole().equalsIgnoreCase("Willy Wonka")) {
-			System.out.println("Welcome Willy Wonka´ " + username + "!");
+			System.out.println("Welcome Willy Wonkaï¿½ " + username + "!");
 			willyWonkaMenu();
 		} else if (user.getRole().getRole().equalsIgnoreCase("Oompa Loompa")) {
-			System.out.println("Welcome Oompa Loompa´ " + username + "!");
+			System.out.println("Welcome Oompa Loompaï¿½ " + username + "!");
 			OompaLoompaCeoMenu();
 
 		} else {
@@ -174,9 +179,9 @@ public class Menu {
 	}
 	
 	
-	//CREo que está bien ?
+	//CREo que estï¿½ bien ?
 	private static Integer deleteUser()throws Exception {
-		        System.out.println("What´s the Id of the user you want to delete? ");
+		        System.out.println("Whatï¿½s the Id of the user you want to delete? ");
 		        int Id = Integer.parseInt(reader.readLine());
 		        
 				return Id;
@@ -537,6 +542,10 @@ public class Menu {
 		System.out.println("4. Select Warehouse ");
 		System.out.println("5. Search by Name ");
 		System.out.println("6. Search by Corridor");
+		System.out.println("7. Generate XML");
+		System.out.println("8. Add Warehouse through XML");
+		System.out.println("9. Back");
+		
 
 		int choice = Integer.parseInt(reader.readLine());
 		switch (choice) {
@@ -558,6 +567,14 @@ public class Menu {
 		case 6:
 			SearchWarehouseByCorridor();
 			break;
+		case 7:
+			GenerateWarehouseXML();
+			break;
+		case 8:
+			AddWarehouseXML();
+			break;
+		case 9:
+			return;
 		default:
 			break;
 
@@ -577,7 +594,10 @@ public class Menu {
 		System.out.println("4. Select Worker ");
 		System.out.println("5. Search by Name ");
 		System.out.println("6. Search by Date of Birth ");
-
+		System.out.println("7. Generate XML");
+		System.out.println("8. Add Worker through XML");
+		System.out.println("9. Back");
+		
 		int choice = Integer.parseInt(reader.readLine());
 		switch (choice) {
 		case 1:
@@ -598,6 +618,14 @@ public class Menu {
 		case 6:
 			SearchWorkerByDOB();
 			break;
+		case 7:
+			GenerateWorkerXML();
+			break;
+		case 8:
+			AddWorkerXML();
+			break;
+		case 9:
+			return;
 		default:
 			break;
 
@@ -630,7 +658,7 @@ public class Menu {
 	// ??we are going to get the marshall
 	//input.dog.xml como lo saca??????
 	//not valid cause its missing an attribute 
-	//well-formed por qué? 
+	//well-formed por quï¿½? 
 	private static void admitChocolateXML() throws Exception {
        boolean incorrectChocolate = true;
 		// Create a JAXBContext
@@ -879,7 +907,7 @@ public class Menu {
 	private static void showChocolate() {
 
 		try {
-			System.out.println("Introduce the chocolate´s ID");
+			System.out.println("Introduce the chocolateï¿½s ID");
 			int chocoId = Integer.parseInt(reader.readLine());
 
 			List<Chocolate> chocolates = chocolateManager.searchChocolate(chocoId);
@@ -1059,11 +1087,63 @@ public class Menu {
 		}
 	}
 	
+//----------------------------------------------------------------
+	// GENERATE WAREHOUSE XML
+//----------------------------------------------------------------
 	
+	private static void GenerateWarehouseXML() throws Exception{
+		System.out.println("Introduce id of warehouse: ");
+		int WHid = Integer.parseInt(reader.readLine());
+		Warehouse warehouse = warehouseManager.select(WHid);
+		JAXBContext context = JAXBContext.newInstance(Warehouse.class);
+		Marshaller marshal = context.createMarshaller();
+		marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		File file= new File("./xmls/Output-Warehouse.xml");
+		marshal.marshal(warehouse, file);
+		marshal.marshal(warehouse,System.out);
+	}
+//----------------------------------------------------------------
+	// ADD WAREHOUSE THROUGH XML
+//----------------------------------------------------------------
+	private static void AddWarehouseXML() throws Exception{
+		boolean incorrectWarehouse = true;
+		
+		JAXBContext context = JAXBContext.newInstance(Warehouse.class);
+		Unmarshaller unmarshal = context.createUnmarshaller();
+		while(incorrectWarehouse) {
+		System.out.println("Type File for the XML folder (expected in the XMLS folder): ");
+		String filename = reader.readLine();
+		File file= new File("./xmls/"+filename);
+		try {
+        	// Create a DocumentBuilderFactory
+            DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
+            // Set it up so it validates XML documents
+            dBF.setValidating(true);
+            // Create a DocumentBuilder and an ErrorHandler (to check validity)
+            DocumentBuilder builder = dBF.newDocumentBuilder();
+            CustomErrorHandler customErrorHandler = new CustomErrorHandler();
+            builder.setErrorHandler(customErrorHandler);
+            // Parse the XML file and print out the result
+            Document doc = builder.parse(file);
+            incorrectWarehouse = false;
+           
+        } catch (ParserConfigurationException ex) {
+            System.out.println(file + " error while parsing!");
+           
+        } catch (SAXException ex) {
+            System.out.println(file + " was not well-formed!");
+            
+        } catch (IOException ex) {
+            System.out.println(file + " was not accesible!");
+            
+        }
+		Warehouse warehouse = (Warehouse)unmarshal.unmarshal(file);
+		System.out.println("Added to the database: "+warehouse);
+		warehouseManager.add(warehouse);
+		
+	}
 	
-	
-	
-	
+	}
 	
 	
 
@@ -1213,6 +1293,64 @@ public class Menu {
 		}
 	}
 
+//----------------------------------------------------------------
+	// GENERATE WORKER XML
+//----------------------------------------------------------------
+	private static void GenerateWorkerXML() throws Exception{
+		System.out.println("Introduce id of Oompa Loompa: ");
+		int OLid = Integer.parseInt(reader.readLine());
+		OompaLoompa ol = oompaloompaManager.select(OLid);
+		JAXBContext context = JAXBContext.newInstance(OompaLoompa.class);
+		Marshaller marshal = context.createMarshaller();
+		marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		File file= new File("./xmls/Output-OompaLoompa.xml");
+		marshal.marshal(ol, file);
+		marshal.marshal(ol,System.out);
+	}
+	
+//----------------------------------------------------------------
+	// ADD WORKER THROUGH XML
+//----------------------------------------------------------------
+	
+	private static void AddWorkerXML() throws Exception {
+		boolean incorrectWorker = true;
+		JAXBContext context = JAXBContext.newInstance(OompaLoompa.class);
+		Unmarshaller unmarshal = context.createUnmarshaller();
+		while(incorrectWorker) {
+		System.out.println("Type File for the XML folder (expected in the XMLS folder): ");
+		String filename = reader.readLine();
+		File file= new File("./xmls/"+filename);
+		try {
+        	// Create a DocumentBuilderFactory
+            DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
+            // Set it up so it validates XML documents
+            dBF.setValidating(true);
+            // Create a DocumentBuilder and an ErrorHandler (to check validity)
+            DocumentBuilder builder = dBF.newDocumentBuilder();
+            CustomErrorHandler customErrorHandler = new CustomErrorHandler();
+            builder.setErrorHandler(customErrorHandler);
+            // Parse the XML file and print out the result
+            Document doc = builder.parse(file);
+            incorrectWorker = false;
+           
+        } catch (ParserConfigurationException ex) {
+            System.out.println(file + " error while parsing!");
+           
+        } catch (SAXException ex) {
+            System.out.println(file + " was not well-formed!");
+            
+        } catch (IOException ex) {
+            System.out.println(file + " was not accesible!");
+            
+        }
+		OompaLoompa worker = (OompaLoompa)unmarshal.unmarshal(file);
+		System.out.println("Added to the database: "+worker);
+		oompaloompaManager.add(worker);
+		
+		
+	}
+	}
+	
 	
 	
 //--------------------------------------------------------------------------------
@@ -1838,7 +1976,7 @@ public class Menu {
 		private static void showClient() {
 
 			try {
-				System.out.println("Introduce the chocolate´s ID");
+				System.out.println("Introduce the chocolateï¿½s ID");
 				int chocoId = Integer.parseInt(reader.readLine());
 
 				List<Chocolate> chocolates = chocolateManager.searchChocolate(chocoId);

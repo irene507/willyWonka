@@ -13,6 +13,8 @@ import java.sql.Statement;
 import db.interfaces.ChocolateManager;
 import db.interfaces.ClientManager;
 import db.interfaces.DBManager;
+import db.interfaces.OompaLoompaManager;
+import db.interfaces.WarehouseManager;
 import db.interfaces.AnimalManager;
 
 
@@ -22,6 +24,9 @@ public class SQLiteManager implements DBManager {
 	private ChocolateManager chocolate;
 	private ClientManager client;
 	private AnimalManager animal;
+	private WarehouseManager warehouse;
+	private OompaLoompaManager oompaLoompa;
+	
 	
 	public SQLiteManager(){
 	//with an empty constructor
@@ -38,14 +43,16 @@ public class SQLiteManager implements DBManager {
 		
 		Statement stmt1 = c.createStatement();
 		
+		stmt1.execute("PRAGMA foreign_keys=ON");
 		
-		
-		c.createStatement().execute("PRAGMA foreign_keys=ON");
+		//c.createStatement().execute("PRAGMA foreign_keys=ON");
 		//Create ChocolateManager 
 		chocolate = new SQLiteChocolateManager(c);
 		
 		//Create others like ClientManager... 
 		client = new SQLiteClientManager(c);
+		oompaLoompa = new SQLiteOompaLoompaManager(c);
+		warehouse = new SQLiteWarehouseManager(c);
 		
 		//Create AnimalManager
 	     animal= new SQLiteAnimalManager(c);
@@ -82,6 +89,15 @@ public class SQLiteManager implements DBManager {
 		
 		return chocolate;
 	}
+	@Override
+	public OompaLoompaManager getOompaLoompaManager() {
+		return oompaLoompa;
+	}
+	
+	@Override
+	public WarehouseManager getWarehouseManager() {
+		return warehouse;
+	}
 	
 	@Override
 	public ClientManager getClientManager() {
@@ -102,23 +118,20 @@ public class SQLiteManager implements DBManager {
 		try{
 		   //CHOCO TABLE 
 		   stmt1 = c.createStatement();
-		   String sql1 = "CREATE TABLE IF NOT EXISTS chocolate"
-				+ "(id       INTEGER PRIMARY KEY AUTOINCREMENT,"
+		   String sql1 = "CREATE TABLE IF NOT EXISTS chocolate("
+				+ "id       INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "name      TEXT    NOT NULL,  "
 				+ "cocoa     TEXT    NOT NULL,"
 				+ "type      TEXT    NOT NULL,"
 				+ "flavors   TEXT    NOT NULL,"
 				+ "units     FLOAT   NOT NULL,"
-				+ "shape     TEXT    NOT NULL"
-				+ "hash		 INT	 NULL)";
+				+ "shape     TEXT    NOT NULL)";
 		   stmt1.executeUpdate(sql1);
 		   
-		  
-		   
-		   //CLIENT TABLE 
+		  //CLIENT TABLE 
 		   stmt2 = c.createStatement();
-		   String sql2 = "CREATE TABLE client"
-				+ "(id       INTEGER PRIMARY KEY AUTOINCREMENT,"
+		   String sql2 = "CREATE TABLE client("
+				+ "id       INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "name      TEXT    NOT NULL,  "
 				+ "cellphone    NUMERIC   NOT NULL UNIQUE,"
 				+ "email     TEXT    NOT NULL  UNIQUE,"
@@ -128,8 +141,8 @@ public class SQLiteManager implements DBManager {
 		   
 		   //ANIMAL TABLE 
 		   stmt3 = c.createStatement();
-		   String sql3 = "CREATE TABLE animal"
-				+ "(id       INTEGER PRIMARY KEY AUTOINCREMENT,"
+		   String sql3 = "CREATE TABLE animal("
+				+ "id       INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "name      TEXT    NOT NULL,  "
 				+ "country     TEXT    NOT NULL,"
 				+ "colour     TEXT    NOT NULL,"
