@@ -82,11 +82,11 @@ public class SQLiteOompaLoompaManager implements OompaLoompaManager{
 		
 	}
 
-	public void delete(String OLname) {
+	public void delete(int Wid) {
 		try {
-			String sql = "DELETE FROM oompaLoompa WHERE name = ?";
+			String sql = "DELETE FROM oompaLoompa WHERE id = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, OLname);
+			prep.setInt(1, Wid);
 			prep.executeUpdate();
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -98,7 +98,7 @@ public class SQLiteOompaLoompaManager implements OompaLoompaManager{
 	public List<OompaLoompa> searchByName(String name) {
 		List<OompaLoompa> OLList = new ArrayList<OompaLoompa>();
 		try{
-			String sql = "SELECT * FROM oompaLoompa WHERE name = ?";
+			String sql = "SELECT * FROM oompaLoompa WHERE name LIKE ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1,"%"+name+"%");
 			ResultSet rs = prep.executeQuery();

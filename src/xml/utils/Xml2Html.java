@@ -26,7 +26,10 @@ public class Xml2Html {
 	}
 
 	public static void main(String[] args) {
-		simpleTransform("./xmls/Output-Chocolate.xml", "./xmls/ChocolateStyle.xslt", "./xmls/Chocolate.html");
-
+		//simpleTransform("./xmls/Output-Chocolate.xml", "./xmls/ChocolateStyle.xslt", "./xmls/Chocolate.html");
+		simpleTransform("./xmls/Output-OompaLoompa.xml", "./xmls/oompaLoompaStyle.xslt", "./xmls/OompaLoompa.html");
+		simpleTransform("./xmls/Output-Warehouse.xml", "./xmls/warehouseStyle.xslt", "./xmls/Warehouse.html");
+		
+		
 	}
 }

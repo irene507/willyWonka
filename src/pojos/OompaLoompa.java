@@ -11,7 +11,7 @@ import xml.utils.*;
 
 
 @XmlAccessorType(XmlAccessType.FIELD) //put annotations in the fields of the class
-@XmlRootElement(name="oompa loompa")
+@XmlRootElement(name="oompaloompa")
 @XmlType(propOrder = {"name", "cellphone","email","address","dob"})
 public class OompaLoompa implements Serializable {
 	

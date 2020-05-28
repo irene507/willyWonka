@@ -1,4 +1,4 @@
-<|DOCTYPE oompaloompa[
+<!DOCTYPE oompaloompa [
 	<!ELEMENT oompaloompa(cellphone,email,address,dob)>
 	<!ATTLIST oompaloompa name CDATA #REQUIRED>
 	<!ELEMENT cellphone(#PCDATA)>

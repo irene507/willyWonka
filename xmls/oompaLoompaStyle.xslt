@@ -6,10 +6,10 @@
             <head><title> This is your Oompa Loompa</title></head>
             <body>
               <p><b>Name: <xsl:value-of select= "/oompaloompa/@name" /></b></p>
-              <p>Cellphone:<xsl:value-of select= "/oompaloompa/cellphone" /></p>
+              <p>Cellphone: <xsl:value-of select= "/oompaloompa/cellphone" /></p>
               <p>Email: <xsl:value-of select= "/oompaloompa/email" /></p>
-              <p>Address:<xsl:value-of select= "/oompaloompa/address" /></p>
-              <p>DOB:<xsl:value-of select= "/oompaloompa/dob" /></p>
+              <p>Address: <xsl:value-of select= "/oompaloompa/address" /></p>
+              <p>DOB: <xsl:value-of select= "/oompaloompa/dob" /></p>
               
             </body>                  
          </html>

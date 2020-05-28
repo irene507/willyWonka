@@ -39,11 +39,11 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 	}
 	
 }
-	public Warehouse select(int WHid) {
+	public Warehouse select(String Wname) {
 		try {
-			String sql = "SELECT * FROM warehouse WHERE id = ?";
+			String sql = "SELECT * FROM warehouse WHERE name = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setInt(1, WHid);
+			prep.setString(1, Wname);
 			ResultSet rs = prep.executeQuery();
 			int id = rs.getInt("id");
 			String name = rs.getString("name");
@@ -62,11 +62,11 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 	}
 
 	
-	public void delete(String WHname) {
+	public void delete(int Wid) {
 		try {
-			String sql = "DELETE FROM warehouse WHERE name = ?";
+			String sql = "DELETE FROM warehouse WHERE id = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, WHname);
+			prep.setInt(1, Wid);
 			prep.executeUpdate();
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -91,7 +91,7 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 	public List<Warehouse> searchByName(String name){
 		List<Warehouse> WHList = new ArrayList<Warehouse>();
 		try{
-			String sql = "SELECT * FROM warehouse WHERE name = ?";
+			String sql = "SELECT * FROM warehouse WHERE name LIKE ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1,"%"+name+"%");
 			ResultSet rs = prep.executeQuery();

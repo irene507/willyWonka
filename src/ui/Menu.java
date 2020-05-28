@@ -1029,12 +1029,12 @@ public class Menu {
 	// ADD WAREHOUSE
 //----------------------------------------------------------------
 	private static void AddWarehouse() throws Exception {
-		System.out.print("Please introduce the new Warehouse");
-		System.out.print("1. Name of the warehouse: ");
+		System.out.println("Please introduce the new Warehouse");
+		System.out.println("1. Name of the warehouse: ");
 		String name = reader.readLine();
-		System.out.print("2. Corridor number: ");
+		System.out.println("2. Corridor number: ");
 		int corridor = Integer.parseInt(reader.readLine());
-		System.out.print("3. Shelve number: ");
+		System.out.println("3. Shelve number: ");
 		int shelve = Integer.parseInt(reader.readLine());
 		Warehouse warehouse = new Warehouse(name, corridor, shelve);
 		warehouseManager.add(warehouse);
@@ -1044,34 +1044,10 @@ public class Menu {
 //----------------------------------------------------------------
 	// DELETE WAREHOUSE
 //----------------------------------------------------------------
-	private static boolean DeleteWarehouse() throws Exception {
-
-		ArrayList<Warehouse> warehouses = new ArrayList<Warehouse>();
-		boolean success = true;
-		boolean found = false;
-		int index = 0;
-
-		System.out.println("Name");
-		String name = reader.readLine();
-
-		for (int i = 0; i < warehouses.size(); i++) {
-			if (warehouses.get(i).getName().equalsIgnoreCase(name)) {
-				index = i;
-				found = true;
-				break;
-			}
-		}
-
-		if (found == true) {
-			warehouses.remove(index);
-			warehouseManager.delete(name);
-
-		} else {
-			success = false;
-		}
-
-		return success;
-
+	private static void DeleteWarehouse() throws Exception {
+		System.out.println("Introduce id of warehouse: ");
+		int Wid = Integer.parseInt(reader.readLine());
+		warehouseManager.delete(Wid);
 	}
 
 //----------------------------------------------------------------
@@ -1079,31 +1055,34 @@ public class Menu {
 //----------------------------------------------------------------
 	private static void ShowWarehouse() throws Exception {
 		try {
-			System.out.println("Introduce id of warehouse: ");
-			int WHid = Integer.parseInt(reader.readLine());
-			Warehouse warehouse = warehouseManager.select(WHid);
-			warehouse.toString();
+			System.out.println("Introduce name of warehouse: ");
+			String Wname = reader.readLine();
+			Warehouse warehouse = warehouseManager.select(Wname);
+			System.out.println(warehouse.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+	
+
+	
 
 //----------------------------------------------------------------
 	// UPDATE WAREHOUSE
 //----------------------------------------------------------------
 	private static void UpdateWarehouse() throws Exception {
-		System.out.print("Introduce the id of the warehouse you want to update: ");
-		int WHid = Integer.parseInt(reader.readLine());
-		Warehouse oldWarehouse = warehouseManager.select(WHid);
-		System.out.print("Actual name: " + oldWarehouse.getName());
-		System.out.print("Type new name or enter to continue: ");
+		System.out.println("Introduce the name of the warehouse you want to update: ");
+		String Wname = reader.readLine();
+		Warehouse oldWarehouse = warehouseManager.select(Wname);
+		System.out.println("Actual name: " + oldWarehouse.getName());
+		System.out.println("Type new name or enter to continue: ");
 		String name = reader.readLine();
 		if (name.equals("")) {
 			name = oldWarehouse.getName();
 		}
-		System.out.print("Actual corridor: " + oldWarehouse.getCorridor());
-		System.out.print("Type ner corridor or enter to continue: ");
+		System.out.println("Actual corridor: " + oldWarehouse.getCorridor());
+		System.out.println("Type new corridor or enter to continue: ");
 		String scorridor = reader.readLine();
 		int corridor;
 		if (scorridor.equals("")) {
@@ -1111,8 +1090,8 @@ public class Menu {
 		} else {
 			corridor = Integer.parseInt(scorridor);
 		}
-		System.out.print("Actual shelve: " + oldWarehouse.getCorridor());
-		System.out.print("Type ner corridor or enter to continue: ");
+		System.out.println("Actual shelve: " + oldWarehouse.getShelve());
+		System.out.println("Type new corridor or enter to continue: ");
 		String sshelve = reader.readLine();
 		int shelve;
 		if (sshelve.equals("")) {
@@ -1120,7 +1099,7 @@ public class Menu {
 		} else {
 			shelve = Integer.parseInt(sshelve);
 		}
-
+		int WHid = oldWarehouse.getId();
 		Warehouse warehouse = new Warehouse(WHid, name, corridor, shelve);
 		warehouseManager.update(warehouse);
 
@@ -1130,19 +1109,19 @@ public class Menu {
 	// SEARCH WAREHOUSE BY NAME
 //----------------------------------------------------------------
 	private static void SearchWarehouseByName() throws Exception {
-		System.out.print("Please, introduce the name of the warehouse you want to look for");
+		System.out.println("Please, introduce the name of the warehouse you want to look for");
 		String name = reader.readLine();
 		List<Warehouse> warehouses = warehouseManager.searchByName(name);
 		for (Warehouse warehouse : warehouses) {
 			System.out.println(warehouse);
 		}
 	}
-
+	
 //----------------------------------------------------------------
 	// SEARCH WAREHOUSE BY CORRIDOR
 //----------------------------------------------------------------
 	private static void SearchWarehouseByCorridor() throws Exception {
-		System.out.print("Please, introduce the corridor of the warehouse you want to look for");
+		System.out.println("Please, introduce the corridor of the warehouse you want to look for");
 		int corridor = Integer.parseInt(reader.readLine());
 		List<Warehouse> warehouses = warehouseManager.searchByCorridor(corridor);
 		for (Warehouse warehouse : warehouses) {
@@ -1155,9 +1134,9 @@ public class Menu {
 //----------------------------------------------------------------
 	
 	private static void GenerateWarehouseXML() throws Exception{
-		System.out.println("Introduce id of warehouse: ");
-		int WHid = Integer.parseInt(reader.readLine());
-		Warehouse warehouse = warehouseManager.select(WHid);
+		System.out.println("Introduce name of warehouse: ");
+		String Wname = reader.readLine();
+		Warehouse warehouse = warehouseManager.select(Wname);
 		JAXBContext context = JAXBContext.newInstance(Warehouse.class);
 		Marshaller marshal = context.createMarshaller();
 		marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -1165,6 +1144,7 @@ public class Menu {
 		marshal.marshal(warehouse, file);
 		marshal.marshal(warehouse,System.out);
 	}
+	
 //----------------------------------------------------------------
 	// ADD WAREHOUSE THROUGH XML
 //----------------------------------------------------------------
@@ -1176,7 +1156,7 @@ public class Menu {
 		while(incorrectWarehouse) {
 		System.out.println("Type File for the XML folder (expected in the XMLS folder): ");
 		String filename = reader.readLine();
-		File file= new File("./xmls/"+filename);
+		File file= new File("./xmls/"+filename+".xml");
 		try {
         	// Create a DocumentBuilderFactory
             DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
@@ -1192,13 +1172,13 @@ public class Menu {
            
         } catch (ParserConfigurationException ex) {
             System.out.println(file + " error while parsing!");
-           
+            return;
         } catch (SAXException ex) {
             System.out.println(file + " was not well-formed!");
-            
+            return;
         } catch (IOException ex) {
             System.out.println(file + " was not accesible!");
-            
+            return;
         }
 		Warehouse warehouse = (Warehouse)unmarshal.unmarshal(file);
 		System.out.println("Added to the database: "+warehouse);
@@ -1237,33 +1217,10 @@ public class Menu {
 //----------------------------------------------------------------
 //DELETE WORKER
 //----------------------------------------------------------------
-	private static boolean DeleteWorker() throws Exception {
-		ArrayList<OompaLoompa> workers = new ArrayList<OompaLoompa>();
-		boolean success = true;
-		boolean found = false;
-		int index = 0;
-
-		System.out.println("Name");
-		String name = reader.readLine();
-
-		for (int i = 0; i < workers.size(); i++) {
-			if (workers.get(i).getName().equalsIgnoreCase(name)) {
-				index = i;
-				found = true;
-				break;
-			}
-		}
-
-		if (found == true) {
-			workers.remove(index);
-			oompaloompaManager.delete(name);
-
-		} else {
-			success = false;
-		}
-
-		return success;
-
+	private static void DeleteWorker() throws Exception {
+		System.out.println("Introduce id of worker: ");
+		int Wid = Integer.parseInt(reader.readLine());
+		oompaloompaManager.delete(Wid);
 	}
 
 //----------------------------------------------------------------
@@ -1385,7 +1342,7 @@ public class Menu {
 		while(incorrectWorker) {
 		System.out.println("Type File for the XML folder (expected in the XMLS folder): ");
 		String filename = reader.readLine();
-		File file= new File("./xmls/"+filename);
+		File file= new File("./xmls/"+filename+".xml");
 		try {
         	// Create a DocumentBuilderFactory
             DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
@@ -1410,7 +1367,7 @@ public class Menu {
             
         }
 		OompaLoompa worker = (OompaLoompa)unmarshal.unmarshal(file);
-		System.out.println("Added to the database: "+worker);
+		System.out.println("Added to the database: "+ worker);
 		oompaloompaManager.add(worker);
 		
 		

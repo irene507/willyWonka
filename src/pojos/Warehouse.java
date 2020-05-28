@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD) //put annotations in the fields of the class
 @XmlRootElement(name="warehouse")
-@XmlType(propOrder = {"name", "corridor","shelve"})
+@XmlType(propOrder = {"name","corridor","shelve"})
 public class Warehouse implements Serializable  {
 	
 	/**
@@ -42,7 +42,9 @@ public class Warehouse implements Serializable  {
 	}
 	
 	
-	
+	public Warehouse() {
+		super();
+	}
 	
 	
 	//GETTERS Y SETTERS
