@@ -57,6 +57,9 @@ public class OompaLoompa implements Serializable {
 		this.address=address;
 		this.dob = dob;
 	}
+	public OompaLoompa() {
+		super();
+	}
 	
 	
 	//Getters y setters

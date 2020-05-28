@@ -52,17 +52,15 @@ public class Menu {
 		// Connects with the database
 		dbManager = new SQLiteManager();
 		dbManager.connect();
+		// Need to create the tables with JDBC before using JPA
+		dbManager.createTables();
+		userManager = new JPAUserManager(); // we dont hace a constructor but we dont need it
+		userManager.connect();
 		chocolateManager = dbManager.getChocolateManager();
 		clientManager = dbManager.getClientManager();
 		animalManager = dbManager.getAnimalManager();
 		oompaloompaManager = dbManager.getOompaLoompaManager();
 		warehouseManager = dbManager.getWarehouseManager();
-		
-		// Need to create the tables with JDBC before using JPA
-		dbManager.createTables();
-		userManager = new JPAUserManager(); // we dont hace a constructor but we dont need it
-		userManager.connect();
-		
 
 		// Initialize BufferedReader
 		reader = new BufferedReader(new InputStreamReader(System.in));
@@ -1274,10 +1272,12 @@ public class Menu {
 	private static void ShowWorker() throws Exception {
 
 		try {
-			System.out.println("Introduce id of worker: ");
-			int Wid = Integer.parseInt(reader.readLine());
-			OompaLoompa worker = oompaloompaManager.select(Wid);
-			worker.toString();
+			
+			System.out.println("Introduce name of worker: ");
+			String Wname = reader.readLine();
+			OompaLoompa worker = oompaloompaManager.select(Wname);
+			System.out.println(worker.toString());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1289,9 +1289,9 @@ public class Menu {
 //----------------------------------------------------------------
 	private static void UpdateWorker() throws Exception {
 
-		System.out.print("Introduce the id of the worker you want to update: ");
-		int Wid = Integer.parseInt(reader.readLine());
-		OompaLoompa oldWorker = oompaloompaManager.select(Wid);
+		System.out.print("Introduce the name of the worker you want to update: ");
+		String Wname = reader.readLine();
+		OompaLoompa oldWorker = oompaloompaManager.select(Wname);
 		System.out.print("Actual name: " + oldWorker.getName());
 		System.out.print("Type new name or enter to continue: ");
 		String name = reader.readLine();
@@ -1323,6 +1323,7 @@ public class Menu {
 		System.out.print("Type new date of birth (yyyy-mm-dd) or enter to continue: ");
 		String sdob = reader.readLine();
 		Date dob;
+		int Wid = oldWorker.getId();
 		if (sdob.equals("")) {
 			dob = oldWorker.getDob();
 		} else {
@@ -1362,9 +1363,9 @@ public class Menu {
 	// GENERATE WORKER XML
 //----------------------------------------------------------------
 	private static void GenerateWorkerXML() throws Exception{
-		System.out.println("Introduce id of Oompa Loompa: ");
-		int OLid = Integer.parseInt(reader.readLine());
-		OompaLoompa ol = oompaloompaManager.select(OLid);
+		System.out.println("Introduce name of Oompa Loompa: ");
+		String Wname = reader.readLine();
+		OompaLoompa ol = oompaloompaManager.select(Wname);
 		JAXBContext context = JAXBContext.newInstance(OompaLoompa.class);
 		Marshaller marshal = context.createMarshaller();
 		marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);

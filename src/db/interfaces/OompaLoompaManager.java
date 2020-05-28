@@ -6,7 +6,7 @@ import java.sql.Date;
 
 public interface OompaLoompaManager{
 	public void add(OompaLoompa oompaloompa);
-	public OompaLoompa select(int OLid);
+	public OompaLoompa select(String OLname);
 	public void update(OompaLoompa oompaloompa);
 	public void delete(String OLname);
 	public List<OompaLoompa> searchByName(String name);
