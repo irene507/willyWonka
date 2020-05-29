@@ -14,5 +14,5 @@ public interface MilkManager{
 	public List<Milk> searchByName(String name);
 	public List<Milk> searchByType(String type);
 	public Milk getMilk(int MilkId);
-	
+	public List<Milk> showMilk();
 }
