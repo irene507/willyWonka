@@ -396,7 +396,7 @@ public class Menu {
 			System.out.println("5. Show all clients          ");
 			System.out.println("6. Update client          ");
 			System.out.println("7. generate XML         ");
-			System.out.println("8. Create animal through XML");
+			System.out.println("8. Create client through XML");
 
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
