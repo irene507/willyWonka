@@ -1,6 +1,7 @@
 package db.jpa;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
@@ -19,16 +20,17 @@ public class JPAUserManager implements UserManager {
 	private EntityManager em;
 	
 	@Override
-	public boolean stablish_connection() {
+	public void connect() {
 		try {
 		em = Persistence.createEntityManagerFactory("chocolate-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
-		return true;
+		
 	} catch (Exception e) {
+		
 		e.printStackTrace();
-		return false;
+		
 	}
 		//instead of doing a void I like to do a boolean so I can see if It has been stablished
 		
@@ -44,6 +46,7 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().begin();
 		em.persist(user);
 		em.getTransaction().commit();
+		//YA ESTA
 
 	}
 
@@ -53,6 +56,13 @@ public class JPAUserManager implements UserManager {
 		em.persist(role);
 		em.getTransaction().commit();
 
+	}
+	public List<User> getUsers(){
+		
+		Query q = em.createNativeQuery("SELECT * FROM users",User.class);
+		List<User> users = (List<User>) q.getResultList();
+		
+		return users;
 	}
 
 	@Override
@@ -101,13 +111,19 @@ public class JPAUserManager implements UserManager {
 
 	
 	public void deleteUser(int id) {
-	     // Begin transaction
 	     em.getTransaction().begin();
-	     // Store the object
-	     em.remove(id);
-	     // End transaction
+		 Query q = em.createNativeQuery("DELETE FROM users WHERE id= ?");
+		 q.setParameter(1, id);
+		 q.executeUpdate();
 	     em.getTransaction().commit();
-
+	     
+	}
+	public void deleteRole(int id) {
+		em.getTransaction().begin();
+		 Query q = em.createNativeQuery("DELETE FROM roles WHERE id= ?");
+		 q.setParameter(1, id);
+		 q.executeUpdate();
+	     em.getTransaction().commit();
 	}
 /*	
 	public void updateUser(){
@@ -121,115 +137,19 @@ public class JPAUserManager implements UserManager {
 */
 	
 	@Override
-	public boolean closeConnection( ){
+	public void disconnect( ){
 		try{
 			em.close();
-			return true;
+			
 		}catch(Exception e ){
 			e.printStackTrace();
-			return false;
+			
 		}
 		
 	}
 	
 	
-	@Override
-	public Integer insertNewClient (User user) {
 	
-	try{
-		System.out.println("New client: " + em.getTransaction().isActive());
-		Client client = new Client();
-		client.setName(client.getName());
-		client.setCellphone(client.getCellphone());
-		client.setEmail(client.getEmail());
-		client.setAdress(client.getAdress());
-		client.setDob(client.getDob());
-		em.getTransaction().begin();
-		em.persist(client);
-		em.getTransaction().commit();
-		return client.getId();
-	} catch(EntityNotFoundException new_benefits_error) {
-		new_benefits_error.printStackTrace();
-		return null;
-	}
-}
-
-@Override
-public boolean UpdateClient(Client client) {
-	try {
-		Query q = em.createNativeQuery("SELECT * FROM client WHERE client_id = ?", Client.class);
-		q.setParameter(1, client.getId());
-		Client c = (Client) q.getSingleResult();
-		em.getTransaction().begin();
-		c.setName(client.getName());
-		c.setCellphone(client.getCellphone());
-		c.setEmail(client.getEmail());
-		c.setAdress(client.getAdress());
-		c.setDob(client.getDob());
-		em.getTransaction().commit();
-		return true;
-	} catch (EntityNotFoundException update_client_error) {
-		update_client_error.printStackTrace();
-		return false;
-	}
-}
-
-@Override
-public boolean DeleteClient(Client client) {
-	try {
-		em.getTransaction().begin();
-		em.remove(client);
-		em.getTransaction().commit();
-		return true;
-	} catch (EntityNotFoundException delete_client_error) {
-		delete_client_error.printStackTrace();
-		return false;
-	}
-	
-	
-}
-
-
-@Override
-public Client SearchClient(User user) {
-	try {
-		Query query_client = em.createNativeQuery("SELECT * FROM client WHERE user_id LIKE ?", Client.class);
-		query_client.setParameter(1, user.getId());
-		Client client = (Client) query_client.getSingleResult();
-		return client;
-	} catch (EntityNotFoundException search_client_error) {
-		search_client_error.printStackTrace();
-		return null;
-	}
-}
-
-
-
-@Override
-public Client SearchClientById(Integer clientId) {
-	try {
-		Query query_client = em.createNativeQuery("SELECT * FROM client WHERE client_id LIKE ?", Client.class);
-		query_client.setParameter(1, clientId);
-		Client client = (Client) query_client.getSingleResult();
-		return client;
-	} catch (EntityNotFoundException search_client_error) {
-		search_client_error.printStackTrace();
-		return null;
-	}
-}
-
-@Override
-public boolean disconnect() {
-	// TODO Auto-generated method stub
-	return false;
-}
-
-@Override
-public void connect() {
-	// TODO Auto-generated method stub
-	
-}
-
 
 	
 

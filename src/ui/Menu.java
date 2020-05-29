@@ -56,30 +56,32 @@ public class Menu {
 		dbManager.createTables();
 		userManager = new JPAUserManager(); // we dont hace a constructor but we dont need it
 		userManager.connect();
-
 		chocolateManager = dbManager.getChocolateManager();
 		clientManager = dbManager.getClientManager();
 		animalManager = dbManager.getAnimalManager();
+		oompaloompaManager = dbManager.getOompaLoompaManager();
+		warehouseManager = dbManager.getWarehouseManager();
 
 		// Initialize BufferedReader
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		// Welcome screen
-		System.out.print("-------------WELCOME!---------\n ");
+		System.out.print("-------------WELCOME!------------\n ");
 
-		// we offer the user to create tables
-		System.out.println("Do you want to create the tables? (Y/N)");
+		// we offer the user to create tables (donÂ´t need to as they have already been created)
+		/*System.out.println("Do you want to create the tables? (Y/N)");
 		String yn = reader.readLine();
 		if (yn.equalsIgnoreCase("y")) {
 			dbManager.createTables();
-		}
+		}*/
 		while (true) {
 			// Ask the user his/her role
 			System.out.println("What do you want to do? ");
-			System.out.println("1.Create a new role");
-			System.out.println("2.Create a new user");
-			System.out.println("3.Login");
-			System.out.println("4.Delete User");
-			System.out.println("5.Update User");
+			System.out.println("1.Login");
+			System.out.println("2.Create a User");
+			System.out.println("3.Delete a User");
+			System.out.println("4.Update a User");
+			System.out.println("5.Create a new role");
+			System.out.println("6.Delete a Role");
 			System.out.println("0.Exit");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
@@ -89,24 +91,28 @@ public class Menu {
 				userManager.disconnect();
 				break;
 			case 1:
-				// Create a new role
-				newRole();
+				//Login
+				login();
 				break;
-
 			case 2:
-				// Create a new user
+				//Create new User
 				newUser();
 				break;
 			case 3:
-				// Login
-				login();
+				//Delete User
+				deleteUser();
 				break;
 			case 4: 
-				//Delete user
-				deleteUser();
-			case 5 : 
 				//Update user
 				//updateUser(); 
+			case 5 : 
+				//Create new Role
+				newRole();
+				break;
+			case 6:
+				//Delete Role
+				deleteRole();
+				break;
 			default:
 				break;
 			}
@@ -114,25 +120,71 @@ public class Menu {
 	}
 
 	private static void newRole() throws Exception {
-		System.out.println("Please type the new role information ");
-		System.out.println("Role name:");
-		String roleName = reader.readLine();
-		Role role = new Role(roleName);
-		userManager.createRole(role);
+		boolean incorrect=true;
+		System.out.println("Please choose between the available roles: ");
+		System.out.println("1.Willy Wonka");
+		System.out.println("2.OompaLoompa CEO");
+		int option = Integer.parseInt(reader.readLine());
+		String roleName;
+		Role role;
+		while(incorrect) {
+		if (option==1) {
+			roleName = "Willy Wonka";
+			role = new Role(roleName);
+			userManager.createRole(role);
+			incorrect = false;
+		}else if(option==2) {
+			roleName = "Oompa Loompa";
+			role = new Role(roleName);
+			userManager.createRole(role);
+			incorrect = false;
+		}else {
+			System.out.println("Wrong option introduced");
+			
+		}
+		}
+		
+		
 
 	}
 
 	private static void newUser() throws Exception {
+		boolean incorrect=true,errfound=true;
 		System.out.println("Please type the new user information ");
+		List<User> users = userManager.getUsers();
+		String username;
 		System.out.println("Username: ");
-		String username = reader.readLine();
+		username = reader.readLine();
+		if(!users.isEmpty()) {
+			do{
+				
+				for(User user:users) {
+					if(user.getUsername().equalsIgnoreCase(username)) {
+						System.out.println("That Username already exists, introduce a new username");
+						username = reader.readLine();
+						errfound=true;
+						
+					}else {
+						errfound=false;
+					}
+				}
+				if(errfound) {
+					incorrect=true;
+				}else {
+					incorrect=false;
+				}
+			}while(incorrect);
+		
+		}
+		
 		System.out.println("Password: ");
 		String password = reader.readLine();
-		// Create the password´s hash
+		// Create the passwordï¿½s hash
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		md.update(password.getBytes());
 		byte[] hash = md.digest();
 		// Show all the roles and let the user choose one
+		
 		List<Role> roles = userManager.getRoles();
 		for (Role role : roles) {
 			System.out.println(role);
@@ -145,6 +197,7 @@ public class Menu {
 		// Create the user and store it
 		User user = new User(username, hash, chosenRole);
 		userManager.createUser(user);
+		
 
 	}
 
@@ -161,10 +214,10 @@ public class Menu {
 		}
 		// check the role
 		else if (user.getRole().getRole().equalsIgnoreCase("Willy Wonka")) {
-			System.out.println("Welcome Willy Wonka´ " + username + "!");
+			System.out.println("Welcome Willy Wonkaï¿½ " + username + "!");
 			willyWonkaMenu();
 		} else if (user.getRole().getRole().equalsIgnoreCase("Oompa Loompa")) {
-			System.out.println("Welcome Oompa Loompa´ " + username + "!");
+			System.out.println("Welcome Oompa Loompaï¿½ " + username + "!");
 			OompaLoompaCeoMenu();
 
 		} else {
@@ -174,17 +227,32 @@ public class Menu {
 	}
 	
 	
-	//CREo que está bien ?
-	private static Integer deleteUser()throws Exception {
-		        System.out.println("What´s the Id of the user you want to delete? ");
+	//CREo que estï¿½ bien ?
+	private static void deleteUser()throws Exception {
+		        System.out.println("Whatï¿½s the Id of the user you want to delete? ");
+		        List<User> users = userManager.getUsers();
+				for (User user : users) {
+					System.out.println("ID: "+user.getId()+"  Name: "+user.getUsername());
+				}
 		        int Id = Integer.parseInt(reader.readLine());
-		        
-				return Id;
+		        userManager.deleteUser(Id);
+		       
 				
 				// gettransaction, set , y commmit 
 	
 		
 	}
+	
+	private static void deleteRole()throws Exception{
+		System.out.println("Whatï¿½s the Id of the user you want to delete? ");
+        List<Role> roles = userManager.getRoles();
+		for (Role role : roles) {
+			System.out.println(role);
+		}
+        int Id = Integer.parseInt(reader.readLine());
+        userManager.deleteRole(Id);
+	}
+	
 //-----------------------------------------------------------------------------------
 
 	// WILLY WONKA MENU
@@ -325,8 +393,10 @@ public class Menu {
 			System.out.println("2. Erase client           ");
 			System.out.println("3. Select client          ");
 			System.out.println("4. Search client by ...  ");
-			System.out.println("5. Update client          ");
-			System.out.println("6. generate XML         ");
+			System.out.println("5. Show all clients          ");
+			System.out.println("6. Update client          ");
+			System.out.println("7. generate XML         ");
+			System.out.println("8. Create animal through XML");
 
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
@@ -354,12 +424,18 @@ public class Menu {
 				}
 
 				break;
-
 			case 5:
+				showClient();
+				break;	
+
+			case 6:
 				updateClient();
 				break;
-			case 6:
+			case 7:
 				generateClientXML();
+				break;
+			case 8:
+				CreateAClientXML();
 				break;
 
 			default:
@@ -370,6 +446,8 @@ public class Menu {
 		}
 	}
 
+
+
 //--------------------------------------------------------------------------------------------------------
 
 	// WILLYWONKA ANIMALS
@@ -379,6 +457,10 @@ public class Menu {
 	private static void willyWonkaAnimals() throws Exception {
 
 		while (true) {
+<<<<<<< HEAD
+=======
+			
+>>>>>>> branch 'master' of https://github.com/irene507/willyWonka.git
 			
 			// ANIMAL
 			System.out.println("1. Add animal ");
@@ -568,6 +650,10 @@ public class Menu {
 		System.out.println("4. Select Warehouse ");
 		System.out.println("5. Search by Name ");
 		System.out.println("6. Search by Corridor");
+		System.out.println("7. Generate XML");
+		System.out.println("8. Add Warehouse through XML");
+		System.out.println("9. Back");
+		
 
 		int choice = Integer.parseInt(reader.readLine());
 		switch (choice) {
@@ -589,6 +675,14 @@ public class Menu {
 		case 6:
 			SearchWarehouseByCorridor();
 			break;
+		case 7:
+			GenerateWarehouseXML();
+			break;
+		case 8:
+			AddWarehouseXML();
+			break;
+		case 9:
+			return;
 		default:
 			break;
 
@@ -608,7 +702,10 @@ public class Menu {
 		System.out.println("4. Select Worker ");
 		System.out.println("5. Search by Name ");
 		System.out.println("6. Search by Date of Birth ");
-
+		System.out.println("7. Generate XML");
+		System.out.println("8. Add Worker through XML");
+		System.out.println("9. Back");
+		
 		int choice = Integer.parseInt(reader.readLine());
 		switch (choice) {
 		case 1:
@@ -629,6 +726,14 @@ public class Menu {
 		case 6:
 			SearchWorkerByDOB();
 			break;
+		case 7:
+			GenerateWorkerXML();
+			break;
+		case 8:
+			AddWorkerXML();
+			break;
+		case 9:
+			return;
 		default:
 			break;
 
@@ -661,7 +766,7 @@ public class Menu {
 	// ??we are going to get the marshall
 	//input.dog.xml como lo saca??????
 	//not valid cause its missing an attribute 
-	//well-formed por qué? 
+	//well-formed por quï¿½? 
 	private static void admitChocolateXML() throws Exception {
        boolean incorrectChocolate = true;
 		// Create a JAXBContext
@@ -910,7 +1015,7 @@ public class Menu {
 	private static void showChocolate() {
 
 		try {
-			System.out.println("Introduce the chocolate´s ID");
+			System.out.println("Introduce the chocolateï¿½s ID");
 			int chocoId = Integer.parseInt(reader.readLine());
 
 			List<Chocolate> chocolates = chocolateManager.searchChocolate(chocoId);
@@ -969,12 +1074,12 @@ public class Menu {
 	// ADD WAREHOUSE
 //----------------------------------------------------------------
 	private static void AddWarehouse() throws Exception {
-		System.out.print("Please introduce the new Warehouse");
-		System.out.print("1. Name of the warehouse: ");
+		System.out.println("Please introduce the new Warehouse");
+		System.out.println("1. Name of the warehouse: ");
 		String name = reader.readLine();
-		System.out.print("2. Corridor number: ");
+		System.out.println("2. Corridor number: ");
 		int corridor = Integer.parseInt(reader.readLine());
-		System.out.print("3. Shelve number: ");
+		System.out.println("3. Shelve number: ");
 		int shelve = Integer.parseInt(reader.readLine());
 		Warehouse warehouse = new Warehouse(name, corridor, shelve);
 		warehouseManager.add(warehouse);
@@ -984,34 +1089,10 @@ public class Menu {
 //----------------------------------------------------------------
 	// DELETE WAREHOUSE
 //----------------------------------------------------------------
-	private static boolean DeleteWarehouse() throws Exception {
-
-		ArrayList<Warehouse> warehouses = new ArrayList<Warehouse>();
-		boolean success = true;
-		boolean found = false;
-		int index = 0;
-
-		System.out.println("Name");
-		String name = reader.readLine();
-
-		for (int i = 0; i < warehouses.size(); i++) {
-			if (warehouses.get(i).getName().equalsIgnoreCase(name)) {
-				index = i;
-				found = true;
-				break;
-			}
-		}
-
-		if (found == true) {
-			warehouses.remove(index);
-			warehouseManager.delete(name);
-
-		} else {
-			success = false;
-		}
-
-		return success;
-
+	private static void DeleteWarehouse() throws Exception {
+		System.out.println("Introduce id of warehouse: ");
+		int Wid = Integer.parseInt(reader.readLine());
+		warehouseManager.delete(Wid);
 	}
 
 //----------------------------------------------------------------
@@ -1019,31 +1100,34 @@ public class Menu {
 //----------------------------------------------------------------
 	private static void ShowWarehouse() throws Exception {
 		try {
-			System.out.println("Introduce id of warehouse: ");
-			int WHid = Integer.parseInt(reader.readLine());
-			Warehouse warehouse = warehouseManager.select(WHid);
-			warehouse.toString();
+			System.out.println("Introduce name of warehouse: ");
+			String Wname = reader.readLine();
+			Warehouse warehouse = warehouseManager.select(Wname);
+			System.out.println(warehouse.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+	
+
+	
 
 //----------------------------------------------------------------
 	// UPDATE WAREHOUSE
 //----------------------------------------------------------------
 	private static void UpdateWarehouse() throws Exception {
-		System.out.print("Introduce the id of the warehouse you want to update: ");
-		int WHid = Integer.parseInt(reader.readLine());
-		Warehouse oldWarehouse = warehouseManager.select(WHid);
-		System.out.print("Actual name: " + oldWarehouse.getName());
-		System.out.print("Type new name or enter to continue: ");
+		System.out.println("Introduce the name of the warehouse you want to update: ");
+		String Wname = reader.readLine();
+		Warehouse oldWarehouse = warehouseManager.select(Wname);
+		System.out.println("Actual name: " + oldWarehouse.getName());
+		System.out.println("Type new name or enter to continue: ");
 		String name = reader.readLine();
 		if (name.equals("")) {
 			name = oldWarehouse.getName();
 		}
-		System.out.print("Actual corridor: " + oldWarehouse.getCorridor());
-		System.out.print("Type ner corridor or enter to continue: ");
+		System.out.println("Actual corridor: " + oldWarehouse.getCorridor());
+		System.out.println("Type new corridor or enter to continue: ");
 		String scorridor = reader.readLine();
 		int corridor;
 		if (scorridor.equals("")) {
@@ -1051,8 +1135,8 @@ public class Menu {
 		} else {
 			corridor = Integer.parseInt(scorridor);
 		}
-		System.out.print("Actual shelve: " + oldWarehouse.getCorridor());
-		System.out.print("Type ner corridor or enter to continue: ");
+		System.out.println("Actual shelve: " + oldWarehouse.getShelve());
+		System.out.println("Type new corridor or enter to continue: ");
 		String sshelve = reader.readLine();
 		int shelve;
 		if (sshelve.equals("")) {
@@ -1060,7 +1144,7 @@ public class Menu {
 		} else {
 			shelve = Integer.parseInt(sshelve);
 		}
-
+		int WHid = oldWarehouse.getId();
 		Warehouse warehouse = new Warehouse(WHid, name, corridor, shelve);
 		warehouseManager.update(warehouse);
 
@@ -1070,19 +1154,19 @@ public class Menu {
 	// SEARCH WAREHOUSE BY NAME
 //----------------------------------------------------------------
 	private static void SearchWarehouseByName() throws Exception {
-		System.out.print("Please, introduce the name of the warehouse you want to look for");
+		System.out.println("Please, introduce the name of the warehouse you want to look for");
 		String name = reader.readLine();
 		List<Warehouse> warehouses = warehouseManager.searchByName(name);
 		for (Warehouse warehouse : warehouses) {
 			System.out.println(warehouse);
 		}
 	}
-
+	
 //----------------------------------------------------------------
 	// SEARCH WAREHOUSE BY CORRIDOR
 //----------------------------------------------------------------
 	private static void SearchWarehouseByCorridor() throws Exception {
-		System.out.print("Please, introduce the corridor of the warehouse you want to look for");
+		System.out.println("Please, introduce the corridor of the warehouse you want to look for");
 		int corridor = Integer.parseInt(reader.readLine());
 		List<Warehouse> warehouses = warehouseManager.searchByCorridor(corridor);
 		for (Warehouse warehouse : warehouses) {
@@ -1090,11 +1174,64 @@ public class Menu {
 		}
 	}
 	
+//----------------------------------------------------------------
+	// GENERATE WAREHOUSE XML
+//----------------------------------------------------------------
 	
+	private static void GenerateWarehouseXML() throws Exception{
+		System.out.println("Introduce name of warehouse: ");
+		String Wname = reader.readLine();
+		Warehouse warehouse = warehouseManager.select(Wname);
+		JAXBContext context = JAXBContext.newInstance(Warehouse.class);
+		Marshaller marshal = context.createMarshaller();
+		marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		File file= new File("./xmls/Output-Warehouse.xml");
+		marshal.marshal(warehouse, file);
+		marshal.marshal(warehouse,System.out);
+	}
 	
+//----------------------------------------------------------------
+	// ADD WAREHOUSE THROUGH XML
+//----------------------------------------------------------------
+	private static void AddWarehouseXML() throws Exception{
+		boolean incorrectWarehouse = true;
+		
+		JAXBContext context = JAXBContext.newInstance(Warehouse.class);
+		Unmarshaller unmarshal = context.createUnmarshaller();
+		while(incorrectWarehouse) {
+		System.out.println("Type File for the XML folder (expected in the XMLS folder): ");
+		String filename = reader.readLine();
+		File file= new File("./xmls/"+filename+".xml");
+		try {
+        	// Create a DocumentBuilderFactory
+            DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
+            // Set it up so it validates XML documents
+            dBF.setValidating(true);
+            // Create a DocumentBuilder and an ErrorHandler (to check validity)
+            DocumentBuilder builder = dBF.newDocumentBuilder();
+            CustomErrorHandler customErrorHandler = new CustomErrorHandler();
+            builder.setErrorHandler(customErrorHandler);
+            // Parse the XML file and print out the result
+            Document doc = builder.parse(file);
+            incorrectWarehouse = false;
+           
+        } catch (ParserConfigurationException ex) {
+            System.out.println(file + " error while parsing!");
+            return;
+        } catch (SAXException ex) {
+            System.out.println(file + " was not well-formed!");
+            return;
+        } catch (IOException ex) {
+            System.out.println(file + " was not accesible!");
+            return;
+        }
+		Warehouse warehouse = (Warehouse)unmarshal.unmarshal(file);
+		System.out.println("Added to the database: "+warehouse);
+		warehouseManager.add(warehouse);
+		
+	}
 	
-	
-	
+	}
 	
 	
 
@@ -1125,33 +1262,10 @@ public class Menu {
 //----------------------------------------------------------------
 //DELETE WORKER
 //----------------------------------------------------------------
-	private static boolean DeleteWorker() throws Exception {
-		ArrayList<OompaLoompa> workers = new ArrayList<OompaLoompa>();
-		boolean success = true;
-		boolean found = false;
-		int index = 0;
-
-		System.out.println("Name");
-		String name = reader.readLine();
-
-		for (int i = 0; i < workers.size(); i++) {
-			if (workers.get(i).getName().equalsIgnoreCase(name)) {
-				index = i;
-				found = true;
-				break;
-			}
-		}
-
-		if (found == true) {
-			workers.remove(index);
-			oompaloompaManager.delete(name);
-
-		} else {
-			success = false;
-		}
-
-		return success;
-
+	private static void DeleteWorker() throws Exception {
+		System.out.println("Introduce id of worker: ");
+		int Wid = Integer.parseInt(reader.readLine());
+		oompaloompaManager.delete(Wid);
 	}
 
 //----------------------------------------------------------------
@@ -1160,10 +1274,12 @@ public class Menu {
 	private static void ShowWorker() throws Exception {
 
 		try {
-			System.out.println("Introduce id of worker: ");
-			int Wid = Integer.parseInt(reader.readLine());
-			OompaLoompa worker = oompaloompaManager.select(Wid);
-			worker.toString();
+			
+			System.out.println("Introduce name of worker: ");
+			String Wname = reader.readLine();
+			OompaLoompa worker = oompaloompaManager.select(Wname);
+			System.out.println(worker.toString());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1175,9 +1291,9 @@ public class Menu {
 //----------------------------------------------------------------
 	private static void UpdateWorker() throws Exception {
 
-		System.out.print("Introduce the id of the worker you want to update: ");
-		int Wid = Integer.parseInt(reader.readLine());
-		OompaLoompa oldWorker = oompaloompaManager.select(Wid);
+		System.out.print("Introduce the name of the worker you want to update: ");
+		String Wname = reader.readLine();
+		OompaLoompa oldWorker = oompaloompaManager.select(Wname);
 		System.out.print("Actual name: " + oldWorker.getName());
 		System.out.print("Type new name or enter to continue: ");
 		String name = reader.readLine();
@@ -1209,6 +1325,7 @@ public class Menu {
 		System.out.print("Type new date of birth (yyyy-mm-dd) or enter to continue: ");
 		String sdob = reader.readLine();
 		Date dob;
+		int Wid = oldWorker.getId();
 		if (sdob.equals("")) {
 			dob = oldWorker.getDob();
 		} else {
@@ -1244,6 +1361,64 @@ public class Menu {
 		}
 	}
 
+//----------------------------------------------------------------
+	// GENERATE WORKER XML
+//----------------------------------------------------------------
+	private static void GenerateWorkerXML() throws Exception{
+		System.out.println("Introduce name of Oompa Loompa: ");
+		String Wname = reader.readLine();
+		OompaLoompa ol = oompaloompaManager.select(Wname);
+		JAXBContext context = JAXBContext.newInstance(OompaLoompa.class);
+		Marshaller marshal = context.createMarshaller();
+		marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		File file= new File("./xmls/Output-OompaLoompa.xml");
+		marshal.marshal(ol, file);
+		marshal.marshal(ol,System.out);
+	}
+	
+//----------------------------------------------------------------
+	// ADD WORKER THROUGH XML
+//----------------------------------------------------------------
+	
+	private static void AddWorkerXML() throws Exception {
+		boolean incorrectWorker = true;
+		JAXBContext context = JAXBContext.newInstance(OompaLoompa.class);
+		Unmarshaller unmarshal = context.createUnmarshaller();
+		while(incorrectWorker) {
+		System.out.println("Type File for the XML folder (expected in the XMLS folder): ");
+		String filename = reader.readLine();
+		File file= new File("./xmls/"+filename+".xml");
+		try {
+        	// Create a DocumentBuilderFactory
+            DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
+            // Set it up so it validates XML documents
+            dBF.setValidating(true);
+            // Create a DocumentBuilder and an ErrorHandler (to check validity)
+            DocumentBuilder builder = dBF.newDocumentBuilder();
+            CustomErrorHandler customErrorHandler = new CustomErrorHandler();
+            builder.setErrorHandler(customErrorHandler);
+            // Parse the XML file and print out the result
+            Document doc = builder.parse(file);
+            incorrectWorker = false;
+           
+        } catch (ParserConfigurationException ex) {
+            System.out.println(file + " error while parsing!");
+           
+        } catch (SAXException ex) {
+            System.out.println(file + " was not well-formed!");
+            
+        } catch (IOException ex) {
+            System.out.println(file + " was not accesible!");
+            
+        }
+		OompaLoompa worker = (OompaLoompa)unmarshal.unmarshal(file);
+		System.out.println("Added to the database: "+ worker);
+		oompaloompaManager.add(worker);
+		
+		
+	}
+	}
+	
 	
 	
 //--------------------------------------------------------------------------------
@@ -1870,35 +2045,51 @@ public class Menu {
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
-	/*
-	 * private static void admitClientXML() throws Exception { // Create a
-	 * JAXBContext JAXBContext context = JAXBContext.newInstance(Client.class); //
-	 * Get the unmarshaller Unmarshaller unmarshal = context.createUnmarshaller();
-	 * // Open the file File file = null; boolean incorrectClient = false; do {
-	 * System.out.
-	 * println("Type the filename for the XML document (expected in the xmls folder):"
-	 * ); String fileName = reader.readLine(); file = new File("./xmls/" +
-	 * fileName); try { // Create a DocumentBuilderFactory DocumentBuilderFactory
-	 * dBF = DocumentBuilderFactory.newInstance(); // Set it up so it validates XML
-	 * documents dBF.setValidating(true); // Create a DocumentBuilder and an
-	 * ErrorHandler (to check validity) DocumentBuilder builder =
-	 * dBF.newDocumentBuilder(); CustomErrorHandler customErrorHandler = new
-	 * xml.utils.CustomErrorHandler(); builder.setErrorHandler(customErrorHandler);
-	 * // Parse the XML file and print out the result Document doc =
-	 * builder.parse(file); if (!customErrorHandler.isValid()) { incorrectClient =
-	 * true; } } catch (ParserConfigurationException ex) { System.out.println(file +
-	 * " error while parsing!"); incorrectClient = true; } catch (SAXException ex) {
-	 * System.out.println(file + " was not well-formed!"); incorrectClient = true; }
-	 * catch (IOException ex) { System.out.println(file + " was not accesible!");
-	 * incorrectClient = true; }
-	 * 
-	 * } while (incorrectClient); // Unmarshall the dog from a file Client client =
-	 * (Client) unmarshal.unmarshal(file); // Print the client
-	 * System.out.println("Added to the database: " + client);
-	 * clientManager.admit(client); // Get the dogId from the database because the
-	 * XML file doesn't have it int clientId = dbManager.getLastId();
-	 * 
-	 * } }
-	 */
+		
+		public static void CreateAClientXML() throws Exception{
+			//Create a JAXBContext
+			JAXBContext context = JAXBContext.newInstance(Client.class);//We specify the class we want for the XML
+			//Get the unmarshaller
+			Unmarshaller unmarshal = context.createUnmarshaller(); // we call the create a marshaller method from the context class
+			//Unmarshal the Animal from a file
+			System.out.println("Type the filename for the XML document (expected in the xmls folder): ");
+			String fileName= reader.readLine();
+			File file= new File("_/xmls/"+ fileName);
+			Client client= (Client) unmarshal.unmarshal(file); //we do a cast to animal
+			// now we need to output the dog to the data base
+			//Print the animal
+			System.out.println("Added to the data base: "+ client); //to see what It's added to the data base
+			//Insert it
+			clientManager.addClient(client);
+			//We have the animal created
+			
+		
+		}
+		
+// ---------------------------------------------------------------------
+
+		// SELECT CHOCOLATE
+
+// -----------------------------------------------------------------------------
+
+		private static void showClient() {
+
+			try {
+				System.out.println("Introduce the chocolateï¿½s ID");
+				int chocoId = Integer.parseInt(reader.readLine());
+
+				List<Chocolate> chocolates = chocolateManager.searchChocolate(chocoId);
+				for (Chocolate chocolate : chocolates) {
+					System.out.println(chocolate.toString());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}	
+		
+		
+		
+	
 
 }// main

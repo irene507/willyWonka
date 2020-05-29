@@ -1,0 +1,10 @@
+<!DOCTYPE oompaloompa [
+	<!ELEMENT oompaloompa(cellphone,email,address,dob)>
+	<!ATTLIST oompaloompa name CDATA #REQUIRED>
+	<!ELEMENT cellphone(#PCDATA)>
+	<!ELEMENT email (#PCDATA)>
+	<!ELEMENT address(#PCDATA)>
+	<!ELEMENT dob(#PCDATA)>
+	
+
+]>
