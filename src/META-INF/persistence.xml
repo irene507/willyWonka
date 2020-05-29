@@ -12,8 +12,12 @@
 		<!-- Entity Class -->
 		<class>pojos.users.User</class>
 		<class>pojos.users.Role</class>
-        <class>pojos.Chocolate</class>
+		<class>pojos.Chocolate</class>
 		<class>pojos.Client</class>
+		<class>pojos.OompaLoompa</class>
+		<class>pojos.Warehouse</class>
+		<class>pojos.Animal</class>
+		<class>pojos.Milk</class>
  
 		<properties>	
 			<!-- Connection properties -->

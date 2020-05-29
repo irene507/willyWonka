@@ -16,14 +16,15 @@ import pojos.Warehouse;
 public class SQLiteWarehouseManager implements WarehouseManager {
 	private Connection c;
 	public Warehouse warehouse = null;
-	private SQLiteWarehouseManager (Connection c) {
+	
+	public SQLiteWarehouseManager (Connection c) {
 		this.c=c;
 	}
 	
 	
 	public void add(Warehouse warehouse){
 		try {
-		String sql = "INSERT INTO Warehouse (name, corridor, shelve)"
+		String sql = "INSERT INTO warehouse (name, corridor, shelve)"
 				+"VALUES(?,?,?);";
 		PreparedStatement prep = c.prepareStatement(sql);
 		prep.setString(1, warehouse.getName());
@@ -38,11 +39,11 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 	}
 	
 }
-	public Warehouse select(int WHid) {
+	public Warehouse select(String Wname) {
 		try {
-			String sql = "SELECT * FROM Warehouse WHERE id = ?";
+			String sql = "SELECT * FROM warehouse WHERE name = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setInt(1, WHid);
+			prep.setString(1, Wname);
 			ResultSet rs = prep.executeQuery();
 			int id = rs.getInt("id");
 			String name = rs.getString("name");
@@ -61,11 +62,11 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 	}
 
 	
-	public void delete(String WHname) {
+	public void delete(int Wid) {
 		try {
-			String sql = "DELETE FROM Warehouse WHERE name = ?";
+			String sql = "DELETE FROM warehouse WHERE id = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, WHname);
+			prep.setInt(1, Wid);
 			prep.executeUpdate();
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -74,7 +75,7 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 	}
 	public void update(Warehouse warehouse) {
 		try{
-			String sql = "UPDATE Warehouse SET name = ?, corridor = ?, shelve = ? WHERE id = ?";
+			String sql = "UPDATE warehouse SET name = ?, corridor = ?, shelve = ? WHERE id = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1,warehouse.getName());
 			prep.setInt(2, warehouse.getCorridor());
@@ -90,7 +91,7 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 	public List<Warehouse> searchByName(String name){
 		List<Warehouse> WHList = new ArrayList<Warehouse>();
 		try{
-			String sql = "SELECT * FROM Warehouse WHERE name = ?";
+			String sql = "SELECT * FROM warehouse WHERE name LIKE ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1,"%"+name+"%");
 			ResultSet rs = prep.executeQuery();
@@ -115,7 +116,7 @@ public class SQLiteWarehouseManager implements WarehouseManager {
 	public List<Warehouse> searchByCorridor(Integer corridor){
 		List<Warehouse> WHList = new ArrayList<Warehouse>();
 		try{
-			String sql = "SELECT * FROM Warehouse WHERE corridor = ?";
+			String sql = "SELECT * FROM warehouse WHERE corridor = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, corridor);
 			ResultSet rs = prep.executeQuery();

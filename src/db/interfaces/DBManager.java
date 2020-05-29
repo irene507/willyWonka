@@ -5,6 +5,8 @@ public interface DBManager {
         public void connect();
         public void disconnect();
         
+        public OompaLoompaManager getOompaLoompaManager();
+        public WarehouseManager getWarehouseManager();
         public ChocolateManager getChocolateManager();
         public ClientManager getClientManager();
         public AnimalManager getAnimalManager();

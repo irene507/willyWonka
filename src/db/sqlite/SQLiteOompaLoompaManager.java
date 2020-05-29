@@ -22,7 +22,7 @@ public class SQLiteOompaLoompaManager implements OompaLoompaManager{
 	@Override
 	public void add(OompaLoompa oompaloompa) {
 		try {
-			String sql = "INSERT INTO OompaLoompa (name, cellphone, email, address, dob)"
+			String sql = "INSERT INTO oompaLoompa (name, cellphone, email, address, dob)"
 					+"VALUES(?,?,?,?,?);";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, oompaloompa.getName());
@@ -39,12 +39,12 @@ public class SQLiteOompaLoompaManager implements OompaLoompaManager{
 		
 	}
 
-	public OompaLoompa select(int OLid) {
+	public OompaLoompa select(String OLname) {
 		OompaLoompa newOompaLoompa = null;
 		try {
-			String sql = "SELECT * FROM OompaLoompa WHERE id = ?";
+			String sql = "SELECT * FROM oompaLoompa WHERE name = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setInt(1, OLid);
+			prep.setString(1, OLname);
 			ResultSet rs = prep.executeQuery();
 			int id = rs.getInt("id");
 			String name = rs.getString("name");
@@ -66,7 +66,7 @@ public class SQLiteOompaLoompaManager implements OompaLoompaManager{
 	@Override
 	public void update(OompaLoompa oompaloompa) {
 		try{
-			String sql = "UPDATE OompaLoompa SET name = ?, cellphone = ?, email = ?, address = ?, dob = ? WHERE id = ?";
+			String sql = "UPDATE oompaLoompa SET name = ?, cellphone = ?, email = ?, address = ?, dob = ? WHERE id = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1,oompaloompa.getName());
 			prep.setInt(2, oompaloompa.getCellphone());
@@ -82,23 +82,23 @@ public class SQLiteOompaLoompaManager implements OompaLoompaManager{
 		
 	}
 
-	public void delete(String OLname) {
+	public void delete(int Wid) {
 		try {
-			String sql = "DELETE FROM OompaLoompa WHERE name = ?";
+			String sql = "DELETE FROM oompaLoompa WHERE id = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, OLname);
+			prep.setInt(1, Wid);
 			prep.executeUpdate();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 		
 	}
-
+	
 	@Override
 	public List<OompaLoompa> searchByName(String name) {
 		List<OompaLoompa> OLList = new ArrayList<OompaLoompa>();
 		try{
-			String sql = "SELECT * FROM OompaLoompa WHERE name = ?";
+			String sql = "SELECT * FROM oompaLoompa WHERE name LIKE ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1,"%"+name+"%");
 			ResultSet rs = prep.executeQuery();
@@ -126,7 +126,7 @@ public class SQLiteOompaLoompaManager implements OompaLoompaManager{
 	public List<OompaLoompa> searchBydob(Date dob) {
 		List<OompaLoompa> OLList = new ArrayList<OompaLoompa>();
 		try{
-			String sql = "SELECT * FROM OompaLoompa WHERE dob = ?";
+			String sql = "SELECT * FROM oompaLoompa WHERE dob = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setDate(1, dob);
 			ResultSet rs = prep.executeQuery();

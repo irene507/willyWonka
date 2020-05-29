@@ -1,0 +1,7 @@
+<!DOCTYPE warehouse[
+	<!ELEMENT warehouse(corridor,shelve)>
+	<!ATTLIST warehouse name CDATA #REQUIRED>
+	<!ELEMENT corridor (#PCDATA)>
+	<!ELEMENT shelve (#PCDATA)>
+
+]>
