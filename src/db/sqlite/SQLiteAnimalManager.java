@@ -2,6 +2,7 @@ package db.sqlite;
 
 import java.sql.Connection;
 
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import java.util.List;
 
 import db.interfaces.AnimalManager;
 import pojos.Animal;
-import pojos.OompaLoompa;
+
 
 
 public class SQLiteAnimalManager implements AnimalManager {
@@ -200,6 +201,7 @@ public class SQLiteAnimalManager implements AnimalManager {
 			String sq1 = "SELECT * FROM animal WHERE ID= ? "; 
 			PreparedStatement p = c.prepareStatement(sq1);
 			p.setInt(1,  AnimalId);
+			
 			//Because we are going to do it just once
 			ResultSet rs = p.executeQuery();
 			
@@ -211,7 +213,7 @@ public class SQLiteAnimalManager implements AnimalManager {
 			String AnimalSpecie = rs.getString("specie");
 			Date dob = rs.getDate("dob");
 				
-			//Create a new chocolate 
+			//Create a new animal 
 			 newAnimal = new Animal(id, AnimalName, AnimalCountry, AnimalColour, AnimalSpecie, dob);
 			 
 		  }catch(SQLException e){
@@ -220,5 +222,39 @@ public class SQLiteAnimalManager implements AnimalManager {
 		return newAnimal; 
 	}
 	
+	
+	public List<Animal> showAnimals(){
+		//Create an empty list of animals 
+		List<Animal> animalList = new ArrayList<Animal>();
+		//Get all the animals
+		try{
+			String sq1 = "SELECT * FROM animal";
+			PreparedStatement prep= c.prepareStatement(sq1);
+			ResultSet rs = prep.executeQuery();
+			//For each result 
+			while(rs.next()){
+				int id = rs.getInt("id");
+				String AnimalName = rs.getString("name");
+				String AnimalCountry= rs.getString("country");
+				String AnimalColour = rs.getString("colour");
+				String AnimalSpecie = rs.getString("specie");
+				Date dob = rs.getDate("dob");
+				
+			//Create a new chocolate 
+				Animal newAnimal = new Animal(id, AnimalName, AnimalCountry, AnimalColour, AnimalSpecie, dob);
+			//Add it to the list
+				animalList.add(newAnimal);
+				
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		return animalList;
+
+		
+}
 
 }

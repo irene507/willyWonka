@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pojos.Animal;
+import pojos.Client;
 import pojos.Milk;
 
 public class SQLiteMilkManager {
@@ -216,6 +217,40 @@ public class SQLiteMilkManager {
 		return newMilk; 
 	}
 
+	
+	
+	public List<Milk> showMilk(){
+		//Create an empty list of chocolates 
+		List<Milk> milkList = new ArrayList<Milk>();
+		//Get all the chocolates 
+		try{
+			String sq1 = "SELECT * FROM milk";
+			PreparedStatement prep= c.prepareStatement(sq1);
+			ResultSet rs = prep.executeQuery();
+			//For each result 
+			while(rs.next()){
+				int id = rs.getInt("id");
+				String MilkName = rs.getString("name");
+				String MilkType= rs.getString("type");
+				
+			//Create a new chocolate 
+				Milk newMilk = new Milk(id, MilkName, MilkType );
+			//Add it to the list
+				milkList.add(newMilk);
+				
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		return milkList;
+
+		
+}
+	
+	
 }
  	
 

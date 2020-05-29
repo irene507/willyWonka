@@ -358,7 +358,7 @@ public class Menu {
 			break;
 		case 7:
 			System.out.println("For ths first you have to search a specific chocolate");
-			System.out.println("Search animal by....");
+			System.out.println("Search chocolate by....");
 			System.out.println("1. Name");
 			System.out.println("2. Type");
 			num = Integer.parseInt(reader.readLine());
@@ -457,7 +457,10 @@ public class Menu {
 	private static void willyWonkaAnimals() throws Exception {
 
 		while (true) {
+<<<<<<< HEAD
+=======
 			
+>>>>>>> branch 'master' of https://github.com/irene507/willyWonka.git
 			
 			// ANIMAL
 			System.out.println("1. Add animal ");
@@ -465,37 +468,59 @@ public class Menu {
 			System.out.println("3. Update");
 			System.out.println("4. Search by name ");
 			System.out.println("5. Search by species");
-			System.out.println("6. Show an animal");
-			System.out.println("7. Generate XML");
-		    System.out.println("8. Create animal through XML");
+			System.out.println("6. Select an animal");
+			System.out.println("7. Show an animal");
+			System.out.println("8. Generate XML");
+		    System.out.println("9. Create animal through XML");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
   
 			case 1:
 				AddAnimal();
 				break;
+				
 			case 2:
 				DeleteAnimal();
 				break;
+				
 			case 3:
 				UpdateAnimal();
 				break;
+				
 			case 4:
 				SearchAnimalByName();
 				break;
+				
 			case 5:
 				SearchAnimalBySpecie();
 				break;
+				
 			case 6:
-				ShowAnimal();
-				break;
-			case 7:
-				System.out.println("For ths first you have to search a specific animal");
+				System.out.println("For this first you have to search a specific animal");
 				System.out.println("Search animal by....");
 				System.out.println("1. Name");
 				System.out.println("2. Specie");
-				int num = Integer.parseInt(reader.readLine());
-				if (num == 1) {
+				int k = Integer.parseInt(reader.readLine());
+				if (k == 1) {
+					SearchAnimalByName();
+
+				} else {
+					SearchAnimalBySpecie();
+				}
+				SelectAnimal();
+				break;
+				
+			case 7:
+				ShowAnimal();
+				break;
+				
+			case 8:
+				System.out.println("For this first you have to search a specific animal");
+				System.out.println("Search animal by....");
+				System.out.println("1. Name");
+				System.out.println("2. Specie");
+				int j = Integer.parseInt(reader.readLine());
+				if (j == 1) {
 					SearchAnimalByName();
 
 				} else {
@@ -506,8 +531,11 @@ public class Menu {
 				int AnimalId = Integer.parseInt(reader.readLine());
 				GenerateXML(AnimalId);
 				break;
-			case 8:
+				
+			case 9:
 				CreateAnimalXML();
+				break;
+				
 			default:
 				break;
 
@@ -536,7 +564,6 @@ public class Menu {
 			case 1:
 				OompaLoompaMilk();
 				break;
-
 			case 2:
 				OompaLoompaWarehouse();
 				break;
@@ -562,9 +589,10 @@ public class Menu {
 		System.out.println("1. Add a new milk ");
 		System.out.println("2. Delete milk ");
 		System.out.println("3. Update milk ");
-		System.out.println("4. Select milk ");
+		System.out.println("4. Show milk ");
 		System.out.println("5. Search by Name ");
 		System.out.println("6. Search by type");
+		System.out.println("7. Give milk to chocolate");
 
 		int choice = Integer.parseInt(reader.readLine());
 		switch (choice) {
@@ -585,6 +613,23 @@ public class Menu {
 			break;
 		case 6:
 			SearchMilkByType();
+			break;
+		case 7:
+			System.out.println("For this first you have to search a specific chocolate");
+			System.out.println("Search a chocolate by....");
+			System.out.println("1. Name");
+			System.out.println("2. Type");
+			int num = Integer.parseInt(reader.readLine());
+			if (num == 1) {
+				searchChocolateByName();
+
+			} else {
+				searchChocolateByType();
+			}
+
+			System.out.println("Type the selected chocolate's id");
+			int chocoId = Integer.parseInt(reader.readLine());
+			giveMilk(chocoId);
 			break;
 		default:
 			break;
@@ -1481,15 +1526,12 @@ public class Menu {
 //-------------------------------------------------------------------------------
 	
 	private static void ShowMilk() throws Exception {
-
-		try {
-			System.out.println("Introduce id of the milk: ");
-			int MilkId = Integer.parseInt(reader.readLine());
-			Milk milk = milkManager.getMilk(MilkId);
-			milk.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+			List<Milk> milks = milkManager.showMilk();
+			System.out.println("You'll see all the milks of the table ");
+			for (Milk milk : milks) {
+				System.out.println(milk.toString());
+			}
 
 	}
 	
@@ -1521,6 +1563,26 @@ public class Menu {
 		for (Milk milk : milks) {
 			System.out.println(milk);
 		}
+	}
+	
+//------------------------------------------------------------------------------
+	
+	//GIVE MILK TO CHOCOLATE
+	
+//----------------------------------------------------------------------------------
+	
+	private static void giveMilk(int chocoId) throws Exception {
+		// Show all the available milks
+		List<Milk> milkList = milkManager.showMilk();
+		for (Milk milk : milkList) {
+			System.out.println(milk);
+		}
+		// Ask the oompaloompa the milk ID
+		System.out.println("Please, type the milk ID:");
+		int milkId = Integer.parseInt(reader.readLine());
+		// Give the medicine to the dog
+		milkManager.give(chocoId, milkId);
+
 	}
 	
 	
@@ -1684,11 +1746,11 @@ public class Menu {
 
 // ------------------------------------------------------------------------------
 
-	// SHOW ANIMAL
+	// SELECT ANIMAL
 	
 // ------------------------------------------------------------------------------
 
-	private static void ShowAnimal() throws Exception {
+	private static void SelectAnimal() throws Exception {
 
 		try {
 			System.out.println("Introduce id of the animal: ");
@@ -1700,7 +1762,23 @@ public class Menu {
 		}
 
 	}
+
+//------------------------------------------------------------------------------------
 	
+	//SHOW AN ANIMAL
+	
+//---------------------------------------------------------------------------------
+	
+	private static void ShowAnimal () throws Exception {
+		
+		List<Animal> animals = animalManager.showAnimals();
+		System.out.println("You'll see all the animals of the table ");
+		for (Animal animal : animals) {
+			System.out.println(animal.toString());
+		}
+		
+		
+	}
 	
 //---------------------------------------------------------------------------------------
 	
@@ -1746,9 +1824,7 @@ public class Menu {
 		//Insert it
 		animalManager.add(animal);
 		//We have the animal created
-		
-	
-	}
+}
 	
 	
 	

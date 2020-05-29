@@ -2,6 +2,7 @@ package db.interfaces;
 
 import java.util.List;
 import pojos.Animal;
+import pojos.Client;
 import pojos.OompaLoompa;
 
 public interface AnimalManager {
@@ -13,4 +14,5 @@ public interface AnimalManager {
 	 public List<Animal> searchBySpecieAnimal(String specie_a);
 	 public void update (Animal animal);
 	 public Animal getAnimal(int AnimalId);
+	 public List<Animal> showAnimals();
 }
