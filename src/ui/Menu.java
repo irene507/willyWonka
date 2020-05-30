@@ -49,7 +49,8 @@ public class Menu {
 	// Menu
 	public static void main(String[] args) throws Exception {
 
-		// Connects with the database
+		// Connects with the databasey
+	
 		dbManager = new SQLiteManager();
 		dbManager.connect();
 		// Need to create the tables with JDBC before using JPA
@@ -281,7 +282,7 @@ public class Menu {
 				break;
 
 			case 3:
-				willyWonkaAnimals();
+				//ywillyWonkaAnimals();
 				break;
 
 			case 4:
@@ -454,7 +455,7 @@ public class Menu {
 
 //------------------------------------------------------------------------------------------------
 
-	private static void willyWonkaAnimals() throws Exception {
+	/*private static void willyWonkaAnimals() throws Exception {
 
 		while (true) {
 <<<<<<< HEAD
@@ -542,7 +543,7 @@ public class Menu {
 			}
 
 		}
-	}
+	}*/
 
 //---------------------------------------------------------------------	
 
