@@ -12,31 +12,6 @@ import pojos.users.User;
 public class JPAChocolate {
 	EntityManager em = Persistence.createEntityManagerFactory("chocolate-provider").createEntityManager();
 	
-	public Integer createChocolate (Chocolate chocolate) {
-		
-		try{
-			System.out.println("Insert new chocolate " + em.getTransaction().isActive());
-			//Create the object: chocolate
-			Chocolate choco= new Chocolate();
-			chocolate.setName(chocolate.getName());
-			chocolate.setType(chocolate.getType());
-			chocolate.setCocoa(chocolate.getCocoa());
-			chocolate.setFlavors(chocolate.getFlavors());
-			chocolate.setUnits(chocolate.getUnits());
-			chocolate.setShape(chocolate.getShape());
-			
-			//Begin transaction
-			em.getTransaction().begin();
-			//Store Object 
-			em.persist(chocolate);
-			//End transaction 
-			em.getTransaction().commit();
-			return chocolate.getId();
-		} catch(EntityNotFoundException new_benefits_error) {
-			new_benefits_error.printStackTrace();
-			return null;
-		}
-	}
 	
 	public boolean updateChocolate(Chocolate chocolate) {
 		try {
@@ -58,6 +33,17 @@ public class JPAChocolate {
 			return false;
 		}
 	}
+	
+	
+		
+		
+		
+		
+	}
+	
+	
+	
+	
 	
 
 }

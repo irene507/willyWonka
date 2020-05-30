@@ -7,10 +7,19 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import ER.POJOS.Admission;
+import ER.POJOS.Doctor;
+import ER.POJOS.Patient;
 import db.interfaces.UserManager;
+import pojos.Animal;
+import pojos.Chocolate;
 import pojos.Client;
+import pojos.Milk;
 import pojos.users.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -18,7 +27,15 @@ import java.util.List;
 public class JPAUserManager implements UserManager {
 
 	private EntityManager em;
+	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	
+	public JPAUserManager() {
+		super();
+		connect();
+	}
+	
+	
+	//------------CONNECT-------------//
 	@Override
 	public void connect() {
 		try {
@@ -41,22 +58,7 @@ public class JPAUserManager implements UserManager {
 	//------------------------------------------------------------------
 
 
-	@Override
-	public void createUser(User user) {
-		em.getTransaction().begin();
-		em.persist(user);
-		em.getTransaction().commit();
-		//YA ESTA
-
-	}
-
-	@Override
-	public void createRole(Role role) {
-		em.getTransaction().begin();
-		em.persist(role);
-		em.getTransaction().commit();
-
-	}
+	
 	public List<User> getUsers(){
 		
 		Query q = em.createNativeQuery("SELECT * FROM users",User.class);
@@ -148,7 +150,149 @@ public class JPAUserManager implements UserManager {
 		
 	}
 	
+	//------------------------	CREATE  ------------------------------//
 	
+	@Override
+	public void createUser(User user) {
+		em.getTransaction().begin();
+		em.persist(user);
+		em.getTransaction().commit();
+		//YA ESTA
+
+	}
+
+	@Override
+	public void createRole(Role role) {
+		em.getTransaction().begin();
+		em.persist(role);
+		em.getTransaction().commit();
+
+	}
+	
+public Integer createChocolate (Chocolate chocolate) {
+		
+		try{
+			System.out.println("Insert new chocolate " + em.getTransaction().isActive());
+			//Create the object: chocolate
+			Chocolate choco= new Chocolate();
+			chocolate.setName(chocolate.getName());
+			chocolate.setType(chocolate.getType());
+			chocolate.setCocoa(chocolate.getCocoa());
+			chocolate.setFlavors(chocolate.getFlavors());
+			chocolate.setUnits(chocolate.getUnits());
+			chocolate.setShape(chocolate.getShape());
+			
+			//Begin transaction
+			em.getTransaction().begin();
+			//Store Object 
+			em.persist(chocolate);
+			//End transaction 
+			em.getTransaction().commit();
+			return chocolate.getId();
+		} catch(EntityNotFoundException new_benefits_error) {
+			new_benefits_error.printStackTrace();
+			return null;
+		}
+	}
+
+//------------------------	GETS  ------------------------------//
+
+        public Chocolate getChocolate(int id){
+	        Query q = em.createNativeQuery("SELECT * FROM Chocolate WHERE id = ?", Chocolate.class);
+	        q.setParameter(1,id );
+	        Chocolate c = (Chocolate) q.getSingleResult();
+	        return c;
+        }
+
+
+        public Client getClient(int id){
+	        Query q = em.createNativeQuery("SELECT * FROM Client WHERE id = ?", Client.class);
+	        q.setParameter(1,id );
+	        Client c = (Client) q.getSingleResult();
+	        return c;
+        }
+        
+
+        public Animal getAnimal(int id){
+	        Query q = em.createNativeQuery("SELECT * FROM Animal WHERE id = ?", Animal.class);
+	        q.setParameter(1,id );
+	        Animal a = (Animal) q.getSingleResult();
+	        return a;
+        }
+        
+
+        public Milk getMilk(int id){
+	        Query q = em.createNativeQuery("SELECT * FROM Milk WHERE id = ?", Milk.class);
+	        q.setParameter(1,id );
+	        Milk m = (Milk) q.getSingleResult();
+	        return m;
+        }
+        
+        
+      //------------------------	READ  ------------------------------//
+              
+        
+      		public void readChocolate() {
+      			try {
+      				System.out.print("Write the chocolate큦 ID: ");
+      				int choco_id = Integer.parseInt(reader.readLine());
+      				Chocolate chocolate = getChocolate(choco_id);
+      				System.out.println(chocolate.toString());				
+      			}catch(IOException e) {
+      				e.printStackTrace();}
+      		}
+      		public void readClient() {
+      			try {
+      				System.out.print("Write the client큦 ID: ");
+      				int client_id = Integer.parseInt(reader.readLine());
+      				Client client = getClient(client_id);
+      				System.out.println(client.toString());				
+      			}catch(IOException e) {
+      				e.printStackTrace();}
+      		}
+      		public void readAnimal() {
+      			try {
+      				System.out.print("Write the animal큦 ID: ");
+      				int animal_id = Integer.parseInt(reader.readLine());
+      				Animal animal  = getAnimal(animal_id);
+      				System.out.println(animal.toString());				
+      			}catch(IOException e) {
+      				e.printStackTrace();}
+      		}
+      		public void readMilk() {
+      			try {
+      				System.out.print("Write the milk큦 ID: ");
+      				int milk_id = Integer.parseInt(reader.readLine());
+      				Milk milk = getMilk(milk_id);
+      				System.out.println(milk.toString());				
+      			}catch(IOException e) {
+      				e.printStackTrace();}
+      		}
+      		
+      		
+      	//------------------------	LIST  ------------------------------//
+    		public void listChocolates() {
+    			
+    			Query q1 = em.createNativeQuery("SELECT * FROM Chocolates", Chocolate.class);
+    			List<Chocolate> chocolates = (List<Chocolate>) q1.getResultList();
+    			for (Chocolate chocolates : chocolates) {
+    				System.out.println(chocolates );
+    			}
+    		}
+    		
+    		
+    		
+      		
+      		
+        
+        
+
+
+
+
+
+
+
 	
 
 	
