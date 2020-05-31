@@ -74,12 +74,8 @@ public class Menu {
 		if (yn.equalsIgnoreCase("y")) {
 			dbManager.createTables();
 		}*/
-			login();
-	}
+			
 	
-	private static void menuUserManager(){
-		boolean exit = false;
-		while (!exit) {
 			// Ask the user his/her role
 			System.out.println("What do you want to do? ");
 			System.out.println("1.Login");
@@ -90,12 +86,10 @@ public class Menu {
 			System.out.println("6.Delete a Role");
 			System.out.println("0.Exit");
 			int choice;
-			try {
+			
 				choice = Integer.parseInt(reader.readLine());
 				switch (choice) {
-				case 0:
-					exit = true;
-					break;
+				
 				case 1:
 					//Login
 					login();
@@ -123,22 +117,21 @@ public class Menu {
 				default:
 					break;
 				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+				}
+			
+		
+	
 
 	private static void newRole() throws Exception {
 		boolean incorrect=true;
+		
 		System.out.println("Please choose between the available roles: ");
 		System.out.println("1.Willy Wonka");
 		System.out.println("2.OompaLoompa CEO");
 		int option = Integer.parseInt(reader.readLine());
 		String roleName;
 		Role role;
-		while(incorrect) {
+		do {
 		if (option==1) {
 			roleName = "Willy Wonka";
 			role = new Role(roleName);
@@ -153,11 +146,13 @@ public class Menu {
 			System.out.println("Wrong option introduced");
 			
 		}
+		}while(incorrect);
+			
 		}
 		
 		
 
-	}
+	
 
 	private static void newUser() throws Exception {
 		boolean incorrect=true,errfound=true;
@@ -383,9 +378,8 @@ public class Menu {
 				willyWonkaAnimals();
 				break;
 
-			case 4:
-				menuUserManager();
-				break;
+			
+				
 			case 5:
 				dbManager.disconnect();
 				userManager.disconnect();

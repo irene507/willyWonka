@@ -179,7 +179,7 @@ public class SQLiteManager implements DBManager {
 			   		+ "corridor 	INTEGER NOT NULL,"
 			   		+ "shelve 		INTEGER NOT NULL)";
 		   		stmt7.executeUpdate(sql7);
-		   		
+		   	/*	
 	   		//TABLE USERS
 		   		stmt8=c.createStatement();
 				   String sql8="CREATE TABLE users("
@@ -194,7 +194,8 @@ public class SQLiteManager implements DBManager {
 					   		+ "roleId 			INTEGER PRIMARY KEY AUTOINCREMENT,"
 					   		+ "role		TEXT NOT NULL,";
 					   		
-				 stmt9.executeUpdate(sql9);   		
+				 stmt9.executeUpdate(sql9);  
+				 */
 	   		
 		   //TABLE OF THE MANY-TOMANY RELATIONSHIP BETWEEN CHOCOLATE & MILK
 		   stmt5= c.createStatement();
@@ -211,8 +212,8 @@ public class SQLiteManager implements DBManager {
 		   stmt5.close();
 		   stmt6.close();
 		   stmt7.close();
-		   stmt8.close();
-		   stmt9.close();
+		  // stmt8.close();
+		  // stmt9.close();
 		}catch(SQLException e){ 
 			//if there are exception of type "SQLException" we are not doing nothing 
 			if(e.getMessage().contains("already exists")){ //we are not going to do anything, or we can type {} or ; (and its the same) 
