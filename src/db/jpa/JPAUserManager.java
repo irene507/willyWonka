@@ -1,7 +1,6 @@
 package db.jpa;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
@@ -30,7 +29,7 @@ public class JPAUserManager implements UserManager {
 	
 	public JPAUserManager() {
 		super();
-		connect();
+	//	connect();
 	}
 	
 	
@@ -54,32 +53,20 @@ public class JPAUserManager implements UserManager {
 	
 	 //---------------------  DISCONNECT JPA  -------------------------//
 	
-
-	public List<User> getUsers(){
-		
-		Query q = em.createNativeQuery("SELECT * FROM users",User.class);
-		List<User> users = (List<User>) q.getResultList();
-		
-		return users;
-	}
-
-	@Override
-	public Role getRole(int id) {
-	    Query q = em.createNativeQuery("SELECT * FROM roles WHERE id=? ", Role.class);
-		q.setParameter(1, id);
-		Role role = (Role) q.getSingleResult(); //trnafosmar un objeto en un role
-		return role;
-	}
 	
 	@Override
-	public List<Role> getRoles() {
-		Query q = em.createNativeQuery("SELECT * FROM roles", Role.class);
-		List <Role> roles =(List <Role>) q.getResultList();
-		return roles;
+	public void disconnect( ){
+		try{
+			em.close();
+			
+		}catch(Exception e ){
+			e.printStackTrace();
+			
+		}
+		
 	}
-
 	
-
+	//----------- CHECK PASSWORD -----------//
 	@Override
 	public User checkPassword(String username, String password) {
 		User user= null;
@@ -104,51 +91,6 @@ public class JPAUserManager implements UserManager {
 	    
 		return user;
 		
-		
-	}
-
-	
-	public void deleteUser(int id) {
-	     em.getTransaction().begin();
-		 Query q = em.createNativeQuery("DELETE FROM users WHERE id= ?");
-		 q.setParameter(1, id);
-		 q.executeUpdate();
-	     em.getTransaction().commit();
-	     
-	}
-	public void deleteRole(int id) {
-		em.getTransaction().begin();
-		 Query q = em.createNativeQuery("DELETE FROM roles WHERE id= ?");
-		 q.setParameter(1, id);
-		 q.executeUpdate();
-	     em.getTransaction().commit();
-	}
-
-	//Ya va 
-	public void updateUser(User user, int id){
-		  // Begin transaction
-	      em.getTransaction().begin();
-		  // Make changes
-	      Query q = em.createNativeQuery("UPDATE users SET username = ?, password=? WHERE id= ?");
-	      q.setParameter(1, user.getUsername());
-	      q.setParameter(2, user.getPassword());
-	     
-	      q.setParameter(3, id);
-	      q.executeUpdate();
-		 // End transaction
-		 em.getTransaction().commit();
-	}
-
-	
-	@Override
-	public void disconnect( ){
-		try{
-			em.close();
-			
-		}catch(Exception e ){
-			e.printStackTrace();
-			
-		}
 		
 	}
 	
@@ -198,6 +140,13 @@ public Integer createChocolate (Chocolate chocolate) {
 	}
 
 //------------------------	GETS  ------------------------------//
+        @Override
+       public Role getRole(int id) {
+          Query q = em.createNativeQuery("SELECT * FROM roles WHERE id=? ", Role.class);
+          q.setParameter(1, id);
+	      Role role = (Role) q.getSingleResult(); //trnafosmar un objeto en un role
+	   return role;
+       }
 
         public Chocolate getChocolate(int id){
 	        Query q = em.createNativeQuery("SELECT * FROM Chocolate WHERE id = ?", Chocolate.class);
@@ -273,7 +222,24 @@ public Integer createChocolate (Chocolate chocolate) {
       		
       		
       	//------------------------	LIST  ------------------------------//
-    		public void listChocolates() {
+      		public List<User> getUsers(){
+      			
+      			Query q = em.createNativeQuery("SELECT * FROM users",User.class);
+      			List<User> users = (List<User>) q.getResultList();
+      			
+      			return users;
+      		}
+
+      		
+      		
+      		@Override
+      		public List<Role> getRoles() {
+      			Query q = em.createNativeQuery("SELECT * FROM roles", Role.class);
+      			List <Role> roles =(List <Role>) q.getResultList();
+      			return roles;
+      		}
+      		
+      		public void listChocolates() {
     			
     			Query q1 = em.createNativeQuery("SELECT * FROM Chocolates", Chocolate.class);
     			List<Chocolate> chocolates = (List<Chocolate>) q1.getResultList();
@@ -285,7 +251,24 @@ public Integer createChocolate (Chocolate chocolate) {
     		
     		
           	//------------------------  DELETE  ------------------------------//
-    //AQUI ALGO MAL		
+    		public void deleteUser(int id) {
+    		     em.getTransaction().begin();
+    			 Query q = em.createNativeQuery("DELETE FROM users WHERE id= ?");
+    			 q.setParameter(1, id);
+    			 q.executeUpdate();
+    		     em.getTransaction().commit();
+    		     
+    		}
+    		public void deleteRole(int id) {
+    			em.getTransaction().begin();
+    			 Query q = em.createNativeQuery("DELETE FROM roles WHERE id= ?");
+    			 q.setParameter(1, id);
+    			 q.executeUpdate();
+    		     em.getTransaction().commit();
+    		}
+    		
+    		
+    		//AQUI ALGO MAL		
     		public void deleteChocolate(){		
     			System.out.println("Chocolates list:");
     			listChocolates();
@@ -336,6 +319,22 @@ public Integer createChocolate (Chocolate chocolate) {
 
 
 			//------------------------	UPDATE  ------------------------------//
+    		
+    		public void updateUser(User user, int id){
+    			  // Begin transaction
+    		      em.getTransaction().begin();
+    			  // Make changes
+    		      Query q = em.createNativeQuery("UPDATE users SET username = ?, password=? WHERE id= ?");
+    		      q.setParameter(1, user.getUsername());
+    		      q.setParameter(2, user.getPassword());
+    		     
+    		      q.setParameter(3, id);
+    		      q.executeUpdate();
+    			 // End transaction
+    			 em.getTransaction().commit();
+    		}
+    		
+    		
     		
     		public boolean updateChocolate(Chocolate chocolate) throws Exception{
     			try {

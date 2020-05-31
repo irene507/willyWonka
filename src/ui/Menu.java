@@ -49,13 +49,13 @@ public class Menu {
 	// Menu
 	public static void main(String[] args) throws Exception {
 
-		// Connects with the databasey
+		// Connects with the database
 	
 		dbManager = new SQLiteManager();
 		dbManager.connect();
 		// Need to create the tables with JDBC before using JPA
 		dbManager.createTables();
-		userManager = new JPAUserManager(); // we dont hace a constructor but we dont need it
+		userManager = new JPAUserManager(); // we dont have a constructor but we dont need it
 		userManager.connect();
 		chocolateManager = dbManager.getChocolateManager();
 		clientManager = dbManager.getClientManager();
@@ -74,7 +74,12 @@ public class Menu {
 		if (yn.equalsIgnoreCase("y")) {
 			dbManager.createTables();
 		}*/
-		while (true) {
+			login();
+	}
+	
+	private static void menuUserManager(){
+		boolean exit = false;
+		while (!exit) {
 			// Ask the user his/her role
 			System.out.println("What do you want to do? ");
 			System.out.println("1.Login");
@@ -84,39 +89,43 @@ public class Menu {
 			System.out.println("5.Create a new role");
 			System.out.println("6.Delete a Role");
 			System.out.println("0.Exit");
-			int choice = Integer.parseInt(reader.readLine());
-			switch (choice) {
-			case 0:
-				System.exit(0);
-				dbManager.disconnect();
-				userManager.disconnect();
-				break;
-			case 1:
-				//Login
-				login();
-				break;
-			case 2:
-				//Create new User
-				newUser();
-				break;
-			case 3:
-				//Delete User
-				deleteUser();
-				break;
-			case 4: 
-				//Update user
-				updateUser(); 
-				break;
-			case 5 : 
-				//Create new Role
-				newRole();
-				break;
-			case 6:
-				//Delete Role
-				deleteRole();
-				break;
-			default:
-				break;
+			int choice;
+			try {
+				choice = Integer.parseInt(reader.readLine());
+				switch (choice) {
+				case 0:
+					exit = true;
+					break;
+				case 1:
+					//Login
+					login();
+					break;
+				case 2:
+					//Create new User
+					newUser();
+					break;
+				case 3:
+					//Delete User
+					deleteUser();
+					break;
+				case 4: 
+					//Update user
+					updateUser(); 
+					break;
+				case 5 : 
+					//Create new Role
+					newRole();
+					break;
+				case 6:
+					//Delete Role
+					deleteRole();
+					break;
+				default:
+					break;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -213,6 +222,8 @@ public class Menu {
 		// check if the user/password combination was right
 		if (user == null) {
 			System.out.println("Wrong credentials, please try again!");
+			System.out.println("Default User and Role assigned: Willy Wonka");
+			willyWonkaMenu();
 		}
 		// check the role
 		else if (user.getRole().getRole().equalsIgnoreCase("Willy Wonka")) {
@@ -221,9 +232,13 @@ public class Menu {
 		} else if (user.getRole().getRole().equalsIgnoreCase("Oompa Loompa")) {
 			System.out.println("Welcome Oompa Loompa� " + username + "!");
 			OompaLoompaCeoMenu();
-
-		} else {
+		}
+		
+		else{
 			System.out.println("Invalid Role ");
+			//we could not recognize role so you got willy wonka 
+			System.out.println("Default role assigned: Willy Wonka");
+			willyWonkaMenu();
 		}
 
 	}
@@ -321,8 +336,6 @@ public class Menu {
 		        int Id = Integer.parseInt(reader.readLine());
 		        userManager.deleteUser(Id);
 		       
-				
-				// gettransaction, set , y commmit 
 	
 		
 	}
@@ -351,7 +364,9 @@ public class Menu {
 			System.out.println("1. CHOCOLATE   ");
 			System.out.println("2. CLIENTS      ");
 			System.out.println("3. ANIMALS       ");
-			System.out.println("4. BACK");
+			System.out.println("4. MANAGEMENT OF USERS " );
+			System.out.println("5. EXIT");
+			
 
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
@@ -369,7 +384,12 @@ public class Menu {
 				break;
 
 			case 4:
-				permanecer = false;
+				menuUserManager();
+				break;
+			case 5:
+				dbManager.disconnect();
+				userManager.disconnect();
+				System.exit(0);
 				break;
 			default:
 				break;
@@ -385,33 +405,28 @@ public class Menu {
 //------------------------------------------------------------------------------------------------
 
 	private static void willyWonkaChocolate() throws Exception {
-		int choice = Integer.parseInt(reader.readLine());
 		int chocoId = 0;
-
+        boolean exit = false;
+        
+        while(!exit){
 		System.out.println("You are going to manage the chocolate. ");
 		System.out.println("What do you wanna do?     ");
 		System.out.println("1. Create Chocolate       ");
-		System.out.println("2. Show Chocolate       ");
+		System.out.println("2. Show Chocolate by id      ");
 		System.out.println("3. Delete Chocolate       ");
 		System.out.println("4. Update Chocolate       ");
 		System.out.println("5. Search By...           ");
-		System.out.println("6. Show chocolate         ");
+		System.out.println("6. Show a list of chocolates       ");
 		System.out.println("7. Generate XML   ");
 		System.out.println("8. Admit chocolate through XML");
 		System.out.println("0. Back                   ");
-
-		// revisar estas
-		// System.out.println("6. Admit chocolate ");
-		System.out.println("7.get chocolate ");
-		System.out.println(" Back");
-
+		int choice = Integer.parseInt(reader.readLine());
+        
 		switch (choice) {
-		case 0:
-			System.exit(0);
-			break;
+		
 
 		case 1:
-			// createChocolate();
+			createChocolate();
 			break;
 		case 2:
 			showChocolate();
@@ -459,8 +474,12 @@ public class Menu {
 		case 8:
 			admitChocolateXML();
 			break;
+		case 0 : 
+			exit = true;
+			break;
 
 		}
+        }
 	}// function chocolate
 
 //--------------------------------------------------------------------------------------------------------
@@ -638,7 +657,8 @@ public class Menu {
 			System.out.println("1. MILK             ");
 			System.out.println("2. WAREHOUSE        ");
 			System.out.println("3. WORKERS          ");
-
+			System.out.println("4. EXIT         ");
+			
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
 			case 1:
@@ -650,7 +670,12 @@ public class Menu {
 			case 3:
 				OompaLoompaWorkers();
 				break;
-
+			case 4:
+				dbManager.disconnect();
+				userManager.disconnect();
+				System.exit(0);
+				break;
+				
 			default:
 				break;
 
