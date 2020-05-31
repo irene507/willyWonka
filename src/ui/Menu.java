@@ -2,6 +2,7 @@ package ui;
 
 import java.io.BufferedReader;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,8 +19,6 @@ import db.jpa.JPAUserManager;
 import db.sqlite.*;
 import java.util.*;
 
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.xml.bind.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -60,6 +59,7 @@ public class Menu {
 		chocolateManager = dbManager.getChocolateManager();
 		clientManager = dbManager.getClientManager();
 		animalManager = dbManager.getAnimalManager();
+		milkManager= dbManager.getMilkManager();
 		oompaloompaManager = dbManager.getOompaLoompaManager();
 		warehouseManager = dbManager.getWarehouseManager();
 
@@ -462,8 +462,8 @@ public class Menu {
 				searchChocolateByType();
 			}
 			System.out.println("Type the selected chocolate's id");
-			int AnimalId = Integer.parseInt(reader.readLine());
-			generateChocolateXML(chocoId);
+			int chocoId1 = Integer.parseInt(reader.readLine());
+			generateChocolateXML(chocoId1);
 			break;
 		case 8:
 			admitChocolateXML();
@@ -561,10 +561,9 @@ public class Menu {
 			System.out.println("3. Update");
 			System.out.println("4. Search by name ");
 			System.out.println("5. Search by species");
-			System.out.println("6. Select an animal");
-			System.out.println("7. Show an animal");
-			System.out.println("8. Generate XML");
-		    System.out.println("9. Create animal through XML");
+			System.out.println("6. Show all animals");
+			System.out.println("7. Generate XML");
+		    System.out.println("8. Create animal through XML");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
   
@@ -589,25 +588,10 @@ public class Menu {
 				break;
 				
 			case 6:
-				System.out.println("For this first you have to search a specific animal");
-				System.out.println("Search animal by....");
-				System.out.println("1. Name");
-				System.out.println("2. Specie");
-				int k = Integer.parseInt(reader.readLine());
-				if (k == 1) {
-					SearchAnimalByName();
-
-				} else {
-					SearchAnimalBySpecie();
-				}
-				SelectAnimal();
-				break;
-				
-			case 7:
 				ShowAnimal();
 				break;
 				
-			case 8:
+			case 7:
 				System.out.println("For this first you have to search a specific animal");
 				System.out.println("Search animal by....");
 				System.out.println("1. Name");
@@ -625,7 +609,7 @@ public class Menu {
 				GenerateXML(AnimalId);
 				break;
 				
-			case 9:
+			case 8:
 				CreateAnimalXML();
 				break;
 				
@@ -866,6 +850,7 @@ public class Menu {
 	//input.dog.xml como lo saca??????
 	//not valid cause its missing an attribute 
 	//well-formed por qu�? 
+	
 	private static void admitChocolateXML() throws Exception {
        boolean incorrectChocolate = true;
 		// Create a JAXBContext
@@ -1449,7 +1434,7 @@ public class Menu {
 	}
 
 //----------------------------------------------------------------
-//SEARCH WORKER BY DOB
+	//SEARCH WORKER BY DOB
 //----------------------------------------------------------------
 	private static void SearchWorkerByDOB() throws Exception {
 		System.out.print("Please, introduce the Date of Birth of the worker you want to look for");
@@ -1698,20 +1683,20 @@ public class Menu {
 
 	private static void AddAnimal() throws Exception {
 
-		System.out.print("Please, introduce the new animal");
-		System.out.print("1. Name of the animal: ");
+		System.out.println("Please, introduce the new animal");
+		System.out.println("1. Name of the animal: ");
 		String name;
 		name = reader.readLine();
-		System.out.print("2. Country of the animal:");
+		System.out.println("2. Country of the animal:");
 		String country;
 		country = reader.readLine();
-		System.out.print("3. Colour/s of the animal: ");
+		System.out.println("3. Colour/s of the animal: ");
 		String colour;
 		colour = reader.readLine();
-		System.out.print("4. Specie of the animal: ");
+		System.out.println("4. Specie of the animal: ");
 		String specie;
 		specie = reader.readLine();
-		System.out.print("5. Date of birth of the animal in this format (year-month-day)      ");
+		System.out.println("5. Date of birth of the animal in this format (yyyy-MM-dd)");
 		String date = reader.readLine();
 		LocalDate dob = LocalDate.parse(date, formatter);
 		Animal animal = new Animal(name, country, colour, specie, Date.valueOf(dob));
@@ -1762,7 +1747,7 @@ public class Menu {
 		int AnimalId;
 
 		try {
-			System.out.println("Introduce the ID of the chocolate you want to remove from the table");
+			System.out.println("Introduce the ID of the animal you want to remove from the table");
 			String id = reader.readLine();
 			AnimalId = Integer.parseInt(id);
 			animalManager.delete(AnimalId);
@@ -1843,24 +1828,7 @@ public class Menu {
 
 	}
 
-// ------------------------------------------------------------------------------
 
-	// SELECT ANIMAL
-	
-// ------------------------------------------------------------------------------
-
-	private static void SelectAnimal() throws Exception {
-
-		try {
-			System.out.println("Introduce id of the animal: ");
-			int AnimalId = Integer.parseInt(reader.readLine());
-			Animal animal = animalManager.getAnimal(AnimalId);
-			animal.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
 
 //------------------------------------------------------------------------------------
 	
@@ -1912,10 +1880,48 @@ public class Menu {
 		JAXBContext context = JAXBContext.newInstance(Animal.class);//We specify the class we want for the XML
 		//Get the unmarshaller
 		Unmarshaller unmarshal = context.createUnmarshaller(); // we call the create a marshaller method from the context class
-		//Unmarshal the Animal from a file
+		File file= null;
+		
+		
+		boolean IncorrectAnimal = true;
+		while(IncorrectAnimal) {
+			
+		//Open the file
 		System.out.println("Type the filename for the XML document (expected in the xmls folder): ");
 		String fileName= reader.readLine();
-		File file= new File("_/xmls/"+ fileName);
+		file= new File("_/xmls/"+ fileName);
+		
+		
+		//With this code we are going to tell the user if there was an error
+		//It can be while parsing, if it wasn't well formed or if it wasn't accessible 
+		  try {
+	        	// Create a DocumentBuilderFactory
+	            DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
+	            // Set it up so it validates XML documents
+	            dBF.setValidating(true);
+	            // Create a DocumentBuilder and an ErrorHandler (to check validity)
+	            DocumentBuilder builder = dBF.newDocumentBuilder();
+	            CustomErrorHandler customErrorHandler = new CustomErrorHandler();
+	            builder.setErrorHandler(customErrorHandler);
+	            // Parse the XML file and print out the result
+	            Document doc = builder.parse(file);
+	            IncorrectAnimal= false;
+	        } catch (ParserConfigurationException ex) {
+	            System.out.println(file + " error while parsing!");
+	            IncorrectAnimal= true;
+	          
+	        } catch (SAXException ex) {
+	            System.out.println(file + " was not well-formed!");
+	            IncorrectAnimal= true;
+	        
+	        } catch (IOException ex) {
+	            System.out.println(file + " was not accessible!");
+	            IncorrectAnimal= true;
+	           
+	        }
+		
+		}
+		//Unmarshal the Animal from a file
 		Animal animal= (Animal) unmarshal.unmarshal(file); //we do a cast to animal
 		// now we need to output the dog to the data base
 		//Print the animal

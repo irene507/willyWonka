@@ -3,6 +3,7 @@ package db.sqlite;
 import java.sql.Connection;
 
 
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,13 +30,16 @@ public class SQLiteAnimalManager implements AnimalManager {
 
 		// Insert the provider animal
 		try {
-			String sql = "INSERT INTO animal (name, country, colour , specie, dob) " + "VALUES (?,?,?,?,?);";
+			String sql = "INSERT INTO animal (name, country, colour , specie, dob) "
+						+ "VALUES (?,?,?,?,?);";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, animal.getName());
 			prep.setString(2, animal.getCountry());
 			prep.setString(3, animal.getColour());
-			prep.setString(3, animal.getSpecie());
-			prep.setDate(4, animal.getDob());
+			prep.setString(4, animal.getSpecie());
+			prep.setDate(5, animal.getDob());
+			
+			//CHEATSHEETS PARA SQL
 			prep.executeUpdate();
 			prep.close();
 
