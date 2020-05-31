@@ -2,7 +2,7 @@ package db.sqlite;
 
 
 import java.sql.Connection;
-import java.sql.Date;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -109,6 +109,11 @@ public class SQLiteManager implements DBManager {
 		return animal;
 	}
 	
+	@Override
+	public MilkManager getMilkManager() {
+		return milk;
+	}
+	
 
 
 	@Override
@@ -143,11 +148,11 @@ public class SQLiteManager implements DBManager {
 		   stmt3 = c.createStatement();
 		   String sql3 = "CREATE TABLE animal("
 				+ "id       INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "name      TEXT    NOT NULL,  "
-				+ "country     TEXT    NOT NULL,"
-				+ "colour     TEXT    NOT NULL,"
-				+ "specie   TEXT    NOT NULL,"
-				+ "dob     DATE   NOT NULL)";
+				+ "name      TEXT NOT NULL,  "
+				+ "country     TEXT NOT NULL,"
+				+ "colour     TEXT NOT NULL,"
+				+ "specie   TEXT NOT NULL,"
+				+ "dob     DATE NOT NULL)";
 		   stmt3.executeUpdate(sql3);
 		   
 		   //MILK TABLE 

@@ -2,6 +2,7 @@ package ui;
 
 import java.io.BufferedReader;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,8 +19,6 @@ import db.jpa.JPAUserManager;
 import db.sqlite.*;
 import java.util.*;
 
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.xml.bind.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -60,6 +59,7 @@ public class Menu {
 		chocolateManager = dbManager.getChocolateManager();
 		clientManager = dbManager.getClientManager();
 		animalManager = dbManager.getAnimalManager();
+		milkManager= dbManager.getMilkManager();
 		oompaloompaManager = dbManager.getOompaLoompaManager();
 		warehouseManager = dbManager.getWarehouseManager();
 
@@ -468,8 +468,8 @@ public class Menu {
 				searchChocolateByType();
 			}
 			System.out.println("Type the selected chocolate's id");
-			int AnimalId = Integer.parseInt(reader.readLine());
-			generateChocolateXML(chocoId);
+			int chocoId1 = Integer.parseInt(reader.readLine());
+			generateChocolateXML(chocoId1);
 			break;
 		case 8:
 			admitChocolateXML();
@@ -567,10 +567,9 @@ public class Menu {
 			System.out.println("3. Update");
 			System.out.println("4. Search by name ");
 			System.out.println("5. Search by species");
-			System.out.println("6. Select an animal");
-			System.out.println("7. Show an animal");
-			System.out.println("8. Generate XML");
-		    System.out.println("9. Create animal through XML");
+			System.out.println("6. Show all animals");
+			System.out.println("7. Generate XML");
+		    System.out.println("8. Create animal through XML");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
   
@@ -595,25 +594,10 @@ public class Menu {
 				break;
 				
 			case 6:
-				System.out.println("For this first you have to search a specific animal");
-				System.out.println("Search animal by....");
-				System.out.println("1. Name");
-				System.out.println("2. Specie");
-				int k = Integer.parseInt(reader.readLine());
-				if (k == 1) {
-					SearchAnimalByName();
-
-				} else {
-					SearchAnimalBySpecie();
-				}
-				SelectAnimal();
-				break;
-				
-			case 7:
 				ShowAnimal();
 				break;
 				
-			case 8:
+			case 7:
 				System.out.println("For this first you have to search a specific animal");
 				System.out.println("Search animal by....");
 				System.out.println("1. Name");
@@ -631,7 +615,7 @@ public class Menu {
 				GenerateXML(AnimalId);
 				break;
 				
-			case 9:
+			case 8:
 				CreateAnimalXML();
 				break;
 				
@@ -1718,7 +1702,7 @@ public class Menu {
 		System.out.println("4. Specie of the animal: ");
 		String specie;
 		specie = reader.readLine();
-		System.out.println("5. Date of birth of the animal in this format (year-month-day)      ");
+		System.out.println("5. Date of birth of the animal in this format (yyyy-MM-dd)");
 		String date = reader.readLine();
 		LocalDate dob = LocalDate.parse(date, formatter);
 		Animal animal = new Animal(name, country, colour, specie, Date.valueOf(dob));
@@ -1769,7 +1753,7 @@ public class Menu {
 		int AnimalId;
 
 		try {
-			System.out.println("Introduce the ID of the chocolate you want to remove from the table");
+			System.out.println("Introduce the ID of the animal you want to remove from the table");
 			String id = reader.readLine();
 			AnimalId = Integer.parseInt(id);
 			animalManager.delete(AnimalId);
@@ -1850,24 +1834,7 @@ public class Menu {
 
 	}
 
-// ------------------------------------------------------------------------------
 
-	// SELECT ANIMAL
-	
-// ------------------------------------------------------------------------------
-
-	private static void SelectAnimal() throws Exception {
-
-		try {
-			System.out.println("Introduce id of the animal: ");
-			int AnimalId = Integer.parseInt(reader.readLine());
-			Animal animal = animalManager.getAnimal(AnimalId);
-			animal.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
 
 //------------------------------------------------------------------------------------
 	
