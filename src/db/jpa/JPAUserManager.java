@@ -113,6 +113,27 @@ public class JPAUserManager implements UserManager {
 
 	}
 	
+	@Override
+	public Integer insertNewClient (CLient client) {
+	
+	try{
+		System.out.println("New client: " + em.getTransaction().isActive());
+		Client newclient = new Client();
+		client.setName(client.getName());
+		client.setCellphone(client.getCellphone());
+		client.setEmail(client.getEmail());
+		client.setAdress(client.getAdress());
+		client.setDob(client.getDob());
+		em.getTransaction().begin();
+		em.persist(client);
+		em.getTransaction().commit();
+		return client.getId();
+	} catch(EntityNotFoundException new_benefits_error) {
+		new_benefits_error.printStackTrace();
+		return null;
+	}
+}
+	
 public Integer createChocolate (Chocolate chocolate) {
 		
 		try{
@@ -267,6 +288,21 @@ public Integer createChocolate (Chocolate chocolate) {
     		     em.getTransaction().commit();
     		}
     		
+    		@Override
+    		public boolean DeleteClient(Client client) {
+    			try {
+    				em.getTransaction().begin();
+    				em.remove(client);
+    				em.getTransaction().commit();
+    				return true;
+    			} catch (EntityNotFoundException delete_client_error) {
+    				delete_client_error.printStackTrace();
+    				return false;
+    			}
+    			
+    			
+    		}
+    		
     		
     		//AQUI ALGO MAL		
     		public void deleteChocolate(){		
@@ -333,7 +369,25 @@ public Integer createChocolate (Chocolate chocolate) {
     			 // End transaction
     			 em.getTransaction().commit();
     		}
-    		
+    		@Override
+    		public boolean UpdateClient(Client client) {
+    			try {
+    				Query q = em.createNativeQuery("SELECT * FROM client WHERE client_id = ?", Client.class);
+    				q.setParameter(1, client.getId());
+    				Client c = (Client) q.getSingleResult();
+    				em.getTransaction().begin();
+    				c.setName(client.getName());
+    				c.setCellphone(client.getCellphone());
+    				c.setEmail(client.getEmail());
+    				c.setAdress(client.getAdress());
+    				c.setDob(client.getDob());
+    				em.getTransaction().commit();
+    				return true;
+    			} catch (EntityNotFoundException update_client_error) {
+    				update_client_error.printStackTrace();
+    				return false;
+    			}
+    		}
     		
     		
     		public boolean updateChocolate(Chocolate chocolate) throws Exception{
@@ -368,6 +422,21 @@ public Integer createChocolate (Chocolate chocolate) {
     			}
     		}
     		
+    		
+
+
+    		@Override
+    		public Client SearchClientById(Integer clientId) {
+    			try {
+    				Query query_client = em.createNativeQuery("SELECT * FROM client WHERE client_id LIKE ?", Client.class);
+    				query_client.setParameter(1, clientId);
+    				Client client = (Client) query_client.getSingleResult();
+    				return client;
+    			} catch (EntityNotFoundException search_client_error) {
+    				search_client_error.printStackTrace();
+    				return null;
+    			}
+    		}
     		
         
         
