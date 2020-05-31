@@ -311,47 +311,7 @@ package db.sqlite;
 		return newClient; 
 		}//function
 
-	@Override
-	public Integer insertNewClient(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public boolean UpdateClient(Client client) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean DeleteClient(Client client) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Client SearchClient(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Client SearchClientById(Integer clientId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean stablish_connection() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean closeConnection() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	}
 	
 	
