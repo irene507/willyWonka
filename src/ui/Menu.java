@@ -365,7 +365,7 @@ public class Menu {
 				break;
 
 			case 3:
-				//ywillyWonkaAnimals();
+				willyWonkaAnimals();
 				break;
 
 			case 4:
@@ -538,7 +538,7 @@ public class Menu {
 
 //------------------------------------------------------------------------------------------------
 
-	/*private static void willyWonkaAnimals() throws Exception {
+	private static void willyWonkaAnimals() throws Exception {
 
 		while (true) {
 			
@@ -622,7 +622,7 @@ public class Menu {
 			}
 
 		}
-	}*/
+	}
 
 //---------------------------------------------------------------------	
 
@@ -847,6 +847,7 @@ public class Menu {
 	//input.dog.xml como lo saca??????
 	//not valid cause its missing an attribute 
 	//well-formed por qu�? 
+	
 	private static void admitChocolateXML() throws Exception {
        boolean incorrectChocolate = true;
 		// Create a JAXBContext
@@ -1430,7 +1431,7 @@ public class Menu {
 	}
 
 //----------------------------------------------------------------
-//SEARCH WORKER BY DOB
+	//SEARCH WORKER BY DOB
 //----------------------------------------------------------------
 	private static void SearchWorkerByDOB() throws Exception {
 		System.out.print("Please, introduce the Date of Birth of the worker you want to look for");
@@ -1679,20 +1680,20 @@ public class Menu {
 
 	private static void AddAnimal() throws Exception {
 
-		System.out.print("Please, introduce the new animal");
-		System.out.print("1. Name of the animal: ");
+		System.out.println("Please, introduce the new animal");
+		System.out.println("1. Name of the animal: ");
 		String name;
 		name = reader.readLine();
-		System.out.print("2. Country of the animal:");
+		System.out.println("2. Country of the animal:");
 		String country;
 		country = reader.readLine();
-		System.out.print("3. Colour/s of the animal: ");
+		System.out.println("3. Colour/s of the animal: ");
 		String colour;
 		colour = reader.readLine();
-		System.out.print("4. Specie of the animal: ");
+		System.out.println("4. Specie of the animal: ");
 		String specie;
 		specie = reader.readLine();
-		System.out.print("5. Date of birth of the animal in this format (year-month-day)      ");
+		System.out.println("5. Date of birth of the animal in this format (year-month-day)      ");
 		String date = reader.readLine();
 		LocalDate dob = LocalDate.parse(date, formatter);
 		Animal animal = new Animal(name, country, colour, specie, Date.valueOf(dob));
@@ -1893,10 +1894,48 @@ public class Menu {
 		JAXBContext context = JAXBContext.newInstance(Animal.class);//We specify the class we want for the XML
 		//Get the unmarshaller
 		Unmarshaller unmarshal = context.createUnmarshaller(); // we call the create a marshaller method from the context class
-		//Unmarshal the Animal from a file
+		File file= null;
+		
+		
+		boolean IncorrectAnimal = true;
+		while(IncorrectAnimal) {
+			
+		//Open the file
 		System.out.println("Type the filename for the XML document (expected in the xmls folder): ");
 		String fileName= reader.readLine();
-		File file= new File("_/xmls/"+ fileName);
+		file= new File("_/xmls/"+ fileName);
+		
+		
+		//With this code we are going to tell the user if there was an error
+		//It can be while parsing, if it wasn't well formed or if it wasn't accessible 
+		  try {
+	        	// Create a DocumentBuilderFactory
+	            DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
+	            // Set it up so it validates XML documents
+	            dBF.setValidating(true);
+	            // Create a DocumentBuilder and an ErrorHandler (to check validity)
+	            DocumentBuilder builder = dBF.newDocumentBuilder();
+	            CustomErrorHandler customErrorHandler = new CustomErrorHandler();
+	            builder.setErrorHandler(customErrorHandler);
+	            // Parse the XML file and print out the result
+	            Document doc = builder.parse(file);
+	            IncorrectAnimal= false;
+	        } catch (ParserConfigurationException ex) {
+	            System.out.println(file + " error while parsing!");
+	            IncorrectAnimal= true;
+	          
+	        } catch (SAXException ex) {
+	            System.out.println(file + " was not well-formed!");
+	            IncorrectAnimal= true;
+	        
+	        } catch (IOException ex) {
+	            System.out.println(file + " was not accessible!");
+	            IncorrectAnimal= true;
+	           
+	        }
+		
+		}
+		//Unmarshal the Animal from a file
 		Animal animal= (Animal) unmarshal.unmarshal(file); //we do a cast to animal
 		// now we need to output the dog to the data base
 		//Print the animal

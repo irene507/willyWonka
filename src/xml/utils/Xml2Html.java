@@ -29,7 +29,7 @@ public class Xml2Html {
 		simpleTransform("./xmls/Output-Chocolate.xml", "./xmls/ChocolateStyle.xslt", "./xmls/Chocolate.html");
 		simpleTransform("./xmls/Output-OompaLoompa.xml", "./xmls/oompaLoompaStyle.xslt", "./xmls/OompaLoompa.html");
 		simpleTransform("./xmls/Output-Warehouse.xml", "./xmls/warehouseStyle.xslt", "./xmls/Warehouse.html");
+		simpleTransform("./xmls/Output-Animal.xml", "./xmls/AnimalStyle.xslt", "./xmls/Animal.html");
 		
-		
-	}
+		}
 }
