@@ -24,6 +24,7 @@ public interface UserManager {
 	public List<User> getUsers();
 	public void deleteUser(int id);
 	public void deleteRole(int id);
+	public void updateUser(User user, int id);
 	
 	
 	

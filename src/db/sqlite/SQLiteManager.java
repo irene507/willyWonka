@@ -155,7 +155,8 @@ public class SQLiteManager implements DBManager {
 		   String sql4 = "CREATE TABLE milk"
 				   + "(id INTEGER PRIMARY KEY AUTOINCREMENT, "
 				   + "name      TEXT    NOT NULL,  "
-				   + "type      TEXT    NOT NULL)  ";
+				   + "type      TEXT    NOT NULL  "
+				   + "photo     BLOB )";
 		   stmt4.executeUpdate(sql4);
 		   
 		   //OOMPA LOOMPA TABLE

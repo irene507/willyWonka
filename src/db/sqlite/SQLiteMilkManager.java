@@ -29,7 +29,7 @@ public class SQLiteMilkManager {
 			// Link a chocolate with a milk
 			try {
 				String sql = "INSERT INTO chocolateMilks (chocoId, milkId) "
-						+ "VALUES (?,?);";
+						+ "VALUES (?,?,?);";
 				PreparedStatement prep = c.prepareStatement(sql);
 				prep.setInt(1, chocoId);
 				prep.setInt(2, milkId);
