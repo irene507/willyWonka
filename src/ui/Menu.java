@@ -105,7 +105,8 @@ public class Menu {
 				break;
 			case 4: 
 				//Update user
-				//updateUser(); 
+				updateUser(); 
+				break;
 			case 5 : 
 				//Create new Role
 				newRole();
@@ -226,7 +227,89 @@ public class Menu {
 		}
 
 	}
-	
+	private static void updateUser() throws Exception{
+		byte[]hash;
+		Role chosenRole;
+		Boolean incorrect = true,errfound=true;
+		System.out.println("Please input your credentials in order to update your user ");
+		System.out.println("Username: ");
+		String username = reader.readLine();
+		System.out.println("Password: ");
+		String password = reader.readLine();
+		User user = userManager.checkPassword(username, password);
+		// check if the user/password combination was right
+		if (user == null) {
+			System.out.println("Wrong credentials, please try again!");
+		}
+		// check the role
+		else if (user.getRole().getRole().equalsIgnoreCase("Willy Wonka")||user.getRole().getRole().equalsIgnoreCase("Oompa Loompa")) {
+			
+			System.out.println("Current username: "+user.getUsername());
+			System.out.println("Type new username or enter to keep unchanged");
+			username = reader.readLine();
+			if(username.equalsIgnoreCase("")) {
+				username = user.getUsername();
+			}else {
+				List<User> users = userManager.getUsers();
+				if(!users.isEmpty()) {
+					do{
+					
+						for(User use:users) {
+							if(use.getUsername().equalsIgnoreCase(username)) {
+								System.out.println("That Username already exists, introduce a new username");
+								username = reader.readLine();
+								errfound=true;
+							
+							}else {
+								errfound=false;
+							}
+						}
+						if(errfound) {
+							incorrect=true;
+						}else {
+							incorrect=false;
+						}
+					}while(incorrect);
+			
+				}
+			}
+			System.out.println("Current password: "+user.getPassword());
+			System.out.println("Type new password or enter to keep unchanged");
+			password = reader.readLine();
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			if(password.equalsIgnoreCase("")) {
+				hash = user.getPassword();
+			}else {
+			md.update(password.getBytes());
+			hash = md.digest();
+			
+			}
+			
+			System.out.println("Current user: "+user.getRole());
+			System.out.println("Type new role id or enter to keep unchanged");
+			List<Role> roles = userManager.getRoles();
+			for (Role role : roles) {
+				System.out.println(role);
+			}
+			String linein = reader.readLine();
+			int roleId;
+			if(linein.equalsIgnoreCase("")) {
+				roleId = user.getRole().getId();
+				 chosenRole = userManager.getRole(roleId);
+			}else {
+			roleId = Integer.parseInt(linein);
+			
+			chosenRole = userManager.getRole(roleId);
+			}
+			
+			User newuser = new User(username, hash, chosenRole);
+			
+			
+			userManager.updateUser(newuser, user.getId());
+		} else {
+			System.out.println("Invalid Role ");
+		}
+	}
 	
 	//CREo que est� bien ?
 	private static void deleteUser()throws Exception {

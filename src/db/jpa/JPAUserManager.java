@@ -124,12 +124,17 @@ public class JPAUserManager implements UserManager {
 	     em.getTransaction().commit();
 	}
 
-	//ESTO ESTÄ MAL .... SABEIS?
-	public void updateUser(){
+	//Ya va 
+	public void updateUser(User user, int id){
 		  // Begin transaction
 	      em.getTransaction().begin();
 		  // Make changes
-       	  dep.setAddress(newLocation);
+	      Query q = em.createNativeQuery("UPDATE users SET username = ?, password=? WHERE id= ?");
+	      q.setParameter(1, user.getUsername());
+	      q.setParameter(2, user.getPassword());
+	     
+	      q.setParameter(3, id);
+	      q.executeUpdate();
 		 // End transaction
 		 em.getTransaction().commit();
 	}
@@ -231,7 +236,7 @@ public Integer createChocolate (Chocolate chocolate) {
         
       		public void readChocolate() {
       			try {
-      				System.out.print("Write the chocolate´s ID: ");
+      				System.out.print("Write the chocolateï¿½s ID: ");
       				int choco_id = Integer.parseInt(reader.readLine());
       				Chocolate chocolate = getChocolate(choco_id);
       				System.out.println(chocolate.toString());				
@@ -240,7 +245,7 @@ public Integer createChocolate (Chocolate chocolate) {
       		}
       		public void readClient() {
       			try {
-      				System.out.print("Write the client´s ID: ");
+      				System.out.print("Write the clientï¿½s ID: ");
       				int client_id = Integer.parseInt(reader.readLine());
       				Client client = getClient(client_id);
       				System.out.println(client.toString());				
@@ -249,7 +254,7 @@ public Integer createChocolate (Chocolate chocolate) {
       		}
       		public void readAnimal() {
       			try {
-      				System.out.print("Write the animal´s ID: ");
+      				System.out.print("Write the animalï¿½s ID: ");
       				int animal_id = Integer.parseInt(reader.readLine());
       				Animal animal  = getAnimal(animal_id);
       				System.out.println(animal.toString());				
@@ -258,7 +263,7 @@ public Integer createChocolate (Chocolate chocolate) {
       		}
       		public void readMilk() {
       			try {
-      				System.out.print("Write the milk´s ID: ");
+      				System.out.print("Write the milkï¿½s ID: ");
       				int milk_id = Integer.parseInt(reader.readLine());
       				Milk milk = getMilk(milk_id);
       				System.out.println(milk.toString());				
@@ -272,7 +277,7 @@ public Integer createChocolate (Chocolate chocolate) {
     			
     			Query q1 = em.createNativeQuery("SELECT * FROM Chocolates", Chocolate.class);
     			List<Chocolate> chocolates = (List<Chocolate>) q1.getResultList();
-    			for (Chocolate chocolates : chocolates) {
+    			for (Chocolate chocolate : chocolates) {
     				System.out.println(chocolates );
     			}
     		}
@@ -332,7 +337,7 @@ public Integer createChocolate (Chocolate chocolate) {
 
 			//------------------------	UPDATE  ------------------------------//
     		
-    		public boolean updateChocolate(Chocolate chocolate) {
+    		public boolean updateChocolate(Chocolate chocolate) throws Exception{
     			try {
     				
     				System.out.println("Choose a chocolate to modify. Type its ID:");
