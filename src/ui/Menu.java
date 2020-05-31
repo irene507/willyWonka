@@ -457,10 +457,6 @@ public class Menu {
 	private static void willyWonkaAnimals() throws Exception {
 
 		while (true) {
-<<<<<<< HEAD
-=======
-			
->>>>>>> branch 'master' of https://github.com/irene507/willyWonka.git
 			
 			// ANIMAL
 			System.out.println("1. Add animal ");
