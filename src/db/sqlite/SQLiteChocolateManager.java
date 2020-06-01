@@ -12,7 +12,10 @@ import java.sql.SQLException;
 
 import pojos.Chocolate;
 import db.interfaces.ChocolateManager;
-
+/*
+ * Our main "element " of the database is the chocolate. We also create the connection that is in charge
+ * of the management of the database 
+ */
 public class SQLiteChocolateManager implements ChocolateManager {
     private Connection c;
     //in all classes that uses a connection 

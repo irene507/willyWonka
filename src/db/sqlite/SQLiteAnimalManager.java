@@ -13,7 +13,10 @@ import java.util.List;
 
 import db.interfaces.AnimalManager;
 import pojos.Animal;
-
+/*
+The part of the SQLite contains the part of the management of our database. Our main connection 
+is the one we create with the "connection c" 
+*/
 
 
 public class SQLiteAnimalManager implements AnimalManager {
@@ -100,7 +103,6 @@ public class SQLiteAnimalManager implements AnimalManager {
 
 	@Override
 	public List<Animal> searchByNameAnimal(String name_a) {
-		// TODO Auto-generated method stub
 
 		// Create an empty list of animals
 		List<Animal> AnimalList = new ArrayList<Animal>();
@@ -127,7 +129,6 @@ public class SQLiteAnimalManager implements AnimalManager {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			// TODO: handle exception
 
 		}
 
@@ -140,7 +141,6 @@ public class SQLiteAnimalManager implements AnimalManager {
 
 	@Override
 	public List<Animal> searchBySpecieAnimal(String specie_a) {
-		// TODO Auto-generated method stub
 		// Create an empty list of animals
 		List<Animal> AnimalList = new ArrayList<Animal>();
 
@@ -178,7 +178,6 @@ public class SQLiteAnimalManager implements AnimalManager {
 	@Override
 	public void update(Animal animal) {
 		try {
-			// TODO Auto-generated method stub
 			// Update every aspect of a particular animal
 			String sql = "UPDATE animal SET name=?, country=?, colour=?, specie=?, dob=?, WHERE id=?";
 			PreparedStatement s = c.prepareStatement(sql);

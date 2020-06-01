@@ -1,6 +1,7 @@
 package pojos;
-
-
+/*
+ * We have all the pojos with getters and setters, its constructors, hascode and toString methods 
+*/
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -44,12 +45,6 @@ public class Animal implements Serializable {
 	
 	@XmlJavaTypeAdapter(SQLDateAdapter.class) // a class that gets a date and returns a string (Marshal) and a date (Unmarshal)
 	private Date dob;
-	
-	
-	
-	
-	
-	
 	
 	
 	
