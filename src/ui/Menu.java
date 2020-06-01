@@ -55,19 +55,14 @@ public class Menu {
 		dbManager.connect();
 		// Need to create the tables with JDBC before using JPA
 		dbManager.createTables();
-<<<<<<< HEAD
+
 		userManager = new JPAManager(); // we dont have a constructor but we dont need it
-=======
-		userManager = new JPAUserManager(); // we dont hace a constructor but we dont need it
->>>>>>> branch 'master' of https://github.com/irene507/willyWonka
+
 		userManager.connect();
 		chocolateManager = dbManager.getChocolateManager();
 		clientManager = dbManager.getClientManager();
 		animalManager = dbManager.getAnimalManager();
-<<<<<<< HEAD
-		milkManager= dbManager.getMilkmanager();
-=======
->>>>>>> branch 'master' of https://github.com/irene507/willyWonka
+		milkManager= dbManager.getMilkManager();
 		oompaloompaManager = dbManager.getOompaLoompaManager();
 		warehouseManager = dbManager.getWarehouseManager();
 

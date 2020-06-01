@@ -382,28 +382,7 @@ public Integer createChocolate (Chocolate chocolate) {
     			}
     		}
 
-
-			@Override
-			public boolean UpdateClient(Client client) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-
-			@Override
-			public boolean DeleteClient(Client client) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-
-			@Override
-			public Client SearchClientById(Integer clientId) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-    		
-    		
+	
         
         
 

@@ -241,13 +241,6 @@ public class SQLiteManager implements DBManager {
 		}
 		return result;
 	}
-	@Override
-	public MilkManager getMilkmanager() {
-		// TODO Auto-generated method stub
-		return null;
-	}	
-	
-
 	
 
 }
