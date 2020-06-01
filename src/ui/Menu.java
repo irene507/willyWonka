@@ -385,9 +385,7 @@ public class Menu {
 //------------------------------------------------------------------------------------------------
 
 	private static void willyWonkaChocolate() throws Exception {
-		int choice = Integer.parseInt(reader.readLine());
-		int chocoId = 0;
-
+		
 		System.out.println("You are going to manage the chocolate. ");
 		System.out.println("What do you wanna do?     ");
 		System.out.println("1. Create Chocolate       ");
@@ -404,6 +402,8 @@ public class Menu {
 		// System.out.println("6. Admit chocolate ");
 		System.out.println("7.get chocolate ");
 		System.out.println(" Back");
+		int choice = Integer.parseInt(reader.readLine());
+		int chocoId = 0;
 
 		switch (choice) {
 		case 0:
@@ -412,6 +412,7 @@ public class Menu {
 
 		case 1:
 			// createChocolate();
+			createChocolate();
 			break;
 		case 2:
 			showChocolate();
