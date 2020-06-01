@@ -112,8 +112,6 @@ public class JPAManager implements UserManager {
 		// marks the end of transaction and saves all the changes 
 		//in the transaction into the database and it can't be rolled back(undo changes)
 		em.getTransaction().commit();
-		
-
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import java.util.List;
 import javax.xml.bind.annotation.*;
 
 
-
+//For the XML
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @XmlRootElement(name = "Milk")
@@ -25,8 +25,12 @@ public class Milk implements Serializable {
 	/**
 	 * 
 	 */
+	
+	//Necessary to implement the Serializable class
 	private static final long serialVersionUID = -1546844702548025820L;
-	//because we are not going to allow more milk to be in our database  
+
+	
+	//Creation of variables
     @XmlAttribute
 	private Integer id;
 	@XmlElement
@@ -34,6 +38,8 @@ public class Milk implements Serializable {
 	@XmlElement
 	private String type;
 	@XmlTransient
+	
+	//For the many to many relation
 	private List<Chocolate> chocolates;
 	
 	
@@ -48,8 +54,8 @@ public class Milk implements Serializable {
 	}
 	
 	
-	//constructor without id
 	
+	//Constructor without the id
 	public Milk(String name, String type) {
 		super();
 		this.name = name;
@@ -57,17 +63,15 @@ public class Milk implements Serializable {
 		chocolates = new ArrayList<Chocolate>();
 	}
 
-	//constructor with only id
+	
+	//Constructor with only id
 	public Integer getId() {
 		return id;
 	}
 
 	
 	
-	//Getters y setters
-	
-
-
+	//Getters y Setters
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -84,12 +88,13 @@ public class Milk implements Serializable {
 		this.type = type;
 	}
 	
-	//TOSTRING METHOD 
+	//ToString method
 	@Override
 	public String toString() {
 		return "Milk [id=" + id + ", name=" + name + ", type=" + type + "]";
 	}
 
+	//Hashcode method (generates a unique variable for each entity)
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,6 +105,7 @@ public class Milk implements Serializable {
 		return result;
 	}
 
+	//Equals method
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

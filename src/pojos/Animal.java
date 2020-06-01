@@ -3,6 +3,7 @@ package pojos;
 
 
 import java.io.Serializable;
+
 import java.sql.Date;
 
 import javax.xml.bind.annotation.*;
@@ -11,6 +12,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import xml.utils.SQLDateAdapter;
 
 
+//For the XML
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name= "animal")
 @XmlType(propOrder = {"name", "country", "colour", "specie", "dob" })
@@ -24,9 +26,11 @@ public class Animal implements Serializable {
 	/**
 	 * 
 	 */
+	
+	//Necessary to implement the Serializable class
 	private static final long serialVersionUID = 614943080265068918L;
 	
-	
+	//Creation of variables
 	@XmlTransient //In some cases you might prefer to use @XmlAttribute
 	private Integer id;
 	
@@ -46,15 +50,10 @@ public class Animal implements Serializable {
 	private Date dob;
 	
 	
+
 	
-	
-	
-	
-	
-	
-	
-//Constructors
-	
+	//Constructors
+	//Constructor only with id, name and specie
 	public Animal(Integer id, String name, String specie) {
 		super();
 		this.id = id;
@@ -65,6 +64,7 @@ public class Animal implements Serializable {
 
 	//Constructor used in SearchByName
 	
+	//Constructor with all variables
 	public Animal(Integer id, String name, String country, String colour, String specie, Date dob) {
 		super();
 		this.id = id;
@@ -77,6 +77,7 @@ public class Animal implements Serializable {
 
 	//Constructor used in addAnimal
 	
+	//Constructor without id
 	public Animal(String name, String country, String colour, String specie, Date dob) {
 		super();
 		this.name = name;
@@ -87,7 +88,7 @@ public class Animal implements Serializable {
 	}
 
 
-//Getters y setters
+	//Getters y setters
 	public Integer getId() {
 		return id;
 	}
@@ -127,7 +128,7 @@ public class Animal implements Serializable {
 	}
 
    
-	//tostring
+	//ToString method
 	@Override
 	public String toString() {
 		return "Animal [id=" + id + ", name=" + name + ", country=" + country + ", colour=" + colour + ", specie="
@@ -135,6 +136,7 @@ public class Animal implements Serializable {
 	}
 
 
+	//Hashcode method (generates a unique variable for each entity)
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -149,6 +151,7 @@ public class Animal implements Serializable {
 	}
 
 
+	//Equals method
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

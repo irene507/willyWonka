@@ -7,6 +7,7 @@ import java.util.List;
 import javax.xml.bind.annotation.*;
 
 
+//For the XML
 @XmlAccessorType(XmlAccessType.FIELD) //put annotations in the "fits" of the class
 @XmlRootElement(name = "Chocolate")
 @XmlType(propOrder= {"name, type, cocoa, flavors, units, shape"})
@@ -18,8 +19,8 @@ public class Chocolate implements Serializable {
 	 * 
 	 */
 	
-
-	private static final long serialVersionUID = -2290544292024275090L;
+	//Necessary to implement the Serializable class
+	private static final long serialVersionUID = -2290544292024275090L; 
 		//no tenemos ningun dato relacionado con dato 
    // podriamos poner un dato que fuera la fecha de creacion de ese chocolate 
 	//Date: siempre import java.sql
@@ -27,9 +28,11 @@ public class Chocolate implements Serializable {
 	    //It is something that does not persist,so is not stored.
 	    //--->So this field is going to be ignore by the XML 
 	    //Though, other times you can use @XmlAttribute
+	
+	
+		//Creation of variables
 	    @XmlTransient 
         private Integer id;
-        
         @XmlAttribute
         private String name;
         @XmlElement
@@ -43,18 +46,16 @@ public class Chocolate implements Serializable {
         @XmlElement
         private String shape;
         
-        
-        
-        
-        
+        //For the XML
     	@XmlElement(name = "milk")
     	@XmlElementWrapper(name = "milks")
+    	//For the many to many  relation between milk and chocolate
     	private List<Milk> milks;
    
   
         
         
-    
+    	//Constructor with all variables
         public Chocolate(Integer id, String name, String type, Float cocoa, String flavors, Float units,
 				String shape) {
 			super();
@@ -68,6 +69,7 @@ public class Chocolate implements Serializable {
 			this.milks = new ArrayList<Milk>();
 		}
         
+        //Constructor without the id
         public Chocolate(String name, String type, Float cocoa, String flavors, Float units, String shape) {
 			super();
 			this.name = name;
@@ -79,6 +81,7 @@ public class Chocolate implements Serializable {
 			this.milks = new ArrayList<Milk>();
 		}
         
+        //Constructor with only id and name
         public Chocolate(Integer id, String name) {
 			super();
 			this.id = id;
@@ -88,12 +91,13 @@ public class Chocolate implements Serializable {
         
 
 
-		//CREATION OF THE CONSTRUCTOR
+		//Constructor by default
 		public Chocolate() {
 			super();
 		}
-		//GETTERS AND SETTERS
-
+		
+		
+		//Getters and Setters
 		public Integer getId() {
 			return id;
 		}
@@ -150,7 +154,20 @@ public class Chocolate implements Serializable {
 			this.shape = shape;
 		}
 		
-        //TOSTRING() method
+		//Necessary for the many to many relation
+		public List<Milk> getMilks() {
+			return milks;
+		}
+
+		public void setMilks(List<Milk> milks) {
+			this.milks = milks;
+		}
+
+	
+		
+		
+		
+        //ToString method
 		@Override
 		public String toString() {
 			return "Chocolate [id=" + id + ", name=" + name + ", cocoa=" + cocoa + ", type=" + type + ", flavors="
@@ -159,7 +176,7 @@ public class Chocolate implements Serializable {
 
 
 
-
+		//Hashcode method (generates a unique variable for each entity)
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -176,7 +193,7 @@ public class Chocolate implements Serializable {
 
 
 
-
+		//Equals method
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj)
@@ -223,16 +240,7 @@ public class Chocolate implements Serializable {
 				return false;
 			return true;
 		}
-		
-		public List<Milk> getMilks() {
-			return milks;
-		}
 
-		public void setMilks(List<Milk> milks) {
-			this.milks = milks;
-		}
-
-	
 		}
 
 	

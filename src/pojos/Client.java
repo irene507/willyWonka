@@ -1,8 +1,6 @@
 package pojos;
 
 import java.sql.Date;
-
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -15,16 +13,21 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import xml.utils.SQLDateAdapter;
 
 import java.io.Serializable;
-import java.sql.Date;
 
+
+
+//For the XML
 @XmlAccessorType(XmlAccessType.FIELD)// we are going to put annotations into a class (en los atributos)
 @XmlRootElement(name = "client")
 @XmlType(propOrder = {"name", "cellphone", "email", "adress", "dob"})
+
 public class Client implements Serializable {
 	
-	
+	//Necessary to implement the Serializable class
 	private static final long serialVersionUID =6891296751142184360L;
 	
+	
+	//Creation of variables
 	@XmlTransient //doesnt persit, isnt stored, this field is going to be ignored in xml.
 	private int id;
 	@XmlAttribute//
@@ -41,7 +44,7 @@ public class Client implements Serializable {
 	private Date dob;
 	
 	
-	//CONSTRUCTOR WITH ID AND NAME 
+	//Constructor only for id and name
 	public Client(Integer id, String name) {
 		super();
 		this.id = id;
@@ -49,6 +52,7 @@ public class Client implements Serializable {
 	}
 	
 	
+	//Constructor with all variables
 	public Client(Integer id, String name, Integer cellphone, String email, String adress, Date dob) {
 		super();
 		this.id = id;
@@ -61,7 +65,7 @@ public class Client implements Serializable {
 
 
 
-
+	//Constructor without the id
 	public Client(String name, Integer cellphone, String email, String adress, Date dob) {
 		super();
 		this.name = name;
@@ -70,13 +74,15 @@ public class Client implements Serializable {
 		this.adress = adress;
 		this.dob = dob;
 	}
-	//CREACION DEL CONSTRUCTOR 
-			public Client() {
-				super();
-			}
+	
+	
+	//Constructor by default
+	public Client() {
+		super();
+	}
 
 
-	//getters y setters
+	//Getters y Setters
 	public Integer getId() {
 		return id;
 	}
@@ -115,6 +121,7 @@ public class Client implements Serializable {
 	}
 
 
+	//ToString method
 	@Override
 	public String toString() {
 		return "Client [id=" + id + ", name=" + name + ", cellphone=" + cellphone + ", email=" + email + ", adress="
@@ -122,6 +129,7 @@ public class Client implements Serializable {
 	}
 
 
+	//Hashcode method (generates a unique variable for each entity)
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -136,6 +144,7 @@ public class Client implements Serializable {
 	}
 
 
+	//Equals method
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -175,12 +184,5 @@ public class Client implements Serializable {
 		return true;
 	}
 
-
-
-	
-	
-	
-	
-	
 
 }

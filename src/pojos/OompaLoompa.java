@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import xml.utils.*;
 
 
+//For the XML
 @XmlAccessorType(XmlAccessType.FIELD) //put annotations in the fields of the class
 @XmlRootElement(name="oompaloompa")
 @XmlType(propOrder = {"name", "cellphone","email","address","dob"})
@@ -18,7 +19,12 @@ public class OompaLoompa implements Serializable {
 	/**
 	 * 
 	 */
+	
+	
+	//Necessary to implement the Serializable class
 	private static final long serialVersionUID = 8733922470714588273L;
+	
+	//Creation of variables
 	@XmlTransient
 	private Integer id;
 	@XmlAttribute 
@@ -33,13 +39,14 @@ public class OompaLoompa implements Serializable {
 	private Date dob;
 	
 	
-	//Constructor usando id y name solo
-	
+	//Constructor only for id and name
 	public OompaLoompa(Integer id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
+	
+	//Constructor for all the variables
 	public OompaLoompa(Integer id, String name, Integer cellphone, String email, String address, Date dob) {
 		super();
 		this.id = id;
@@ -49,6 +56,8 @@ public class OompaLoompa implements Serializable {
 		this.address=address;
 		this.dob = dob;
 	}
+	
+	//Constructor without id
 	public OompaLoompa(String name, Integer cellphone, String email, String address, Date dob) {
 		super();
 		this.name = name;
@@ -57,6 +66,8 @@ public class OompaLoompa implements Serializable {
 		this.address=address;
 		this.dob = dob;
 	}
+	
+	//Constructor by default
 	public OompaLoompa() {
 		super();
 	}
@@ -100,7 +111,7 @@ public class OompaLoompa implements Serializable {
 		this.dob = dob;
 	}
 	
-	//hashcode
+	//Hashcode method (generates a unique variable for each entity)
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -114,7 +125,7 @@ public class OompaLoompa implements Serializable {
 		return result;
 	}
 	
-	//equals
+	//Equals method
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -157,7 +168,7 @@ public class OompaLoompa implements Serializable {
 		return true;
 	}
 	
-	//Tostring
+	//ToString method
 	@Override
 	public String toString() {
 		return "OompaLoompa [id=" + id + ", name=" + name + ", cellphone=" + cellphone + ", email=" + email
