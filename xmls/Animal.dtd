@@ -1,0 +1,9 @@
+<!DOCTYPE Animal [
+	<!ELEMENT animal (country, color, specie, dob)>
+	<!ATTLIST animal name CDATA #REQUIRED>
+	<!ELEMENT country (#PCDATA)>
+	<!ELEMENT color (#PCDATA)>
+	<!ELEMENT specie (#PCDATA)>
+	<!ELEMENT dob (#PCDATA)>
+
+]>

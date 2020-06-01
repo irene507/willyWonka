@@ -10,6 +10,7 @@ public interface DBManager {
         public ChocolateManager getChocolateManager();
         public ClientManager getClientManager();
         public AnimalManager getAnimalManager();
+        public MilkManager getMilkManager();
         public void createTables();
         public int getLastId();
 }

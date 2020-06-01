@@ -2,6 +2,7 @@ package db.sqlite;
 
 	import java.sql.Connection;
 
+
 	import java.sql.Date;
 	import java.sql.PreparedStatement;
 	import java.sql.ResultSet;
@@ -10,22 +11,20 @@ package db.sqlite;
 	import java.util.List;
 
 	import db.interfaces.ClientManager;
-import pojos.Client;
-import pojos.users.User;
+	import pojos.Client;
+	import pojos.users.User;
 
 	public class SQLiteClientManager implements ClientManager {
 		
 		private Connection c;
 		
-		public SQLiteClientManager(SQLiteManager manager) {                                                 //duda sqlite manager????
+		public SQLiteClientManager(Connection c) {                                                 
+			//duda sqlite manager????
 			this.c=c;
 			
 			
 		}
 
-		public SQLiteClientManager(Connection c2) {
-			// TODO Auto-generated constructor stub
-		}
 		
 //--------------------------------------------------------------------------------------------------------------------------------
 
@@ -46,8 +45,10 @@ import pojos.users.User;
 				prep.setString(2, client.getName());
 				prep.setInt(3, client.getCellphone());
 				prep.setString(4, client.getEmail());
-				prep.setString(3,  client.getAdress());
-				prep.setDate(2, client.getDob());                                                  //CHEATSHEETS PARA PASARLO A SQL
+				prep.setString(5,  client.getAdress());
+				prep.setDate(6, client.getDob());
+				
+				//CHEATSHEETS PARA PASARLO A SQL
 				
 				prep.executeUpdate();
 				prep.close();

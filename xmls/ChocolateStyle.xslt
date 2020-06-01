@@ -11,7 +11,16 @@
               <p>Flavours:<xsl:value-of select= "/chocolate/flavors" /></p>
               <p>Units:<xsl:value-of select= "/chocolate/units" /></p>
               <p>Shape:<xsl:value-of select= "/chocolate/shape" /></p>
+              <p>Milks:
+              		<table>
+              			<th>Milk</th>
+              			<xsl:value-of select= "/chocolate/shape">
+              			<tr><xsl:value-of select= "/name" /></tr>
+              			</xsl:value-of>
+              		</table>
               
+              
+              </p>
             </body>                  
          </html>
 

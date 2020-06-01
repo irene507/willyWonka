@@ -2,7 +2,7 @@ package db.sqlite;
 
 
 import java.sql.Connection;
-import java.sql.Date;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,8 +39,8 @@ public class SQLiteManager implements DBManager {
 		try{
 			// Open database connection
 		Class.forName("org.sqlite.JDBC");
-		this.c = DriverManager.getConnection("jdbc:sqlite:./db/chocolate.db");
-		
+		this.c = DriverManager.getConnection("jdbc:sqlite:./db/Willywonka.db");
+		System.out.println(c.toString());
 		Statement stmt1 = c.createStatement();
 		
 		stmt1.execute("PRAGMA foreign_keys=ON");
@@ -109,11 +109,16 @@ public class SQLiteManager implements DBManager {
 		return animal;
 	}
 	
+	@Override
+	public MilkManager getMilkManager() {
+		return milk;
+	}
+	
 
 
 	@Override
 	public void createTables() {
-		Statement stmt1, stmt2, stmt3, stmt4, stmt5,stmt6,stmt7;
+		Statement stmt1, stmt2, stmt3, stmt4, stmt5,stmt6,stmt7,stmt8,stmt9;
  
 		try{
 		   //CHOCO TABLE 
@@ -143,11 +148,11 @@ public class SQLiteManager implements DBManager {
 		   stmt3 = c.createStatement();
 		   String sql3 = "CREATE TABLE animal("
 				+ "id       INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "name      TEXT    NOT NULL,  "
-				+ "country     TEXT    NOT NULL,"
-				+ "colour     TEXT    NOT NULL,"
-				+ "specie   TEXT    NOT NULL,"
-				+ "dob     DATE   NOT NULL)";
+				+ "name      TEXT NOT NULL,  "
+				+ "country     TEXT NOT NULL,"
+				+ "colour     TEXT NOT NULL,"
+				+ "specie   TEXT NOT NULL,"
+				+ "dob     DATE NOT NULL)";
 		   stmt3.executeUpdate(sql3);
 		   
 		   //MILK TABLE 
@@ -179,8 +184,22 @@ public class SQLiteManager implements DBManager {
 			   		+ "corridor 	INTEGER NOT NULL,"
 			   		+ "shelve 		INTEGER NOT NULL)";
 		   		stmt7.executeUpdate(sql7);
-	   		
-	   		
+		   		
+	   		//TABLE USERS
+		   		stmt8=c.createStatement();
+				   String sql8="CREATE TABLE users("
+				   		+ "id 			INTEGER PRIMARY KEY AUTOINCREMENT,"
+				   		+ "username 		TEXT NOT NULL,"
+				   		+ "password 	TEXT NOT NULL,"
+				   		+ "roleID 		INTEGER NOT NULL)";
+			   		stmt8.executeUpdate(sql8);
+			 //TABLE USERS
+			   	stmt9=c.createStatement();
+					   String sql9="CREATE TABLE roles("
+					   		+ "roleId 			INTEGER PRIMARY KEY AUTOINCREMENT,"
+					   		+ "role		TEXT NOT NULL,";
+					   		
+				 stmt9.executeUpdate(sql9);   		
 	   		
 		   //TABLE OF THE MANY-TOMANY RELATIONSHIP BETWEEN CHOCOLATE & MILK
 		   stmt5= c.createStatement();
@@ -197,7 +216,8 @@ public class SQLiteManager implements DBManager {
 		   stmt5.close();
 		   stmt6.close();
 		   stmt7.close();
-		   
+		   stmt8.close();
+		   stmt9.close();
 		}catch(SQLException e){ 
 			//if there are exception of type "SQLException" we are not doing nothing 
 			if(e.getMessage().contains("already exists")){ //we are not going to do anything, or we can type {} or ; (and its the same) 
