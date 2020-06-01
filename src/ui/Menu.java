@@ -15,7 +15,7 @@ import pojos.*;
 import pojos.users.*;
 import xml.utils.CustomErrorHandler;
 import db.interfaces.*;
-import db.jpa.JPAUserManager;
+import db.jpa.JPAManager;
 import db.sqlite.*;
 import java.util.*;
 
@@ -54,7 +54,7 @@ public class Menu {
 		dbManager.connect();
 		// Need to create the tables with JDBC before using JPA
 		dbManager.createTables();
-		userManager = new JPAUserManager(); // we dont have a constructor but we dont need it
+		userManager = new JPAManager(); // we dont have a constructor but we dont need it
 		userManager.connect();
 		chocolateManager = dbManager.getChocolateManager();
 		clientManager = dbManager.getClientManager();

@@ -25,12 +25,12 @@ import java.util.List;
  * All this part has been done with JPA...So first of all we need to create an Entity Manager which 
  *fulfills the same role as a Connection in JDBC. 
  */
-public class JPAUserManager implements UserManager {
+public class JPAManager implements UserManager {
 
 	private EntityManager em;
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	
-	public JPAUserManager() {
+	public JPAManager() {
 		super();
 	//	connect();
 	}
@@ -342,7 +342,6 @@ public Integer createChocolate (Chocolate chocolate) {
     		      Query q = em.createNativeQuery("UPDATE users SET username = ?, password=? WHERE id= ?");
     		      q.setParameter(1, user.getUsername());
     		      q.setParameter(2, user.getPassword());
-    		     
     		      q.setParameter(3, id);
     		      q.executeUpdate();
     			 // End transaction
