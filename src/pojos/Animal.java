@@ -1,6 +1,7 @@
 package pojos;
-
-
+/*
+ * We have all the pojos with getters and setters, its constructors, hascode and toString methods 
+*/
 
 import java.io.Serializable;
 
@@ -51,9 +52,10 @@ public class Animal implements Serializable {
 	
 	
 
-	
+
 	//Constructors
 	//Constructor only with id, name and specie
+
 	public Animal(Integer id, String name, String specie) {
 		super();
 		this.id = id;
