@@ -2,7 +2,6 @@ package ui;
 
 import java.io.BufferedReader;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,10 +14,12 @@ import pojos.*;
 import pojos.users.*;
 import xml.utils.CustomErrorHandler;
 import db.interfaces.*;
-import db.jpa.JPAUserManager;
+import db.jpa.JPAManager;
 import db.sqlite.*;
 import java.util.*;
 
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.xml.bind.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,18 +49,25 @@ public class Menu {
 	// Menu
 	public static void main(String[] args) throws Exception {
 
-		// Connects with the database
+		// Connects with the databasey
 	
 		dbManager = new SQLiteManager();
 		dbManager.connect();
 		// Need to create the tables with JDBC before using JPA
 		dbManager.createTables();
-		userManager = new JPAUserManager(); // we dont have a constructor but we dont need it
+<<<<<<< HEAD
+		userManager = new JPAManager(); // we dont have a constructor but we dont need it
+=======
+		userManager = new JPAUserManager(); // we dont hace a constructor but we dont need it
+>>>>>>> branch 'master' of https://github.com/irene507/willyWonka
 		userManager.connect();
 		chocolateManager = dbManager.getChocolateManager();
 		clientManager = dbManager.getClientManager();
 		animalManager = dbManager.getAnimalManager();
-		milkManager= dbManager.getMilkManager();
+<<<<<<< HEAD
+		milkManager= dbManager.getMilkmanager();
+=======
+>>>>>>> branch 'master' of https://github.com/irene507/willyWonka
 		oompaloompaManager = dbManager.getOompaLoompaManager();
 		warehouseManager = dbManager.getWarehouseManager();
 
@@ -74,12 +82,7 @@ public class Menu {
 		if (yn.equalsIgnoreCase("y")) {
 			dbManager.createTables();
 		}*/
-			login();
-	}
-	
-	private static void menuUserManager(){
-		boolean exit = false;
-		while (!exit) {
+		while (true) {
 			// Ask the user his/her role
 			System.out.println("What do you want to do? ");
 			System.out.println("1.Login");
@@ -89,43 +92,39 @@ public class Menu {
 			System.out.println("5.Create a new role");
 			System.out.println("6.Delete a Role");
 			System.out.println("0.Exit");
-			int choice;
-			try {
-				choice = Integer.parseInt(reader.readLine());
-				switch (choice) {
-				case 0:
-					exit = true;
-					break;
-				case 1:
-					//Login
-					login();
-					break;
-				case 2:
-					//Create new User
-					newUser();
-					break;
-				case 3:
-					//Delete User
-					deleteUser();
-					break;
-				case 4: 
-					//Update user
-					updateUser(); 
-					break;
-				case 5 : 
-					//Create new Role
-					newRole();
-					break;
-				case 6:
-					//Delete Role
-					deleteRole();
-					break;
-				default:
-					break;
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			int choice = Integer.parseInt(reader.readLine());
+			switch (choice) {
+			case 0:
+				System.exit(0);
+				dbManager.disconnect();
+				userManager.disconnect();
+				break;
+			case 1:
+				//Login
+				login();
+				break;
+			case 2:
+				//Create new User
+				newUser();
+				break;
+			case 3:
+				//Delete User
+				deleteUser();
+				break;
+			case 4: 
+				//Update user
+				updateUser(); 
+				break;
+			case 5 : 
+				//Create new Role
+				newRole();
+				break;
+			case 6:
+				//Delete Role
+				deleteRole();
+				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -222,8 +221,6 @@ public class Menu {
 		// check if the user/password combination was right
 		if (user == null) {
 			System.out.println("Wrong credentials, please try again!");
-			System.out.println("Default User and Role assigned: Willy Wonka");
-			willyWonkaMenu();
 		}
 		// check the role
 		else if (user.getRole().getRole().equalsIgnoreCase("Willy Wonka")) {
@@ -232,13 +229,9 @@ public class Menu {
 		} else if (user.getRole().getRole().equalsIgnoreCase("Oompa Loompa")) {
 			System.out.println("Welcome Oompa Loompa� " + username + "!");
 			OompaLoompaCeoMenu();
-		}
-		
-		else{
+
+		} else {
 			System.out.println("Invalid Role ");
-			//we could not recognize role so you got willy wonka 
-			System.out.println("Default role assigned: Willy Wonka");
-			willyWonkaMenu();
 		}
 
 	}
@@ -336,6 +329,8 @@ public class Menu {
 		        int Id = Integer.parseInt(reader.readLine());
 		        userManager.deleteUser(Id);
 		       
+				
+				// gettransaction, set , y commmit 
 	
 		
 	}
@@ -364,9 +359,7 @@ public class Menu {
 			System.out.println("1. CHOCOLATE   ");
 			System.out.println("2. CLIENTS      ");
 			System.out.println("3. ANIMALS       ");
-			System.out.println("4. MANAGEMENT OF USERS " );
-			System.out.println("5. EXIT");
-			
+			System.out.println("4. BACK");
 
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
@@ -380,16 +373,11 @@ public class Menu {
 				break;
 
 			case 3:
-				willyWonkaAnimals();
+				//ywillyWonkaAnimals();
 				break;
 
 			case 4:
-				menuUserManager();
-				break;
-			case 5:
-				dbManager.disconnect();
-				userManager.disconnect();
-				System.exit(0);
+				permanecer = false;
 				break;
 			default:
 				break;
@@ -405,27 +393,33 @@ public class Menu {
 //------------------------------------------------------------------------------------------------
 
 	private static void willyWonkaChocolate() throws Exception {
-		int chocoId = 0;
-        boolean exit = false;
-        
-        while(!exit){
+		
 		System.out.println("You are going to manage the chocolate. ");
 		System.out.println("What do you wanna do?     ");
 		System.out.println("1. Create Chocolate       ");
-		System.out.println("2. Show Chocolate by id      ");
+		System.out.println("2. Show Chocolate       ");
 		System.out.println("3. Delete Chocolate       ");
 		System.out.println("4. Update Chocolate       ");
 		System.out.println("5. Search By...           ");
-		System.out.println("6. Show a list of chocolates       ");
+		System.out.println("6. Show chocolate         ");
 		System.out.println("7. Generate XML   ");
 		System.out.println("8. Admit chocolate through XML");
 		System.out.println("0. Back                   ");
+
+		// revisar estas
+		// System.out.println("6. Admit chocolate ");
+		System.out.println("7.get chocolate ");
+		System.out.println(" Back");
 		int choice = Integer.parseInt(reader.readLine());
-        
+		int chocoId = 0;
+
 		switch (choice) {
-		
+		case 0:
+			System.exit(0);
+			break;
 
 		case 1:
+			// createChocolate();
 			createChocolate();
 			break;
 		case 2:
@@ -468,18 +462,14 @@ public class Menu {
 				searchChocolateByType();
 			}
 			System.out.println("Type the selected chocolate's id");
-			int chocoId1 = Integer.parseInt(reader.readLine());
-			generateChocolateXML(chocoId1);
+			int AnimalId = Integer.parseInt(reader.readLine());
+			generateChocolateXML(chocoId);
 			break;
 		case 8:
 			admitChocolateXML();
 			break;
-		case 0 : 
-			exit = true;
-			break;
 
 		}
-        }
 	}// function chocolate
 
 //--------------------------------------------------------------------------------------------------------
@@ -557,9 +547,13 @@ public class Menu {
 
 //------------------------------------------------------------------------------------------------
 
-	private static void willyWonkaAnimals() throws Exception {
+	/*private static void willyWonkaAnimals() throws Exception {
 
 		while (true) {
+<<<<<<< HEAD
+=======
+			
+>>>>>>> branch 'master' of https://github.com/irene507/willyWonka.git
 			
 			// ANIMAL
 			System.out.println("1. Add animal ");
@@ -567,9 +561,10 @@ public class Menu {
 			System.out.println("3. Update");
 			System.out.println("4. Search by name ");
 			System.out.println("5. Search by species");
-			System.out.println("6. Show all animals");
-			System.out.println("7. Generate XML");
-		    System.out.println("8. Create animal through XML");
+			System.out.println("6. Select an animal");
+			System.out.println("7. Show an animal");
+			System.out.println("8. Generate XML");
+		    System.out.println("9. Create animal through XML");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
   
@@ -594,10 +589,25 @@ public class Menu {
 				break;
 				
 			case 6:
-				ShowAnimal();
+				System.out.println("For this first you have to search a specific animal");
+				System.out.println("Search animal by....");
+				System.out.println("1. Name");
+				System.out.println("2. Specie");
+				int k = Integer.parseInt(reader.readLine());
+				if (k == 1) {
+					SearchAnimalByName();
+
+				} else {
+					SearchAnimalBySpecie();
+				}
+				SelectAnimal();
 				break;
 				
 			case 7:
+				ShowAnimal();
+				break;
+				
+			case 8:
 				System.out.println("For this first you have to search a specific animal");
 				System.out.println("Search animal by....");
 				System.out.println("1. Name");
@@ -615,7 +625,7 @@ public class Menu {
 				GenerateXML(AnimalId);
 				break;
 				
-			case 8:
+			case 9:
 				CreateAnimalXML();
 				break;
 				
@@ -625,7 +635,7 @@ public class Menu {
 			}
 
 		}
-	}
+	}*/
 
 //---------------------------------------------------------------------	
 
@@ -641,8 +651,7 @@ public class Menu {
 			System.out.println("1. MILK             ");
 			System.out.println("2. WAREHOUSE        ");
 			System.out.println("3. WORKERS          ");
-			System.out.println("4. EXIT         ");
-			
+
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
 			case 1:
@@ -654,12 +663,7 @@ public class Menu {
 			case 3:
 				OompaLoompaWorkers();
 				break;
-			case 4:
-				dbManager.disconnect();
-				userManager.disconnect();
-				System.exit(0);
-				break;
-				
+
 			default:
 				break;
 
@@ -856,7 +860,6 @@ public class Menu {
 	//input.dog.xml como lo saca??????
 	//not valid cause its missing an attribute 
 	//well-formed por qu�? 
-	
 	private static void admitChocolateXML() throws Exception {
        boolean incorrectChocolate = true;
 		// Create a JAXBContext
@@ -1440,7 +1443,7 @@ public class Menu {
 	}
 
 //----------------------------------------------------------------
-	//SEARCH WORKER BY DOB
+//SEARCH WORKER BY DOB
 //----------------------------------------------------------------
 	private static void SearchWorkerByDOB() throws Exception {
 		System.out.print("Please, introduce the Date of Birth of the worker you want to look for");
@@ -1689,20 +1692,20 @@ public class Menu {
 
 	private static void AddAnimal() throws Exception {
 
-		System.out.println("Please, introduce the new animal");
-		System.out.println("1. Name of the animal: ");
+		System.out.print("Please, introduce the new animal");
+		System.out.print("1. Name of the animal: ");
 		String name;
 		name = reader.readLine();
-		System.out.println("2. Country of the animal:");
+		System.out.print("2. Country of the animal:");
 		String country;
 		country = reader.readLine();
-		System.out.println("3. Colour/s of the animal: ");
+		System.out.print("3. Colour/s of the animal: ");
 		String colour;
 		colour = reader.readLine();
-		System.out.println("4. Specie of the animal: ");
+		System.out.print("4. Specie of the animal: ");
 		String specie;
 		specie = reader.readLine();
-		System.out.println("5. Date of birth of the animal in this format (yyyy-MM-dd)");
+		System.out.print("5. Date of birth of the animal in this format (year-month-day)      ");
 		String date = reader.readLine();
 		LocalDate dob = LocalDate.parse(date, formatter);
 		Animal animal = new Animal(name, country, colour, specie, Date.valueOf(dob));
@@ -1753,7 +1756,7 @@ public class Menu {
 		int AnimalId;
 
 		try {
-			System.out.println("Introduce the ID of the animal you want to remove from the table");
+			System.out.println("Introduce the ID of the chocolate you want to remove from the table");
 			String id = reader.readLine();
 			AnimalId = Integer.parseInt(id);
 			animalManager.delete(AnimalId);
@@ -1834,7 +1837,24 @@ public class Menu {
 
 	}
 
+// ------------------------------------------------------------------------------
 
+	// SELECT ANIMAL
+	
+// ------------------------------------------------------------------------------
+
+	private static void SelectAnimal() throws Exception {
+
+		try {
+			System.out.println("Introduce id of the animal: ");
+			int AnimalId = Integer.parseInt(reader.readLine());
+			Animal animal = animalManager.getAnimal(AnimalId);
+			animal.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 //------------------------------------------------------------------------------------
 	
@@ -1886,48 +1906,10 @@ public class Menu {
 		JAXBContext context = JAXBContext.newInstance(Animal.class);//We specify the class we want for the XML
 		//Get the unmarshaller
 		Unmarshaller unmarshal = context.createUnmarshaller(); // we call the create a marshaller method from the context class
-		File file= null;
-		
-		
-		boolean IncorrectAnimal = true;
-		while(IncorrectAnimal) {
-			
-		//Open the file
+		//Unmarshal the Animal from a file
 		System.out.println("Type the filename for the XML document (expected in the xmls folder): ");
 		String fileName= reader.readLine();
-		file= new File("_/xmls/"+ fileName);
-		
-		
-		//With this code we are going to tell the user if there was an error
-		//It can be while parsing, if it wasn't well formed or if it wasn't accessible 
-		  try {
-	        	// Create a DocumentBuilderFactory
-	            DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
-	            // Set it up so it validates XML documents
-	            dBF.setValidating(true);
-	            // Create a DocumentBuilder and an ErrorHandler (to check validity)
-	            DocumentBuilder builder = dBF.newDocumentBuilder();
-	            CustomErrorHandler customErrorHandler = new CustomErrorHandler();
-	            builder.setErrorHandler(customErrorHandler);
-	            // Parse the XML file and print out the result
-	            Document doc = builder.parse(file);
-	            IncorrectAnimal= false;
-	        } catch (ParserConfigurationException ex) {
-	            System.out.println(file + " error while parsing!");
-	            IncorrectAnimal= true;
-	          
-	        } catch (SAXException ex) {
-	            System.out.println(file + " was not well-formed!");
-	            IncorrectAnimal= true;
-	        
-	        } catch (IOException ex) {
-	            System.out.println(file + " was not accessible!");
-	            IncorrectAnimal= true;
-	           
-	        }
-		
-		}
-		//Unmarshal the Animal from a file
+		File file= new File("_/xmls/"+ fileName);
 		Animal animal= (Animal) unmarshal.unmarshal(file); //we do a cast to animal
 		// now we need to output the dog to the data base
 		//Print the animal

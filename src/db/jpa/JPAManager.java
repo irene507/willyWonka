@@ -21,13 +21,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-
-public class JPAUserManager implements UserManager {
+/* 
+ * All this part has been done with JPA...So first of all we need to create an Entity Manager which 
+ *fulfills the same role as a Connection in JDBC. 
+ */
+public class JPAManager implements UserManager {
 
 	private EntityManager em;
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	
-	public JPAUserManager() {
+	public JPAManager() {
 		super();
 	//	connect();
 	}
@@ -36,8 +39,12 @@ public class JPAUserManager implements UserManager {
 	//---------------------- CONNECT --------------------//
 	@Override
 	public void connect() {
+		
 		try {
+		//It is important to specify in the persistence.XML(in Meta-Inf) file before. So need to be the same name 
+		//also including all the classes
 		em = Persistence.createEntityManagerFactory("chocolate-provider").createEntityManager();
+		//to start a transaction 
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
@@ -98,10 +105,14 @@ public class JPAUserManager implements UserManager {
 	
 	@Override
 	public void createUser(User user) {
+		//to start a transaction 
 		em.getTransaction().begin();
+		//create (from crud operations) 
 		em.persist(user);
+		// marks the end of transaction and saves all the changes 
+		//in the transaction into the database and it can't be rolled back(undo changes)
 		em.getTransaction().commit();
-		//YA ESTA
+		
 
 	}
 
@@ -131,6 +142,8 @@ public Integer createChocolate (Chocolate chocolate) {
 			//Store Object 
 			em.persist(chocolate);
 			//End transaction 
+			//Marks the end of transaction and saves all the changes 
+			//in the transaction into the database and it can't be rolled back(undo changes)
 			em.getTransaction().commit();
 			return chocolate.getId();
 		} catch(EntityNotFoundException new_benefits_error) {
@@ -142,9 +155,10 @@ public Integer createChocolate (Chocolate chocolate) {
 //------------------------	GETS  ------------------------------//
         @Override
        public Role getRole(int id) {
+        	//returns an implementation of the query 
           Query q = em.createNativeQuery("SELECT * FROM roles WHERE id=? ", Role.class);
           q.setParameter(1, id);
-	      Role role = (Role) q.getSingleResult(); //trnafosmar un objeto en un role
+	      Role role = (Role) q.getSingleResult(); //we transform a object into a role
 	   return role;
        }
 
@@ -185,6 +199,7 @@ public Integer createChocolate (Chocolate chocolate) {
         
       		public void readChocolate() {
       			try {
+      				//what´s the chocolate we want to read
       				System.out.print("Write the chocolateï¿½s ID: ");
       				int choco_id = Integer.parseInt(reader.readLine());
       				Chocolate chocolate = getChocolate(choco_id);
@@ -240,7 +255,7 @@ public Integer createChocolate (Chocolate chocolate) {
       		}
       		
       		public void listChocolates() {
-    			
+    			//to show all the chocolates 
     			Query q1 = em.createNativeQuery("SELECT * FROM Chocolates", Chocolate.class);
     			List<Chocolate> chocolates = (List<Chocolate>) q1.getResultList();
     			for (Chocolate chocolate : chocolates) {
@@ -327,7 +342,6 @@ public Integer createChocolate (Chocolate chocolate) {
     		      Query q = em.createNativeQuery("UPDATE users SET username = ?, password=? WHERE id= ?");
     		      q.setParameter(1, user.getUsername());
     		      q.setParameter(2, user.getPassword());
-    		     
     		      q.setParameter(3, id);
     		      q.executeUpdate();
     			 // End transaction
@@ -367,6 +381,27 @@ public Integer createChocolate (Chocolate chocolate) {
     				return false;
     			}
     		}
+
+
+			@Override
+			public boolean UpdateClient(Client client) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+
+			@Override
+			public boolean DeleteClient(Client client) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+
+			@Override
+			public Client SearchClientById(Integer clientId) {
+				// TODO Auto-generated method stub
+				return null;
+			}
     		
     		
         

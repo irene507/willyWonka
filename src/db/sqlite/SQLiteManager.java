@@ -51,6 +51,7 @@ public class SQLiteManager implements DBManager {
 		
 		//Create others like ClientManager... 
 		client = new SQLiteClientManager(c);
+		//And OompaLoompa, WareHouse
 		oompaLoompa = new SQLiteOompaLoompaManager(c);
 		warehouse = new SQLiteWarehouseManager(c);
 		
@@ -239,6 +240,11 @@ public class SQLiteManager implements DBManager {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	@Override
+	public MilkManager getMilkmanager() {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 	
 
