@@ -59,7 +59,7 @@ public class Menu {
 		chocolateManager = dbManager.getChocolateManager();
 		clientManager = dbManager.getClientManager();
 		animalManager = dbManager.getAnimalManager();
-		milkManager= dbManager.getMilkManager();
+		milkManager= dbManager.getMilkmanager();
 		oompaloompaManager = dbManager.getOompaLoompaManager();
 		warehouseManager = dbManager.getWarehouseManager();
 

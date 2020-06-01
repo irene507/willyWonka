@@ -240,6 +240,11 @@ public class SQLiteManager implements DBManager {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	@Override
+	public MilkManager getMilkmanager() {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 	
 
