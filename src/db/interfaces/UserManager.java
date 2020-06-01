@@ -26,9 +26,6 @@ public interface UserManager {
 	public void deleteUser(int id);
 	public void deleteRole(int id);
 	public void updateUser(User user, int id);
-	boolean UpdateClient(Client client);
-	boolean DeleteClient(Client client);
-	Client SearchClientById(Integer clientId);
 	
 	
 	

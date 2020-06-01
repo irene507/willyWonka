@@ -16,7 +16,11 @@ public interface DBManager {
         public ChocolateManager getChocolateManager();
         public ClientManager getClientManager();
         public AnimalManager getAnimalManager();
+<<<<<<< HEAD
         public MilkManager getMilkmanager();
+=======
+        public MilkManager getMilkManager();
+>>>>>>> branch 'master' of https://github.com/irene507/willyWonka
         public void createTables();
         
         //por qué? 

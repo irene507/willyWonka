@@ -3,6 +3,7 @@
 
 <xsl:template match="/">
          <html>
+<<<<<<< HEAD
             <head><title> This is your animal!</title></head>
             <body>
               <p><b>Name: <xsl:value-of select= "/animal/@name" /></b></p>
@@ -18,3 +19,18 @@
 
 </xsl:template>
 </xsl:stylesheet>
+=======
+            <head><title> This is your chocolate</title></head>
+            <body>
+              <p><b>Name: <xsl:value-of select= "/animal/@name" /></b></p>
+              <p>Country: <xsl:value-of select= "/animal/country " /></p>
+              <p>Color:<xsl:value-of select= "/animal/colour" /></p>
+              <p>Specie:<xsl:value-of select= "/animal/specie"  /></p>
+              <p>Date of birth:<xsl:value-of select= "/animal/dob" /></p>
+            </body>                  
+         </html>
+
+
+</xsl:template>
+</xsl:stylesheet>
+>>>>>>> branch 'master' of https://github.com/irene507/willyWonka
